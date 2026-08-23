@@ -6,48 +6,263 @@
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>NEXI — Профиль</title>
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
+
 <style>
-*{box-sizing:border-box}body{margin:0;font-family:Arial,sans-serif;color:#fff;background:radial-gradient(circle at 80% 0,#351061,transparent 35%),#090411;min-height:100vh}.app{max-width:600px;margin:auto;padding:20px 14px 110px}.profile{text-align:center;padding:22px 15px;border-radius:30px;background:linear-gradient(145deg,#210d3c,#0d0718);border:1px solid #7434ae}.avatar{width:92px;height:92px;margin:auto;border-radius:50%;display:grid;place-items:center;background:linear-gradient(135deg,#6d2ac5,#c06aff);font-size:40px;box-shadow:0 0 25px #8337ca}.profile h1{margin:12px 0 4px;font-size:25px}.profile p{margin:0;color:#b9a5c9;font-size:12px}.balance{margin:18px 0;padding:17px;border-radius:20px;background:#170b29;border:1px solid #673198;display:flex;align-items:center;justify-content:center;gap:12px}.balance img{width:48px;height:48px;object-fit:contain}.balance strong{display:block;font-size:23px;color:#e0a9ff}.balance span{font-size:9px;color:#a994b8}.title{font-size:18px;font-weight:900;margin:25px 3px 12px}.menu{display:flex;flex-direction:column;gap:9px}.item{padding:17px;border-radius:18px;background:#170b29;border:1px solid #572784;color:#fff;font-size:13px}.item span{float:right;color:#c986ff}.bottom{position:fixed;bottom:0;left:0;right:0;background:#0a0512;border-top:1px solid #653096}.nav{max-width:600px;margin:auto;display:flex;justify-content:space-around;padding:8px 2px 16px}.nav a{width:20%;text-align:center;text-decoration:none;color:#887996;font-size:8px;font-weight:bold}.nav img{display:block;width:40px;height:40px;object-fit:contain;margin:auto}.nav .active{color:#dda6ff}.nav .active img{filter:drop-shadow(0 0 8px #b65cff)}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{
+  margin:0;font-family:Arial,sans-serif;color:#fff;min-height:100vh;
+  background:
+    radial-gradient(circle at 80% 0%,#351061,transparent 35%),
+    radial-gradient(circle at 10% 80%,#1e0938,transparent 30%),
+    #090411;
+}
+.app{max-width:600px;margin:auto;padding:20px 14px 110px}
+.profile{
+  text-align:center;padding:22px 15px;border-radius:30px;
+  background:linear-gradient(145deg,#210d3c,#0d0718);
+  border:1px solid #7434ae;
+}
+.avatar{
+  width:92px;height:92px;margin:auto;border-radius:50%;
+  display:grid;place-items:center;
+  background:linear-gradient(135deg,#6d2ac5,#c06aff);
+  font-size:38px;box-shadow:0 0 25px #8337ca;
+}
+.profile h1{margin:12px 0 4px;font-size:25px}
+.profile p{margin:0;color:#b9a5c9;font-size:12px}
+.balance{
+  margin:18px 0;padding:17px;border-radius:20px;
+  background:#170b29;border:1px solid #673198;
+  display:flex;align-items:center;justify-content:center;gap:12px;
+}
+.balance img{width:48px;height:48px;object-fit:contain}
+.balance strong{display:block;font-size:23px;color:#e0a9ff}
+.balance span{font-size:9px;color:#a994b8}
+.title{font-size:18px;font-weight:900;margin:25px 3px 12px}
+.menu{display:flex;flex-direction:column;gap:10px}
+.item{
+  width:100%;border:1px solid #572784;padding:12px;
+  border-radius:20px;background:#170b29;color:#fff;
+  display:flex;align-items:center;gap:12px;text-align:left;cursor:pointer;
+}
+.item img{width:50px;height:50px;object-fit:contain}
+.item-text{flex:1}
+.item strong{display:block;font-size:13px}
+.item small{display:block;margin-top:4px;color:#a995b8;font-size:10px}
+.arrow{font-size:24px;color:#c986ff}
+.bottom{
+  position:fixed;bottom:0;left:0;right:0;
+  background:#0a0512;border-top:1px solid #653096;z-index:100;
+}
+.nav{max-width:600px;margin:auto;display:flex;justify-content:space-around;padding:8px 2px 16px}
+.nav a{width:20%;text-align:center;text-decoration:none;color:#887996;font-size:8px;font-weight:bold}
+.nav img{display:block;width:40px;height:40px;object-fit:contain;margin:auto}
+.nav .active{color:#dda6ff}
+.nav .active img{filter:drop-shadow(0 0 8px #b65cff)}
+
+.modal{
+  position:fixed;inset:0;z-index:200;display:none;
+  align-items:center;justify-content:center;padding:20px;
+  background:rgba(0,0,0,.75);backdrop-filter:blur(8px);
+}
+.modal-box{
+  width:min(380px,100%);padding:24px;border-radius:28px;text-align:center;
+  background:linear-gradient(145deg,#281044,#0d0718);
+  border:1px solid #9c4de0;
+}
+.modal-box img{width:80px;height:80px;object-fit:contain}
+.modal-box h2{color:#e2adff}
+.modal-box p{color:#b9a5c9;font-size:12px}
+.modal button{
+  border:0;border-radius:14px;padding:13px 18px;margin:5px;
+  color:#fff;background:linear-gradient(90deg,#6d2bc3,#b55cff);cursor:pointer;
+}
+.close-btn{background:#321647!important}
 </style>
 </head>
+
 <body>
+
 <div class="app">
+
 <div class="profile">
-<div class="avatar" id="avatar">✦</div>
-<h1 id="name">NEXI PLAYER</h1>
-<p id="username">@player</p>
+  <div class="avatar">N</div>
+  <h1 id="name">NEXI PLAYER</h1>
+  <p id="username">@player</p>
 </div>
 
 <div class="balance">
-<img src="assets/gem.png">
-<div><strong>1 000</strong><span>NEXI COINS</span></div>
+  <img src="assets/gem.png" alt="">
+  <div>
+    <strong id="coins">500</strong>
+    <span>NEXI COINS</span>
+  </div>
 </div>
 
 <div class="title">ПРОФИЛЬ</div>
+
 <div class="menu">
-<div class="item">🎁 Ежедневный бонус <span>›</span></div>
-<div class="item">🏆 Топ игроков <span>›</span></div>
-<div class="item">📋 Задания <span>›</span></div>
-<div class="item">🎟 Промокоды <span>›</span></div>
+
+  <button class="item" id="daily" onclick="openDaily()">
+    <img src="assets/daily.png" alt="">
+    <div class="item-text">
+      <strong>Ежедневный бонус</strong>
+      <small>Забирай награду каждый день</small>
+    </div>
+    <div class="arrow">›</div>
+  </button>
+
+  <button class="item" id="top" onclick="openTop()">
+    <img src="assets/top.png" alt="">
+    <div class="item-text">
+      <strong>Топ игроков</strong>
+      <small>Лучшие игроки NEXI</small>
+    </div>
+    <div class="arrow">›</div>
+  </button>
+
+  <button class="item" id="tasks" onclick="openTasks()">
+    <img src="assets/tasks.png" alt="">
+    <div class="item-text">
+      <strong>Задания</strong>
+      <small>Выполняй задания и получай Coins</small>
+    </div>
+    <div class="arrow">›</div>
+  </button>
+
+  <button class="item" onclick="openPromo()">
+    <div style="width:50px;height:50px;display:grid;place-items:center;font-size:28px;color:#dca5ff">N</div>
+    <div class="item-text">
+      <strong>Промокоды</strong>
+      <small>Активируй специальные коды</small>
+    </div>
+    <div class="arrow">›</div>
+  </button>
+
 </div>
 </div>
 
-<nav class="bottom"><div class="nav">
-<a href="index.html"><img src="assets/home.png">ГЛАВНАЯ</a><a href="cases.html"><img src="assets/cases.png">КЕЙСЫ</a><a href="games.html"><img src="assets/games.png">ИГРЫ</a><a href="inventory.html"><img src="assets/inventory.png">ИНВЕНТАРЬ</a><a class="active" href="profile.html"><img src="assets/profile.png">ПРОФИЛЬ</a>
-</div></nav>
+<div class="modal" id="modal">
+  <div class="modal-box" id="modalContent"></div>
+</div>
+
+<nav class="bottom">
+  <div class="nav">
+    <a href="index.html"><img src="assets/home.png" alt="">ГЛАВНАЯ</a>
+    <a href="cases.html"><img src="assets/cases.png" alt="">КЕЙСЫ</a>
+    <a href="games.html"><img src="assets/games.png" alt="">ИГРЫ</a>
+    <a href="inventory.html"><img src="assets/inventory.png" alt="">ИНВЕНТАРЬ</a>
+    <a class="active" href="profile.html"><img src="assets/profile.png" alt="">ПРОФИЛЬ</a>
+  </div>
+</nav>
 
 <script>
 const tg=window.Telegram?.WebApp;
-if(tg){
-  tg.ready();
-  tg.expand();
-  const user=tg.initDataUnsafe?.user;
-  if(user){
-    document.getElementById("name").textContent=user.first_name||"NEXI PLAYER";
-    if(user.username) document.getElementById("username").textContent="@"+user.username;
+if(tg){tg.ready();tg.expand();}
+
+function getCoins(){
+  let coins=localStorage.getItem("nexiCoins");
+  if(coins===null){
+    coins=500;
+    localStorage.setItem("nexiCoins",coins);
+  }
+  return Number(coins);
+}
+
+function updateCoins(){
+  document.getElementById("coins").textContent=
+    getCoins().toLocaleString("ru-RU");
+}
+
+function openModal(html){
+  document.getElementById("modalContent").innerHTML=html;
+  document.getElementById("modal").style.display="flex";
+}
+
+function closeModal(){
+  document.getElementById("modal").style.display="none";
+}
+
+function openDaily(){
+  const today=new Date().toDateString();
+  const last=localStorage.getItem("nexiDailyBonus");
+
+  if(last===today){
+    openModal(`
+      <img src="assets/daily.png" alt="">
+      <h2>БОНУС УЖЕ ПОЛУЧЕН</h2>
+      <p>Возвращайся завтра за новой наградой!</p>
+      <button onclick="closeModal()">ПОНЯТНО</button>
+    `);
+    return;
+  }
+
+  let coins=getCoins()+100;
+  localStorage.setItem("nexiCoins",coins);
+  localStorage.setItem("nexiDailyBonus",today);
+  updateCoins();
+
+  openModal(`
+    <img src="assets/daily.png" alt="">
+    <h2>БОНУС ПОЛУЧЕН!</h2>
+    <p>Ты получил 100 NEXI COINS</p>
+    <button onclick="closeModal()">ЗАБРАТЬ</button>
+  `);
+}
+
+function openTop(){
+  openModal(`
+    <img src="assets/top.png" alt="">
+    <h2>ТОП ИГРОКОВ</h2>
+    <p>Скоро здесь появится настоящий рейтинг игроков NEXI.</p>
+    <button onclick="closeModal()">ПОНЯТНО</button>
+  `);
+}
+
+function openTasks(){
+  openModal(`
+    <img src="assets/tasks.png" alt="">
+    <h2>ЗАДАНИЯ</h2>
+    <p>Скоро добавим реальные задания с наградами.</p>
+    <button onclick="closeModal()">ПОНЯТНО</button>
+  `);
+}
+
+function openPromo(){
+  openModal(`
+    <h2>ПРОМОКОД</h2>
+    <p>Введи свой промокод</p>
+    <input id="promoInput" placeholder="PROMO..." style="width:100%;padding:14px;border-radius:14px;border:1px solid #7434ae;background:#12081f;color:#fff;text-align:center">
+    <br>
+    <button onclick="activatePromo()">АКТИВИРОВАТЬ</button>
+    <button class="close-btn" onclick="closeModal()">ЗАКРЫТЬ</button>
+  `);
+}
+
+function activatePromo(){
+  const code=document.getElementById("promoInput").value.trim().toUpperCase();
+
+  if(!code){
+    alert("Введи промокод!");
+    return;
+  }
+
+  alert("Промокоды мы добавим следующим этапом 💜");
+}
+
+const user=tg?.initDataUnsafe?.user;
+
+if(user){
+  document.getElementById("name").textContent=user.first_name||"NEXI PLAYER";
+
+  if(user.username){
+    document.getElementById("username").textContent="@"+user.username;
   }
 }
+
+updateCoins();
 </script>
+
 </body>
 </html>
 ```
