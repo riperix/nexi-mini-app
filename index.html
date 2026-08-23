@@ -14,35 +14,56 @@
     }
 
     :root {
-      --bg: #090512;
-      --purple: #a75cff;
-      --purple-light: #d19aff;
+      --bg: #08040f;
+      --purple: #9d4dff;
+      --purple-light: #d69cff;
+      --pink: #ef8dff;
       --text: #ffffff;
-      --muted: #b9acd0;
+      --muted: #bcaed0;
     }
 
     body {
       margin: 0;
       min-height: 100vh;
+      overflow-x: hidden;
       color: var(--text);
       font-family: Arial, sans-serif;
       background:
-        radial-gradient(circle at 15% 0%, rgba(151, 65, 255, .28), transparent 32%),
-        radial-gradient(circle at 95% 30%, rgba(207, 82, 255, .18), transparent 25%),
-        linear-gradient(180deg, #0d0718, #07040e);
+        radial-gradient(circle at 10% 5%, rgba(142, 52, 255, .26), transparent 25%),
+        radial-gradient(circle at 95% 25%, rgba(222, 91, 255, .18), transparent 28%),
+        radial-gradient(circle at 50% 85%, rgba(108, 43, 214, .16), transparent 35%),
+        linear-gradient(180deg, #0c0617 0%, #07030d 100%);
     }
 
+    /* ДЕКОРАТИВНЫЙ ФОН */
+
     body::before {
-      content: "✦  ♡  ✧  ✦  ♡  ✧";
+      content: "";
       position: fixed;
       inset: 0;
-      overflow: hidden;
-      opacity: .08;
-      font-size: 80px;
-      line-height: 180px;
-      color: #c889ff;
       pointer-events: none;
-      word-spacing: 50px;
+      opacity: .32;
+      background-image:
+        radial-gradient(circle, rgba(210, 150, 255, .8) 1px, transparent 1.5px),
+        linear-gradient(45deg, transparent 49%, rgba(151, 71, 255, .12) 50%, transparent 51%),
+        linear-gradient(-45deg, transparent 49%, rgba(151, 71, 255, .08) 50%, transparent 51%);
+      background-size: 55px 55px, 120px 120px, 120px 120px;
+    }
+
+    body::after {
+      content: "✦  ♡  ✧  ◇  ✦  ✧  ♡  ◇";
+      position: fixed;
+      top: 20px;
+      left: -50px;
+      width: 140%;
+      font-size: 85px;
+      letter-spacing: 45px;
+      line-height: 190px;
+      color: #b865ff;
+      opacity: .055;
+      transform: rotate(-8deg);
+      pointer-events: none;
+      z-index: 0;
     }
 
     .app {
@@ -50,7 +71,7 @@
       z-index: 1;
       max-width: 600px;
       margin: auto;
-      padding: 18px 14px 110px;
+      padding: 18px 14px 115px;
     }
 
     /* HEADER */
@@ -64,32 +85,59 @@
     }
 
     .logo {
-      font-size: 34px;
+      position: relative;
+      font-size: 36px;
       font-weight: 1000;
       letter-spacing: -2px;
-      background: linear-gradient(135deg, #fff, #b96dff);
+      background: linear-gradient(135deg, #fff 15%, #d9a1ff 55%, #9650ff);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
+      filter: drop-shadow(0 0 10px rgba(167, 80, 255, .25));
+    }
+
+    .logo::after {
+      content: "✦";
+      position: absolute;
+      top: -8px;
+      right: -17px;
+      font-size: 14px;
+      color: #e2aaff;
+      -webkit-text-fill-color: #e2aaff;
     }
 
     .logo small {
       display: block;
       margin-top: -3px;
       font-size: 9px;
-      letter-spacing: 1.4px;
-      color: #c895ff;
-      -webkit-text-fill-color: #c895ff;
+      letter-spacing: 1.5px;
+      color: #d6a5ff;
+      -webkit-text-fill-color: #d6a5ff;
     }
 
     .balance {
+      position: relative;
       display: flex;
       align-items: center;
       gap: 8px;
-      padding: 8px 10px;
-      border-radius: 17px;
-      border: 1px solid rgba(190, 110, 255, .45);
-      background: rgba(24, 13, 44, .92);
-      box-shadow: 0 0 25px rgba(145, 63, 255, .15);
+      padding: 9px 10px;
+      border-radius: 18px;
+      overflow: hidden;
+      border: 1px solid rgba(193, 110, 255, .55);
+      background: rgba(28, 14, 50, .9);
+      box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, .07),
+        0 0 25px rgba(145, 63, 255, .18);
+    }
+
+    .balance::before {
+      content: "";
+      position: absolute;
+      width: 70px;
+      height: 70px;
+      right: -30px;
+      top: -40px;
+      border: 1px solid rgba(208, 136, 255, .3);
+      border-radius: 50%;
     }
 
     .balance strong {
@@ -99,18 +147,21 @@
 
     .balance span {
       font-size: 9px;
-      color: #c8a7ed;
+      color: #d1afe9;
       font-weight: bold;
     }
 
     .plus {
+      position: relative;
+      z-index: 1;
       display: flex;
       align-items: center;
       justify-content: center;
-      width: 30px;
-      height: 30px;
-      border-radius: 10px;
-      background: linear-gradient(135deg, #c070ff, #7131cf);
+      width: 31px;
+      height: 31px;
+      border-radius: 11px;
+      background: linear-gradient(135deg, #cf7dff, #7030d0);
+      box-shadow: 0 0 15px rgba(182, 86, 255, .4);
       font-size: 22px;
       font-weight: bold;
     }
@@ -119,38 +170,67 @@
 
     .hero {
       position: relative;
-      min-height: 255px;
+      min-height: 270px;
       overflow: hidden;
-      border-radius: 30px;
+      border-radius: 31px;
       padding: 24px;
       margin-bottom: 20px;
-      border: 1px solid rgba(188, 105, 255, .48);
+      border: 1px solid rgba(198, 117, 255, .55);
       background:
-        radial-gradient(circle at 15% 100%, rgba(149, 55, 255, .5), transparent 38%),
-        linear-gradient(135deg, #1c0d36, #0d0818);
-      box-shadow: 0 15px 45px rgba(0, 0, 0, .35);
+        radial-gradient(circle at 10% 100%, rgba(166, 59, 255, .5), transparent 38%),
+        radial-gradient(circle at 100% 10%, rgba(224, 104, 255, .14), transparent 35%),
+        linear-gradient(135deg, #1c0d36, #0d0718);
+      box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, .05),
+        0 18px 45px rgba(0, 0, 0, .35),
+        0 0 35px rgba(121, 49, 232, .12);
     }
 
-    .hero-pattern {
+    .hero::before {
+      content: "";
       position: absolute;
-      right: -35px;
-      top: -25px;
-      color: #b968ff;
-      opacity: .12;
-      font-size: 130px;
-      transform: rotate(15deg);
+      width: 190px;
+      height: 190px;
+      border: 1px solid rgba(199, 119, 255, .16);
+      border-radius: 50%;
+      right: -70px;
+      bottom: -90px;
+      box-shadow:
+        0 0 0 22px rgba(169, 80, 255, .035),
+        0 0 0 45px rgba(169, 80, 255, .025);
+    }
+
+    .hero::after {
+      content: "✦  ✧  ♡  ◇";
+      position: absolute;
+      left: 25px;
+      top: 8px;
+      font-size: 24px;
+      letter-spacing: 12px;
+      color: #dba7ff;
+      opacity: .3;
     }
 
     .nexi {
       position: absolute;
       left: 0;
       bottom: 0;
-      width: 55%;
-      height: 235px;
-      display: flex;
-      align-items: flex-end;
-      justify-content: center;
+      width: 56%;
+      height: 250px;
       z-index: 2;
+    }
+
+    .nexi::after {
+      content: "";
+      position: absolute;
+      left: 18%;
+      bottom: 0;
+      width: 65%;
+      height: 25px;
+      border-radius: 50%;
+      background: rgba(153, 57, 255, .35);
+      filter: blur(14px);
+      z-index: -1;
     }
 
     .nexi img {
@@ -158,7 +238,9 @@
       height: 100%;
       object-fit: contain;
       object-position: bottom center;
-      filter: drop-shadow(0 0 20px rgba(151, 60, 255, .6));
+      filter:
+        drop-shadow(0 0 10px rgba(181, 86, 255, .55))
+        drop-shadow(0 0 25px rgba(116, 42, 230, .25));
     }
 
     .hero-text {
@@ -166,32 +248,56 @@
       z-index: 3;
       width: 53%;
       margin-left: auto;
-      padding-top: 30px;
+      padding-top: 37px;
     }
 
     .hero-text h1 {
-      margin: 0 0 10px;
+      margin: 0 0 11px;
       font-size: 28px;
-      line-height: 1;
+      line-height: .98;
     }
 
     .hero-text h1 span {
-      color: #c47cff;
+      background: linear-gradient(90deg, #c978ff, #f1b0ff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
     }
 
     .hero-text p {
       margin: 0;
-      color: #d6c7e8;
+      color: #d8cae9;
       font-size: 13px;
-      line-height: 1.4;
+      line-height: 1.45;
+    }
+
+    .hero-badge {
+      display: inline-block;
+      margin-top: 14px;
+      padding: 7px 10px;
+      border: 1px solid rgba(207, 126, 255, .35);
+      border-radius: 20px;
+      background: rgba(152, 62, 255, .12);
+      color: #dbaaff;
+      font-size: 10px;
+      font-weight: bold;
     }
 
     /* SECTION */
 
     .section-title {
-      margin: 24px 4px 12px;
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      margin: 24px 4px 13px;
       font-size: 21px;
       font-weight: 900;
+    }
+
+    .section-title::after {
+      content: "";
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(90deg, rgba(176, 88, 255, .4), transparent);
     }
 
     /* GAME CARDS */
@@ -204,17 +310,40 @@
 
     .game-card {
       position: relative;
-      min-height: 275px;
+      min-height: 280px;
       overflow: hidden;
-      border-radius: 25px;
+      border-radius: 26px;
       padding: 18px;
-      border: 1px solid rgba(178, 91, 255, .45);
+      border: 1px solid rgba(187, 96, 255, .48);
       background:
-        radial-gradient(circle at 100% 0%, rgba(170, 69, 255, .3), transparent 38%),
-        linear-gradient(145deg, #1a0d32, #0c0716);
-      box-shadow: 0 10px 25px rgba(0, 0, 0, .25);
+        radial-gradient(circle at 100% 0%, rgba(189, 77, 255, .32), transparent 36%),
+        linear-gradient(145deg, #1b0d34, #0c0716);
+      box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, .04),
+        0 12px 28px rgba(0, 0, 0, .25);
       cursor: pointer;
       transition: transform .15s ease;
+    }
+
+    .game-card::before {
+      content: "";
+      position: absolute;
+      width: 150px;
+      height: 150px;
+      border: 1px solid rgba(190, 104, 255, .12);
+      border-radius: 50%;
+      right: -70px;
+      top: 50px;
+    }
+
+    .game-card::after {
+      content: "✦";
+      position: absolute;
+      top: 11px;
+      right: 13px;
+      color: #d99dff;
+      font-size: 14px;
+      opacity: .5;
     }
 
     .game-card:active {
@@ -223,31 +352,32 @@
 
     .game-card h2 {
       position: relative;
-      z-index: 3;
+      z-index: 4;
       margin: 0;
       font-size: 19px;
       line-height: 1.05;
+      text-shadow: 0 0 15px rgba(187, 95, 255, .25);
     }
 
     .card-art {
       position: absolute;
-      left: 4%;
-      right: 4%;
-      top: 48px;
-      width: 92%;
-      height: 135px;
+      z-index: 3;
+      left: 3%;
+      right: 3%;
+      top: 47px;
+      width: 94%;
+      height: 145px;
       object-fit: contain;
       object-position: center;
-      z-index: 2;
-      filter: drop-shadow(0 0 14px rgba(160, 66, 255, .4));
+      filter: drop-shadow(0 0 15px rgba(163, 65, 255, .45));
     }
 
     .game-card p {
       position: absolute;
+      z-index: 4;
       left: 18px;
       right: 18px;
       bottom: 57px;
-      z-index: 3;
       margin: 0;
       color: var(--muted);
       font-size: 12px;
@@ -256,20 +386,34 @@
 
     .action {
       position: absolute;
-      z-index: 4;
+      z-index: 5;
       left: 15px;
       right: 15px;
       bottom: 15px;
-      padding: 10px;
-      border-radius: 13px;
+      padding: 11px;
+      overflow: hidden;
+      border-radius: 14px;
       text-align: center;
       font-size: 12px;
       font-weight: 900;
-      background: linear-gradient(90deg, #7530d0, #b55cff);
-      box-shadow: 0 0 20px rgba(177, 77, 255, .28);
+      background: linear-gradient(90deg, #6f2fc9, #b85dff);
+      box-shadow:
+        0 0 20px rgba(177, 77, 255, .28),
+        inset 0 1px 0 rgba(255, 255, 255, .18);
     }
 
-    /* SMALL CARDS */
+    .action::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: -30%;
+      width: 30%;
+      height: 100%;
+      background: rgba(255, 255, 255, .12);
+      transform: skewX(-25deg);
+    }
+
+    /* QUICK CARDS */
 
     .small-row {
       display: grid;
@@ -279,12 +423,26 @@
     }
 
     .small-card {
-      min-height: 105px;
-      padding: 13px 7px;
+      position: relative;
+      min-height: 110px;
+      overflow: hidden;
+      padding: 14px 7px;
       text-align: center;
-      border-radius: 20px;
-      border: 1px solid rgba(172, 83, 255, .32);
-      background: linear-gradient(145deg, #180c2e, #0c0716);
+      border-radius: 21px;
+      border: 1px solid rgba(180, 88, 255, .34);
+      background:
+        radial-gradient(circle at 50% 0%, rgba(175, 71, 255, .18), transparent 50%),
+        linear-gradient(145deg, #180c2f, #0b0615);
+    }
+
+    .small-card::before {
+      content: "✦";
+      position: absolute;
+      top: 7px;
+      right: 9px;
+      color: #ca85ff;
+      opacity: .4;
+      font-size: 11px;
     }
 
     .small-card-icon {
@@ -293,12 +451,12 @@
     }
 
     .small-card span {
-      color: #d4c4e2;
+      color: #d7c8e5;
       font-size: 10px;
       line-height: 1.3;
     }
 
-    /* NAVIGATION */
+    /* BOTTOM NAV */
 
     .bottom-nav {
       position: fixed;
@@ -306,9 +464,10 @@
       bottom: 0;
       left: 0;
       right: 0;
-      border-top: 1px solid rgba(173, 85, 255, .3);
-      background: rgba(10, 6, 19, .96);
+      border-top: 1px solid rgba(175, 88, 255, .32);
+      background: rgba(10, 5, 19, .97);
       backdrop-filter: blur(20px);
+      box-shadow: 0 -8px 30px rgba(0, 0, 0, .2);
     }
 
     .nav {
@@ -320,6 +479,7 @@
     }
 
     .nav-item {
+      position: relative;
       color: #897a9b;
       text-align: center;
       font-size: 9px;
@@ -327,7 +487,20 @@
     }
 
     .nav-item.active {
-      color: #d38eff;
+      color: #db9cff;
+    }
+
+    .nav-item.active::before {
+      content: "";
+      position: absolute;
+      top: -11px;
+      left: 50%;
+      width: 30px;
+      height: 2px;
+      transform: translateX(-50%);
+      border-radius: 10px;
+      background: #bc6dff;
+      box-shadow: 0 0 10px #a34dff;
     }
 
     .nav-icon {
@@ -338,7 +511,7 @@
 
     @media (max-width: 380px) {
       .game-card {
-        min-height: 260px;
+        min-height: 268px;
       }
 
       .hero-text h1 {
@@ -373,15 +546,14 @@
     </header>
 
     <section class="hero">
-      <div class="hero-pattern">✦ ♡ ✧</div>
-
       <div class="nexi">
         <img src="assets/nexi.png" alt="Нэкси">
       </div>
 
       <div class="hero-text">
         <h1>ПРИВЕТ,<br><span>Я НЭКСИ!</span></h1>
-        <p>Выбирай игру и начинай своё приключение! 💜</p>
+        <p>Выбирай игру и начинай своё приключение!</p>
+        <div class="hero-badge">✦ LET'S PLAY ✦</div>
       </div>
     </section>
 
@@ -419,6 +591,8 @@
 
     </main>
 
+    <div class="section-title">БОНУСЫ</div>
+
     <div class="small-row">
 
       <div class="small-card">
@@ -442,6 +616,7 @@
 
   <nav class="bottom-nav">
     <div class="nav">
+
       <div class="nav-item active">
         <span class="nav-icon">⌂</span>
         ГЛАВНАЯ
@@ -466,6 +641,7 @@
         <span class="nav-icon">👤</span>
         ПРОФИЛЬ
       </div>
+
     </div>
   </nav>
 
@@ -475,10 +651,10 @@
     tg.ready();
     tg.expand();
 
-    document.querySelectorAll('.game-card').forEach(card => {
-      card.addEventListener('click', () => {
+    document.querySelectorAll(".game-card").forEach(card => {
+      card.addEventListener("click", () => {
         if (tg.HapticFeedback) {
-          tg.HapticFeedback.impactOccurred('light');
+          tg.HapticFeedback.impactOccurred("light");
         }
       });
     });
