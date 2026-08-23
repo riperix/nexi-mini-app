@@ -4,8 +4,237 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>NEXI</title>
+
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: Arial, sans-serif;
+      background:
+        radial-gradient(circle at 20% 0%, #7c3cff 0%, transparent 35%),
+        linear-gradient(180deg, #1b0b35 0%, #0c0717 100%);
+      color: white;
+    }
+
+    .app {
+      max-width: 600px;
+      margin: auto;
+      padding: 16px 16px 100px;
+    }
+
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .logo {
+      font-size: 28px;
+      font-weight: 900;
+      letter-spacing: 2px;
+      color: #caa8ff;
+    }
+
+    .avatar {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: #7b35d8;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 28px;
+      box-shadow: 0 0 20px #8b4cff;
+    }
+
+    .welcome {
+      background: linear-gradient(135deg, #5b21b6, #8b5cf6);
+      border-radius: 24px;
+      padding: 22px;
+      margin-bottom: 18px;
+      box-shadow: 0 10px 30px rgba(91, 33, 182, 0.35);
+    }
+
+    .welcome h1 {
+      margin: 0 0 8px;
+      font-size: 25px;
+    }
+
+    .welcome p {
+      margin: 0;
+      color: #eee5ff;
+    }
+
+    .balance {
+      margin-top: 16px;
+      display: inline-block;
+      padding: 10px 14px;
+      border-radius: 14px;
+      background: rgba(0, 0, 0, 0.2);
+      font-weight: bold;
+    }
+
+    .section-title {
+      font-size: 19px;
+      font-weight: 800;
+      margin: 24px 0 12px;
+    }
+
+    .games {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .card {
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 22px;
+      padding: 18px;
+      min-height: 145px;
+      cursor: pointer;
+      transition: transform 0.15s;
+    }
+
+    .card:active {
+      transform: scale(0.96);
+    }
+
+    .card-icon {
+      font-size: 42px;
+      margin-bottom: 14px;
+    }
+
+    .card h2 {
+      margin: 0 0 6px;
+      font-size: 18px;
+    }
+
+    .card p {
+      margin: 0;
+      color: #d8c9f7;
+      font-size: 13px;
+    }
+
+    .mm2 {
+      background: linear-gradient(135deg, #39134f, #781d71);
+    }
+
+    .adopt {
+      background: linear-gradient(135deg, #2b165b, #6b42ba);
+    }
+
+    .crash {
+      background: linear-gradient(135deg, #42135e, #9d2cc7);
+    }
+
+    .roulette {
+      background: linear-gradient(135deg, #2b1250, #5022a8);
+    }
+
+    .bottom-nav {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: rgba(16, 7, 30, 0.96);
+      backdrop-filter: blur(20px);
+      border-top: 1px solid rgba(255,255,255,0.08);
+      display: flex;
+      justify-content: center;
+      z-index: 10;
+    }
+
+    .nav-inner {
+      width: min(600px, 100%);
+      display: flex;
+      justify-content: space-around;
+      padding: 12px 8px 20px;
+    }
+
+    .nav-item {
+      text-align: center;
+      color: #9f91b8;
+      font-size: 12px;
+    }
+
+    .nav-item.active {
+      color: #c69cff;
+    }
+
+    .nav-icon {
+      font-size: 22px;
+      display: block;
+      margin-bottom: 3px;
+    }
+  </style>
 </head>
+
 <body>
-  <h1>👾 NEXI работает!</h1>
-</body>
-</html>
+  <div class="app">
+
+    <div class="header">
+      <div class="logo">NEXI</div>
+      <div class="avatar">👾</div>
+    </div>
+
+    <div class="welcome">
+      <h1>Привет! Я Нэкси 👾</h1>
+      <p>Выбирай игру и начинай своё приключение!</p>
+      <div class="balance">💜 1 000 NEXI Coins</div>
+    </div>
+
+    <div class="section-title">🎮 Игровые режимы</div>
+
+    <div class="games">
+      <div class="card mm2">
+        <div class="card-icon">🔪</div>
+        <h2>MM2 Кейсы</h2>
+        <p>Открывай тематические кейсы</p>
+      </div>
+
+      <div class="card adopt">
+        <div class="card-icon">🐾</div>
+        <h2>Adopt Me</h2>
+        <p>Питомцы и коллекции</p>
+      </div>
+
+      <div class="card crash">
+        <div class="card-icon">📈</div>
+        <h2>Crash</h2>
+        <p>Успей забрать до краша</p>
+      </div>
+
+      <div class="card roulette">
+        <div class="card-icon">🎡</div>
+        <h2>Рулетка</h2>
+        <p>Испытай свою удачу</p>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="bottom-nav">
+    <div class="nav-inner">
+      <div class="nav-item active">
+        <span class="nav-icon">🏠</span>
+        Главная
+      </div>
+      <div class="nav-item">
+        <span class="nav-icon">🎁</span>
+        Кейсы
+      </div>
+      <div class="nav-item">
+        <span class="nav-icon">🎒</span>
+        Инвентарь
+      </div>
+      <div class="nav-item">
+        <span class="nav-icon">👤</span>
+       
