@@ -1,700 +1,441 @@
+```html
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>NEXI</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NEXI — Главная</title>
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
 
-  <script src="https://telegram.org/js/telegram-web-app.js"></script>
-
-  <style>
-    * {
-      box-sizing: border-box;
-      -webkit-tap-highlight-color: transparent;
-    }
-
-    :root {
-      --bg: #08040f;
-      --purple: #9d4dff;
-      --purple-light: #d69cff;
-      --pink: #ef8dff;
-      --text: #ffffff;
-      --muted: #bcaed0;
-    }
-
-    body {
-      margin: 0;
-      min-height: 100vh;
-      overflow-x: hidden;
-      color: var(--text);
-      font-family: Arial, sans-serif;
-      background:
-        radial-gradient(circle at 10% 5%, rgba(142, 52, 255, .26), transparent 25%),
-        radial-gradient(circle at 95% 25%, rgba(222, 91, 255, .18), transparent 28%),
-        radial-gradient(circle at 50% 85%, rgba(108, 43, 214, .16), transparent 35%),
-        linear-gradient(180deg, #0c0617 0%, #07030d 100%);
-    }
-
-    body::before {
-      content: "";
-      position: fixed;
-      inset: 0;
-      pointer-events: none;
-      opacity: .32;
-      background-image:
-        radial-gradient(circle, rgba(210, 150, 255, .8) 1px, transparent 1.5px),
-        linear-gradient(45deg, transparent 49%, rgba(151, 71, 255, .12) 50%, transparent 51%),
-        linear-gradient(-45deg, transparent 49%, rgba(151, 71, 255, .08) 50%, transparent 51%);
-      background-size: 55px 55px, 120px 120px, 120px 120px;
-    }
-
-    body::after {
-      content: "✦  ♡  ✧  ◇  ✦  ✧  ♡  ◇";
-      position: fixed;
-      top: 20px;
-      left: -50px;
-      width: 140%;
-      font-size: 85px;
-      letter-spacing: 45px;
-      line-height: 190px;
-      color: #b865ff;
-      opacity: .055;
-      transform: rotate(-8deg);
-      pointer-events: none;
-      z-index: 0;
-    }
-
-    .app {
-      position: relative;
-      z-index: 1;
-      max-width: 600px;
-      margin: auto;
-      padding: 18px 14px 115px;
-    }
-
-    /* HEADER */
-
-    .header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 10px;
-      margin-bottom: 18px;
-    }
-
-    .logo {
-      position: relative;
-      font-size: 36px;
-      font-weight: 1000;
-      letter-spacing: -2px;
-      background: linear-gradient(135deg, #fff 15%, #d9a1ff 55%, #9650ff);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      filter: drop-shadow(0 0 10px rgba(167, 80, 255, .25));
-    }
-
-    .logo::after {
-      content: "✦";
-      position: absolute;
-      top: -8px;
-      right: -17px;
-      font-size: 14px;
-      color: #e2aaff;
-      -webkit-text-fill-color: #e2aaff;
-    }
-
-    .logo small {
-      display: block;
-      margin-top: -3px;
-      font-size: 9px;
-      letter-spacing: 1.5px;
-      color: #d6a5ff;
-      -webkit-text-fill-color: #d6a5ff;
-    }
-
-    .balance {
-      position: relative;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      padding: 9px 10px;
-      border-radius: 18px;
-      overflow: hidden;
-      border: 1px solid rgba(193, 110, 255, .55);
-      background: rgba(28, 14, 50, .9);
-      box-shadow:
-        inset 0 1px 0 rgba(255, 255, 255, .07),
-        0 0 25px rgba(145, 63, 255, .18);
-    }
-
-    .balance::before {
-      content: "";
-      position: absolute;
-      width: 70px;
-      height: 70px;
-      right: -30px;
-      top: -40px;
-      border: 1px solid rgba(208, 136, 255, .3);
-      border-radius: 50%;
-    }
-
-    .gem-icon {
-      position: relative;
-      z-index: 1;
-      width: 38px;
-      height: 38px;
-      object-fit: contain;
-      filter: drop-shadow(0 0 8px rgba(187, 90, 255, .7));
-    }
-
-    .balance strong {
-      display: block;
-      font-size: 17px;
-    }
-
-    .balance span {
-      font-size: 9px;
-      color: #d1afe9;
-      font-weight: bold;
-    }
-
-    .plus {
-      position: relative;
-      z-index: 1;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      width: 31px;
-      height: 31px;
-      border-radius: 11px;
-      background: linear-gradient(135deg, #cf7dff, #7030d0);
-      box-shadow: 0 0 15px rgba(182, 86, 255, .4);
-      font-size: 22px;
-      font-weight: bold;
-    }
-
-    /* HERO */
-
-    .hero {
-      position: relative;
-      min-height: 270px;
-      overflow: hidden;
-      border-radius: 31px;
-      padding: 24px;
-      margin-bottom: 20px;
-      border: 1px solid rgba(198, 117, 255, .55);
-      background:
-        radial-gradient(circle at 10% 100%, rgba(166, 59, 255, .5), transparent 38%),
-        radial-gradient(circle at 100% 10%, rgba(224, 104, 255, .14), transparent 35%),
-        linear-gradient(135deg, #1c0d36, #0d0718);
-      box-shadow:
-        inset 0 1px 0 rgba(255, 255, 255, .05),
-        0 18px 45px rgba(0, 0, 0, .35),
-        0 0 35px rgba(121, 49, 232, .12);
-    }
-
-    .hero::before {
-      content: "";
-      position: absolute;
-      width: 190px;
-      height: 190px;
-      border: 1px solid rgba(199, 119, 255, .16);
-      border-radius: 50%;
-      right: -70px;
-      bottom: -90px;
-      box-shadow:
-        0 0 0 22px rgba(169, 80, 255, .035),
-        0 0 0 45px rgba(169, 80, 255, .025);
-    }
-
-    .hero::after {
-      content: "✦  ✧  ♡  ◇";
-      position: absolute;
-      left: 25px;
-      top: 8px;
-      font-size: 24px;
-      letter-spacing: 12px;
-      color: #dba7ff;
-      opacity: .3;
-    }
-
-    .nexi {
-      position: absolute;
-      left: 0;
-      bottom: 0;
-      width: 56%;
-      height: 250px;
-      z-index: 2;
-    }
-
-    .nexi img {
-      width: 100%;
-      height: 100%;
-      object-fit: contain;
-      object-position: bottom center;
-      filter:
-        drop-shadow(0 0 10px rgba(181, 86, 255, .55))
-        drop-shadow(0 0 25px rgba(116, 42, 230, .25));
-    }
-
-    .hero-text {
-      position: relative;
-      z-index: 3;
-      width: 53%;
-      margin-left: auto;
-      padding-top: 37px;
-    }
-
-    .hero-text h1 {
-      margin: 0 0 11px;
-      font-size: 28px;
-      line-height: .98;
-    }
-
-    .hero-text h1 span {
-      background: linear-gradient(90deg, #c978ff, #f1b0ff);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-
-    .hero-text p {
-      margin: 0;
-      color: #d8cae9;
-      font-size: 13px;
-      line-height: 1.45;
-    }
-
-    .hero-badge {
-      display: inline-block;
-      margin-top: 14px;
-      padding: 7px 10px;
-      border: 1px solid rgba(207, 126, 255, .35);
-      border-radius: 20px;
-      background: rgba(152, 62, 255, .12);
-      color: #dbaaff;
-      font-size: 10px;
-      font-weight: bold;
-    }
-
-    /* ЗАГОЛОВКИ */
-
-    .section-title {
-      display: flex;
-      align-items: center;
-      gap: 9px;
-      margin: 24px 4px 13px;
-      font-size: 21px;
-      font-weight: 900;
-    }
-
-    .section-title::after {
-      content: "";
-      flex: 1;
-      height: 1px;
-      background: linear-gradient(90deg, rgba(176, 88, 255, .4), transparent);
-    }
-
-    /* ИГРОВЫЕ КАРТОЧКИ */
-
-    .grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 12px;
-    }
-
-    .game-card {
-      position: relative;
-      min-height: 280px;
-      overflow: hidden;
-      border-radius: 26px;
-      padding: 18px;
-      border: 1px solid rgba(187, 96, 255, .48);
-      background:
-        radial-gradient(circle at 100% 0%, rgba(189, 77, 255, .32), transparent 36%),
-        linear-gradient(145deg, #1b0d34, #0c0716);
-      box-shadow:
-        inset 0 1px 0 rgba(255, 255, 255, .04),
-        0 12px 28px rgba(0, 0, 0, .25);
-      cursor: pointer;
-      transition: transform .15s ease;
-    }
-
-    .game-card::before {
-      content: "";
-      position: absolute;
-      width: 150px;
-      height: 150px;
-      border: 1px solid rgba(190, 104, 255, .12);
-      border-radius: 50%;
-      right: -70px;
-      top: 50px;
-    }
-
-    .game-card::after {
-      content: "✦";
-      position: absolute;
-      top: 11px;
-      right: 13px;
-      color: #d99dff;
-      font-size: 14px;
-      opacity: .5;
-    }
-
-    .game-card:active {
-      transform: scale(.97);
-    }
-
-    .game-card h2 {
-      position: relative;
-      z-index: 4;
-      margin: 0;
-      font-size: 19px;
-      line-height: 1.05;
-      text-shadow: 0 0 15px rgba(187, 95, 255, .25);
-    }
-
-    .card-art {
-      position: absolute;
-      z-index: 3;
-      left: 3%;
-      top: 47px;
-      width: 94%;
-      height: 145px;
-      object-fit: contain;
-      object-position: center;
-      filter: drop-shadow(0 0 15px rgba(163, 65, 255, .45));
-    }
-
-    .game-card p {
-      position: absolute;
-      z-index: 4;
-      left: 18px;
-      right: 18px;
-      bottom: 57px;
-      margin: 0;
-      color: var(--muted);
-      font-size: 12px;
-      line-height: 1.35;
-    }
-
-    .action {
-      position: absolute;
-      z-index: 5;
-      left: 15px;
-      right: 15px;
-      bottom: 15px;
-      padding: 11px;
-      border-radius: 14px;
-      text-align: center;
-      font-size: 12px;
-      font-weight: 900;
-      background: linear-gradient(90deg, #6f2fc9, #b85dff);
-      box-shadow:
-        0 0 20px rgba(177, 77, 255, .28),
-        inset 0 1px 0 rgba(255, 255, 255, .18);
-    }
-
-    /* БОНУСЫ */
-
-    .small-row {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 9px;
-      margin-top: 15px;
-    }
-
-    .small-card {
-      position: relative;
-      min-height: 135px;
-      overflow: hidden;
-      padding: 12px 7px;
-      text-align: center;
-      border-radius: 21px;
-      border: 1px solid rgba(180, 88, 255, .34);
-      background:
-        radial-gradient(circle at 50% 0%, rgba(175, 71, 255, .18), transparent 50%),
-        linear-gradient(145deg, #180c2f, #0b0615);
-    }
-
-    .small-card::before {
-      content: "✦";
-      position: absolute;
-      top: 7px;
-      right: 9px;
-      color: #ca85ff;
-      opacity: .4;
-      font-size: 11px;
-    }
-
-    .small-card-img {
-      width: 68px;
-      height: 68px;
-      object-fit: contain;
-      display: block;
-      margin: -5px auto 5px;
-      filter: drop-shadow(0 0 12px rgba(181, 82, 255, .55));
-    }
-
-    .small-card span {
-      display: block;
-      color: #d7c8e5;
-      font-size: 10px;
-      line-height: 1.3;
-      font-weight: 700;
-    }
-
-    /* НИЖНЯЯ НАВИГАЦИЯ */
-
-    .bottom-nav {
-      position: fixed;
-      z-index: 100;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      border-top: 1px solid rgba(175, 88, 255, .32);
-      background: rgba(10, 5, 19, .97);
-      backdrop-filter: blur(20px);
-      box-shadow: 0 -8px 30px rgba(0, 0, 0, .2);
-    }
-
-    .nav {
-      max-width: 600px;
-      margin: auto;
-      display: flex;
-      justify-content: space-around;
-      align-items: flex-end;
-      padding: 8px 2px 17px;
-    }
-
-    .nav-item {
-      position: relative;
-      width: 20%;
-      min-width: 0;
-      color: #897a9b;
-      text-align: center;
-      font-size: 8px;
-      font-weight: 800;
-      transition: .2s ease;
-    }
-
-    .nav-item.active {
-      color: #db9cff;
-    }
-
-    .nav-item.active::before {
-      content: "";
-      position: absolute;
-      top: -8px;
-      left: 50%;
-      width: 30px;
-      height: 2px;
-      transform: translateX(-50%);
-      border-radius: 10px;
-      background: #bc6dff;
-      box-shadow: 0 0 10px #a34dff;
-    }
-
-    .nav-img {
-      width: 42px;
-      height: 42px;
-      object-fit: contain;
-      display: block;
-      margin: 0 auto 3px;
-      filter: drop-shadow(0 0 7px rgba(181, 82, 255, .35));
-      transition: transform .2s ease, filter .2s ease;
-    }
-
-    .nav-item.active .nav-img {
-      transform: translateY(-2px) scale(1.08);
-      filter:
-        drop-shadow(0 0 8px rgba(216, 135, 255, .8))
-        drop-shadow(0 0 16px rgba(138, 54, 255, .45));
-    }
-
-    .nav-item:active .nav-img {
-      transform: scale(.9);
-    }
-
-    @media (max-width: 380px) {
-      .game-card {
-        min-height: 268px;
-      }
-
-      .hero-text h1 {
-        font-size: 24px;
-      }
-
-      .logo {
-        font-size: 30px;
-      }
-
-      .small-card-img {
-        width: 58px;
-        height: 58px;
-      }
-
-      .nav-img {
-        width: 37px;
-        height: 37px;
-      }
-
-      .nav-item {
-        font-size: 7px;
-      }
-    }
-  </style>
+<style>
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+:root{
+  --purple:#a54cff;
+  --light:#dda8ff;
+  --bg:#090411;
+  --card:#170b29;
+  --text:#fff;
+  --muted:#b8a9c9;
+}
+body{
+  margin:0;
+  font-family:Arial,sans-serif;
+  color:var(--text);
+  background:
+    radial-gradient(circle at 10% 0%,#351061 0,transparent 30%),
+    radial-gradient(circle at 90% 20%,#240b45 0,transparent 28%),
+    #090411;
+  min-height:100vh;
+}
+.app{
+  max-width:600px;
+  margin:auto;
+  padding:18px 14px 110px;
+}
+.header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:10px;
+  margin-bottom:18px;
+}
+.logo{
+  font-size:35px;
+  font-weight:1000;
+  letter-spacing:-2px;
+  background:linear-gradient(135deg,#fff,#dca8ff,#9144ff);
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+}
+.logo small{
+  display:block;
+  font-size:8px;
+  letter-spacing:2px;
+  margin-top:-2px;
+}
+.balance{
+  display:flex;
+  align-items:center;
+  gap:7px;
+  background:#1b0c30;
+  border:1px solid #7636ad;
+  border-radius:18px;
+  padding:8px 10px;
+}
+.balance img{
+  width:34px;
+  height:34px;
+  object-fit:contain;
+}
+.balance strong{
+  display:block;
+  font-size:16px;
+}
+.balance span{
+  font-size:8px;
+  color:#c6addb;
+}
+.plus{
+  width:28px;
+  height:28px;
+  border:0;
+  border-radius:10px;
+  display:grid;
+  place-items:center;
+  background:linear-gradient(135deg,#d179ff,#702dcc);
+  color:#fff;
+  font-size:20px;
+  cursor:pointer;
+}
+.hero{
+  position:relative;
+  min-height:265px;
+  border-radius:30px;
+  overflow:hidden;
+  padding:24px;
+  border:1px solid #8b3bd0;
+  background:
+    radial-gradient(circle at 10% 100%,#5c1ca3 0,transparent 42%),
+    linear-gradient(135deg,#210d3d,#0d0718);
+}
+.hero:after{
+  content:"✦  ✧  ◇  ♡";
+  position:absolute;
+  top:8px;
+  left:25px;
+  color:#e0adff;
+  opacity:.25;
+  letter-spacing:9px;
+}
+.nexi{
+  position:absolute;
+  left:0;
+  bottom:0;
+  width:56%;
+  height:245px;
+  object-fit:contain;
+  object-position:bottom;
+}
+.hero-text{
+  position:relative;
+  z-index:2;
+  width:52%;
+  margin-left:auto;
+  padding-top:40px;
+}
+.hero h1{
+  font-size:27px;
+  line-height:1;
+  margin:0 0 12px;
+}
+.hero h1 span{color:#d485ff}
+.hero p{
+  font-size:12px;
+  line-height:1.5;
+  color:#d8cae9;
+}
+.badge{
+  display:inline-block;
+  padding:7px 10px;
+  border:1px solid #9d4ee0;
+  border-radius:20px;
+  color:#e2b0ff;
+  font-size:9px;
+}
+.title{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  font-size:20px;
+  font-weight:900;
+  margin:24px 3px 12px;
+}
+.title:after{
+  content:"";
+  height:1px;
+  flex:1;
+  background:linear-gradient(90deg,#7d39b9,transparent);
+}
+.grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px;
+}
+.game{
+  position:relative;
+  min-height:275px;
+  overflow:hidden;
+  border-radius:25px;
+  padding:17px;
+  border:1px solid #7130a9;
+  background:
+    radial-gradient(circle at 100% 0%,#512080,transparent 38%),
+    linear-gradient(145deg,#1b0d31,#0b0614);
+  text-decoration:none;
+  color:#fff;
+}
+.game h2{
+  margin:0;
+  font-size:18px;
+}
+.game img{
+  width:100%;
+  height:145px;
+  object-fit:contain;
+  margin-top:8px;
+}
+.game p{
+  font-size:11px;
+  color:var(--muted);
+  margin:0;
+}
+.action{
+  position:absolute;
+  left:14px;
+  right:14px;
+  bottom:14px;
+  padding:10px;
+  text-align:center;
+  border-radius:13px;
+  background:linear-gradient(90deg,#6d2bc3,#b55cff);
+  font-size:11px;
+  font-weight:900;
+}
+.bonuses{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:9px;
+}
+.bonus{
+  border:0;
+  color:#fff;
+  text-align:center;
+  min-height:130px;
+  padding:10px;
+  border:1px solid #653094;
+  border-radius:20px;
+  background:#160b27;
+  cursor:pointer;
+}
+.bonus img{
+  width:65px;
+  height:65px;
+  object-fit:contain;
+}
+.bonus span{
+  display:block;
+  font-size:9px;
+  color:#d7c7e5;
+  font-weight:bold;
+}
+.bottom{
+  position:fixed;
+  bottom:0;
+  left:0;
+  right:0;
+  background:rgba(10,5,18,.97);
+  border-top:1px solid #663097;
+  backdrop-filter:blur(15px);
+  z-index:10;
+}
+.nav{
+  max-width:600px;
+  margin:auto;
+  display:flex;
+  justify-content:space-around;
+  padding:8px 2px 16px;
+}
+.nav a{
+  width:20%;
+  text-align:center;
+  text-decoration:none;
+  color:#887996;
+  font-size:8px;
+  font-weight:bold;
+}
+.nav img{
+  display:block;
+  width:40px;
+  height:40px;
+  object-fit:contain;
+  margin:auto;
+}
+.nav .active{color:#dda6ff}
+.nav .active img{filter:drop-shadow(0 0 8px #b65cff)}
+</style>
 </head>
 
 <body>
 
-  <div class="app">
+<div class="app">
 
-    <header class="header">
-      <div class="logo">
-        NEXI
-        <small>PLAY • WIN • FLEX</small>
-      </div>
-
-      <div class="balance">
-        <img class="gem-icon" src="assets/gem.png" alt="Кристаллы">
-
-        <div>
-          <strong>1 000</strong>
-          <span>NEXI COINS</span>
-        </div>
-
-        <div class="plus">+</div>
-      </div>
-    </header>
-
-    <section class="hero">
-      <div class="nexi">
-        <img src="assets/nexi.png" alt="Нэкси">
-      </div>
-
-      <div class="hero-text">
-        <h1>ПРИВЕТ,<br><span>Я НЭКСИ!</span></h1>
-        <p>Выбирай игру и начинай своё приключение!</p>
-        <div class="hero-badge">✦ LET'S PLAY ✦</div>
-      </div>
-    </section>
-
-    <div class="section-title">ИГРЫ</div>
-
-    <main class="grid">
-
-      <div class="game-card">
-        <h2>MM2<br>CASES</h2>
-        <img class="card-art" src="assets/mm2.png" alt="MM2 Cases">
-        <p>Открывай кейсы и получай редкие предметы!</p>
-        <div class="action">ОТКРЫТЬ →</div>
-      </div>
-
-      <div class="game-card">
-        <h2>ADOPT ME<br>CASES</h2>
-        <img class="card-art" src="assets/adopt.png" alt="Adopt Me Cases">
-        <p>Собирай милых питомцев и пополняй коллекцию!</p>
-        <div class="action">ОТКРЫТЬ →</div>
-      </div>
-
-      <div class="game-card">
-        <h2>CRASH</h2>
-        <img class="card-art" src="assets/crash.png" alt="Crash">
-        <p>Успей забрать выигрыш до краша!</p>
-        <div class="action">ИГРАТЬ →</div>
-      </div>
-
-      <div class="game-card">
-        <h2>РУЛЕТКА</h2>
-        <img class="card-art" src="assets/roulette.png" alt="Рулетка">
-        <p>Крути колесо и испытывай свою удачу!</p>
-        <div class="action">КРУТИТЬ →</div>
-      </div>
-
-    </main>
-
-    <div class="section-title">БОНУСЫ</div>
-
-    <div class="small-row">
-
-      <div class="small-card">
-        <img class="small-card-img" src="assets/daily.png" alt="Ежедневный бонус">
-        <span>Ежедневный<br>бонус</span>
-      </div>
-
-      <div class="small-card">
-        <img class="small-card-img" src="assets/top.png" alt="Топ игроков">
-        <span>Топ<br>игроков</span>
-      </div>
-
-      <div class="small-card">
-        <img class="small-card-img" src="assets/tasks.png" alt="Задания">
-        <span>Задания<br>и награды</span>
-      </div>
-
-    </div>
-
+<header class="header">
+  <div class="logo">
+    NEXI
+    <small>PLAY • WIN • FLEX</small>
   </div>
 
-  <nav class="bottom-nav">
-    <div class="nav">
-
-      <div class="nav-item active">
-        <img class="nav-img" src="assets/home.png" alt="Главная">
-        <span>ГЛАВНАЯ</span>
-      </div>
-
-      <div class="nav-item">
-        <img class="nav-img" src="assets/cases.png" alt="Кейсы">
-        <span>КЕЙСЫ</span>
-      </div>
-
-      <div class="nav-item">
-        <img class="nav-img" src="assets/games.png" alt="Игры">
-        <span>ИГРЫ</span>
-      </div>
-
-      <div class="nav-item">
-        <img class="nav-img" src="assets/inventory.png" alt="Инвентарь">
-        <span>ИНВЕНТАРЬ</span>
-      </div>
-
-      <div class="nav-item">
-        <img class="nav-img" src="assets/profile.png" alt="Профиль">
-        <span>ПРОФИЛЬ</span>
-      </div>
-
+  <div class="balance">
+    <img src="assets/gem.png" alt="Coins">
+    <div>
+      <strong id="coins">1000</strong>
+      <span>NEXI COINS</span>
     </div>
-  </nav>
+    <button class="plus" onclick="addCoins()">+</button>
+  </div>
+</header>
 
-  <script>
-    const tg = window.Telegram.WebApp;
+<section class="hero">
+  <img class="nexi" src="assets/nexi.png" alt="Nexi">
 
-    tg.ready();
-    tg.expand();
+  <div class="hero-text">
+    <h1>ПРИВЕТ,<br><span>Я НЭКСИ!</span></h1>
+    <p>Выбирай игру и начинай своё приключение!</p>
+    <div class="badge">✦ LET'S PLAY ✦</div>
+  </div>
+</section>
 
-    document.querySelectorAll(".game-card").forEach(card => {
-      card.addEventListener("click", () => {
-        if (tg.HapticFeedback) {
-          tg.HapticFeedback.impactOccurred("light");
-        }
-      });
-    });
+<div class="title">ИГРЫ</div>
 
-    document.querySelectorAll(".nav-item").forEach(item => {
-      item.addEventListener("click", () => {
-        document.querySelectorAll(".nav-item").forEach(nav => {
-          nav.classList.remove("active");
-        });
+<div class="grid">
 
-        item.classList.add("active");
+  <a class="game" href="cases.html">
+    <h2>MM2<br>CASES</h2>
+    <img src="assets/mm2.png" alt="MM2">
+    <p>Открывай кейсы и получай редкие предметы!</p>
+    <div class="action">ОТКРЫТЬ →</div>
+  </a>
 
-        if (tg.HapticFeedback) {
-          tg.HapticFeedback.impactOccurred("light");
-        }
-      });
-    });
-  </script>
+  <a class="game" href="cases.html">
+    <h2>ADOPT ME<br>CASES</h2>
+    <img src="assets/adopt.png" alt="Adopt Me">
+    <p>Собирай милых питомцев и пополняй коллекцию!</p>
+    <div class="action">ОТКРЫТЬ →</div>
+  </a>
+
+  <a class="game" href="games.html">
+    <h2>CRASH</h2>
+    <img src="assets/crash.png" alt="Crash">
+    <p>Успей забрать выигрыш до краша!</p>
+    <div class="action">ИГРАТЬ →</div>
+  </a>
+
+  <a class="game" href="games.html">
+    <h2>РУЛЕТКА</h2>
+    <img src="assets/roulette.png" alt="Рулетка">
+    <p>Крути колесо и испытывай удачу!</p>
+    <div class="action">КРУТИТЬ →</div>
+  </a>
+
+</div>
+
+<div class="title">БОНУСЫ</div>
+
+<div class="bonuses">
+
+  <button class="bonus" onclick="dailyBonus()">
+    <img src="assets/daily.png" alt="">
+    <span>Ежедневный<br>бонус</span>
+  </button>
+
+  <button class="bonus" onclick="location.href='profile.html'">
+    <img src="assets/top.png" alt="">
+    <span>Топ<br>игроков</span>
+  </button>
+
+  <button class="bonus" onclick="location.href='profile.html'">
+    <img src="assets/tasks.png" alt="">
+    <span>Задания<br>и награды</span>
+  </button>
+
+</div>
+
+</div>
+
+<nav class="bottom">
+  <div class="nav">
+    <a class="active" href="index.html">
+      <img src="assets/home.png" alt="">
+      ГЛАВНАЯ
+    </a>
+
+    <a href="cases.html">
+      <img src="assets/cases.png" alt="">
+      КЕЙСЫ
+    </a>
+
+    <a href="games.html">
+      <img src="assets/games.png" alt="">
+      ИГРЫ
+    </a>
+
+    <a href="inventory.html">
+      <img src="assets/inventory.png" alt="">
+      ИНВЕНТАРЬ
+    </a>
+
+    <a href="profile.html">
+      <img src="assets/profile.png" alt="">
+      ПРОФИЛЬ
+    </a>
+  </div>
+</nav>
+
+<script>
+const tg = window.Telegram?.WebApp;
+
+if (tg) {
+  tg.ready();
+  tg.expand();
+}
+
+function getCoins() {
+  let coins = localStorage.getItem("nexiCoins");
+
+  if (coins === null) {
+    coins = 1000;
+    localStorage.setItem("nexiCoins", coins);
+  }
+
+  return Number(coins);
+}
+
+function updateCoins() {
+  document.getElementById("coins").textContent =
+    getCoins().toLocaleString("ru-RU");
+}
+
+function addCoins() {
+  let coins = getCoins();
+  coins += 100;
+  localStorage.setItem("nexiCoins", coins);
+  updateCoins();
+  alert("Добавлено 100 NEXI COINS ✦");
+}
+
+function dailyBonus() {
+  const today = new Date().toDateString();
+  const lastBonus = localStorage.getItem("nexiDailyBonus");
+
+  if (lastBonus === today) {
+    alert("Ты уже забрал ежедневный бонус сегодня! 💜");
+    return;
+  }
+
+  let coins = getCoins();
+  coins += 250;
+
+  localStorage.setItem("nexiCoins", coins);
+  localStorage.setItem("nexiDailyBonus", today);
+
+  updateCoins();
+
+  alert("Ежедневный бонус получен! +250 NEXI COINS ✦");
+}
+
+updateCoins();
+</script>
 
 </body>
 </html>
+```
