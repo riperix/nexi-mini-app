@@ -1,0 +1,25 @@
+```html
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>NEXI — Инвентарь</title>
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+<style>
+*{box-sizing:border-box}body{margin:0;font-family:Arial,sans-serif;color:#fff;background:radial-gradient(circle at 20% 0,#32105b,transparent 35%),#090411;min-height:100vh}.app{max-width:600px;margin:auto;padding:20px 14px 110px}.head{text-align:center}.head img{width:72px;height:72px;object-fit:contain;filter:drop-shadow(0 0 15px #a64dff)}h1{margin:4px;font-size:27px;color:#e1adff}.head p{color:#ae9abb;font-size:12px}.stats{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:22px 0}.stat{padding:16px;border-radius:20px;background:#170b29;border:1px solid #653096;text-align:center}.stat strong{display:block;font-size:24px;color:#dba2ff}.stat span{font-size:10px;color:#aa96b9}.empty{margin-top:20px;min-height:260px;border:1px dashed #7135a7;border-radius:28px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;background:rgba(25,10,43,.5)}.empty img{width:100px;height:100px;object-fit:contain;opacity:.7}.empty h2{margin:8px}.empty p{color:#a997b8;font-size:12px;max-width:230px}.bottom{position:fixed;bottom:0;left:0;right:0;background:#0a0512;border-top:1px solid #653096}.nav{max-width:600px;margin:auto;display:flex;justify-content:space-around;padding:8px 2px 16px}.nav a{width:20%;text-align:center;text-decoration:none;color:#887996;font-size:8px;font-weight:bold}.nav img{display:block;width:40px;height:40px;object-fit:contain;margin:auto}.nav .active{color:#dda6ff}.nav .active img{filter:drop-shadow(0 0 8px #b65cff)}
+</style>
+</head>
+<body>
+<div class="app">
+<div class="head"><img src="assets/inventory.png"><h1>ИНВЕНТАРЬ</h1><p>Твои выигранные предметы будут здесь</p></div>
+<div class="stats"><div class="stat"><strong>0</strong><span>ВСЕГО ПРЕДМЕТОВ</span></div><div class="stat"><strong>0</strong><span>РЕДКИХ ПРЕДМЕТОВ</span></div></div>
+<div class="empty"><img src="assets/inventory.png"><h2>ПОКА ПУСТО</h2><p>Открывай кейсы, играй и собирай свою коллекцию!</p></div>
+</div>
+<nav class="bottom"><div class="nav">
+<a href="index.html"><img src="assets/home.png">ГЛАВНАЯ</a><a href="cases.html"><img src="assets/cases.png">КЕЙСЫ</a><a href="games.html"><img src="assets/games.png">ИГРЫ</a><a class="active" href="inventory.html"><img src="assets/inventory.png">ИНВЕНТАРЬ</a><a href="profile.html"><img src="assets/profile.png">ПРОФИЛЬ</a>
+</div></nav>
+<script>const tg=window.Telegram?.WebApp;if(tg){tg.ready();tg.expand();}</script>
+</body>
+</html>
+```
