@@ -13,130 +13,277 @@
       -webkit-tap-highlight-color: transparent;
     }
 
+    :root {
+      --bg: #080512;
+      --card: #120a25;
+      --purple: #9d4dff;
+      --purple2: #c47aff;
+      --text: #ffffff;
+      --muted: #b9a8d0;
+    }
+
     body {
       margin: 0;
-      min-height: 100vh;
-      font-family: Arial, sans-serif;
       background:
-        radial-gradient(circle at 20% 0%, #7c3cff 0%, transparent 35%),
-        linear-gradient(180deg, #1b0b35 0%, #0c0717 100%);
-      color: white;
+        radial-gradient(circle at 20% 0%, rgba(139, 62, 255, .25), transparent 30%),
+        radial-gradient(circle at 90% 30%, rgba(181, 74, 255, .15), transparent 25%),
+        #080512;
+      color: var(--text);
+      font-family: Arial, sans-serif;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: .35;
+      background-image:
+        radial-gradient(#a55cff 1px, transparent 1px),
+        radial-gradient(#fff 1px, transparent 1px);
+      background-size: 45px 45px, 90px 90px;
     }
 
     .app {
+      position: relative;
       max-width: 600px;
       margin: auto;
-      padding: 16px 16px 100px;
+      padding: 18px 14px 110px;
     }
 
     .header {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 20px;
+      margin-bottom: 18px;
     }
 
     .logo {
-      font-size: 28px;
-      font-weight: 900;
-      letter-spacing: 2px;
-      color: #caa8ff;
+      font-size: 38px;
+      font-weight: 1000;
+      letter-spacing: -2px;
+      background: linear-gradient(135deg, #fff, #9d4dff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
     }
 
-    .avatar {
-      width: 48px;
-      height: 48px;
-      border-radius: 50%;
-      background: #7b35d8;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 28px;
-      box-shadow: 0 0 20px #8b4cff;
-    }
-
-    .welcome {
-      background: linear-gradient(135deg, #5b21b6, #8b5cf6);
-      border-radius: 24px;
-      padding: 22px;
-      margin-bottom: 18px;
-      box-shadow: 0 10px 30px rgba(91, 33, 182, 0.35);
-    }
-
-    .welcome h1 {
-      margin: 0 0 8px;
-      font-size: 25px;
-    }
-
-    .welcome p {
-      margin: 0;
-      color: #eee5ff;
+    .logo small {
+      display: block;
+      font-size: 11px;
+      letter-spacing: 1px;
+      -webkit-text-fill-color: #b889ff;
+      margin-top: -2px;
     }
 
     .balance {
-      margin-top: 16px;
-      display: inline-block;
-      padding: 10px 14px;
-      border-radius: 14px;
-      background: rgba(0, 0, 0, 0.2);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 12px;
+      border: 1px solid rgba(177, 95, 255, .5);
+      border-radius: 18px;
+      background: rgba(25, 13, 48, .9);
+      box-shadow: 0 0 25px rgba(137, 59, 255, .15);
+    }
+
+    .coin {
+      font-size: 26px;
+    }
+
+    .balance strong {
+      font-size: 20px;
+      display: block;
+    }
+
+    .balance span {
+      font-size: 10px;
+      color: #d6aaff;
       font-weight: bold;
     }
 
-    .section-title {
-      font-size: 19px;
-      font-weight: 800;
-      margin: 24px 0 12px;
+    .plus {
+      background: linear-gradient(135deg, #b35cff, #7030d8);
+      border-radius: 12px;
+      padding: 7px 11px;
+      font-size: 25px;
     }
 
-    .games {
+    .hero {
+      position: relative;
+      min-height: 245px;
+      overflow: hidden;
+      border: 1px solid rgba(180, 95, 255, .55);
+      border-radius: 28px;
+      padding: 25px;
+      margin-bottom: 18px;
+      background:
+        radial-gradient(circle at 20% 100%, rgba(162, 66, 255, .45), transparent 40%),
+        linear-gradient(135deg, #150b2c, #0d0819);
+      box-shadow: 0 0 40px rgba(125, 50, 255, .18);
+    }
+
+    .pattern {
+      position: absolute;
+      right: -30px;
+      bottom: -30px;
+      font-size: 140px;
+      opacity: .08;
+      transform: rotate(-15deg);
+    }
+
+    .nexi {
+      position: absolute;
+      left: 10px;
+      bottom: 0;
+      width: 45%;
+      height: 200px;
+      display: flex;
+      align-items: end;
+      justify-content: center;
+      font-size: 150px;
+      filter: drop-shadow(0 0 25px #7f36ff);
+    }
+
+    .hero-text {
+      position: relative;
+      width: 54%;
+      margin-left: auto;
+      z-index: 2;
+    }
+
+    .hero-text h1 {
+      font-size: 30px;
+      line-height: 1;
+      margin: 20px 0 10px;
+    }
+
+    .hero-text h1 span {
+      color: #bb72ff;
+    }
+
+    .hero-text p {
+      color: #d8cdea;
+      line-height: 1.4;
+      margin: 0;
+      font-size: 14px;
+    }
+
+    .section-title {
+      font-size: 21px;
+      font-weight: 900;
+      margin: 22px 4px 12px;
+    }
+
+    .grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 12px;
     }
 
-    .card {
-      border: 1px solid rgba(255,255,255,0.08);
-      border-radius: 22px;
+    .game-card {
+      position: relative;
+      min-height: 255px;
+      overflow: hidden;
       padding: 18px;
-      min-height: 145px;
+      border-radius: 25px;
+      border: 1px solid rgba(179, 93, 255, .5);
+      background: linear-gradient(145deg, #1b0d35, #0d0818);
       cursor: pointer;
-      transition: transform 0.15s;
+      transition: .18s;
     }
 
-    .card:active {
-      transform: scale(0.96);
+    .game-card:active {
+      transform: scale(.97);
     }
 
-    .card-icon {
-      font-size: 42px;
-      margin-bottom: 14px;
+    .game-card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(circle at 100% 0%, rgba(165, 66, 255, .35), transparent 35%);
+      pointer-events: none;
     }
 
-    .card h2 {
-      margin: 0 0 6px;
-      font-size: 18px;
+    .card-art {
+      position: absolute;
+      right: 12px;
+      top: 52px;
+      font-size: 92px;
+      filter: drop-shadow(0 0 20px #8f42ff);
     }
 
-    .card p {
+    .adopt-art {
+      font-size: 82px;
+      letter-spacing: -20px;
+      right: 20px;
+    }
+
+    .crash-art {
+      font-size: 100px;
+      top: 50px;
+    }
+
+    .roulette-art {
+      font-size: 105px;
+      top: 55px;
+    }
+
+    .game-card h2 {
+      position: relative;
+      z-index: 1;
       margin: 0;
-      color: #d8c9f7;
+      font-size: 22px;
+    }
+
+    .game-card p {
+      position: absolute;
+      bottom: 58px;
+      left: 18px;
+      right: 18px;
+      margin: 0;
+      color: #c8bbd9;
+      line-height: 1.35;
       font-size: 13px;
     }
 
-    .mm2 {
-      background: linear-gradient(135deg, #39134f, #781d71);
+    .action {
+      position: absolute;
+      left: 18px;
+      right: 18px;
+      bottom: 16px;
+      padding: 11px;
+      text-align: center;
+      border-radius: 13px;
+      font-weight: bold;
+      background: linear-gradient(90deg, #7b31d6, #b45dff);
+      box-shadow: 0 0 20px rgba(169, 77, 255, .3);
     }
 
-    .adopt {
-      background: linear-gradient(135deg, #2b165b, #6b42ba);
+    .small-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+      margin-top: 14px;
     }
 
-    .crash {
-      background: linear-gradient(135deg, #42135e, #9d2cc7);
+    .small-card {
+      padding: 13px 8px;
+      min-height: 105px;
+      text-align: center;
+      border-radius: 20px;
+      background: linear-gradient(145deg, #180d30, #0d0818);
+      border: 1px solid rgba(164, 80, 255, .35);
     }
 
-    .roulette {
-      background: linear-gradient(135deg, #2b1250, #5022a8);
+    .small-card div {
+      font-size: 30px;
+      margin-bottom: 7px;
+    }
+
+    .small-card span {
+      font-size: 11px;
+      color: #d5c6e5;
     }
 
     .bottom-nav {
@@ -144,97 +291,140 @@
       bottom: 0;
       left: 0;
       right: 0;
-      background: rgba(16, 7, 30, 0.96);
+      z-index: 20;
+      background: rgba(10, 6, 20, .95);
       backdrop-filter: blur(20px);
-      border-top: 1px solid rgba(255,255,255,0.08);
-      display: flex;
-      justify-content: center;
-      z-index: 10;
+      border-top: 1px solid rgba(173, 87, 255, .3);
     }
 
-    .nav-inner {
-      width: min(600px, 100%);
+    .nav {
+      max-width: 600px;
+      margin: auto;
       display: flex;
       justify-content: space-around;
-      padding: 12px 8px 20px;
+      padding: 11px 5px 20px;
     }
 
     .nav-item {
+      color: #9685a8;
       text-align: center;
-      color: #9f91b8;
-      font-size: 12px;
+      font-size: 10px;
     }
 
     .nav-item.active {
-      color: #c69cff;
+      color: #d18cff;
     }
 
-    .nav-icon {
-      font-size: 22px;
+    .nav-item i {
       display: block;
-      margin-bottom: 3px;
+      font-style: normal;
+      font-size: 23px;
+      margin-bottom: 4px;
     }
   </style>
 </head>
 
 <body>
-  <div class="app">
 
-    <div class="header">
-      <div class="logo">NEXI</div>
-      <div class="avatar">👾</div>
+<div class="app">
+
+  <div class="header">
+    <div class="logo">
+      NEXI
+      <small>PLAY • WIN • FLEX</small>
     </div>
 
-    <div class="welcome">
-      <h1>Привет! Я Нэкси 👾</h1>
-      <p>Выбирай игру и начинай своё приключение!</p>
-      <div class="balance">💜 1 000 NEXI Coins</div>
+    <div class="balance">
+      <div class="coin">💎</div>
+      <div>
+        <strong>1 000</strong>
+        <span>NEXI COINS</span>
+      </div>
+      <div class="plus">+</div>
+    </div>
+  </div>
+
+  <section class="hero">
+    <div class="pattern">✦ ✧ ♡ ✦</div>
+
+    <!-- Временно Нэкси показан эмодзи.
+         Потом заменим его на настоящую картинку Нэкси -->
+    <div class="nexi">👾</div>
+
+    <div class="hero-text">
+      <h1>ПРИВЕТ,<br><span>Я НЭКСИ!</span></h1>
+      <p>Выбирай игру и начинай своё приключение! 💜</p>
+    </div>
+  </section>
+
+  <div class="section-title">ИГРЫ 🎮</div>
+
+  <div class="grid">
+
+    <div class="game-card">
+      <h2>MM2 CASES</h2>
+      <div class="card-art">⚔️</div>
+      <p>Открывай кейсы и получай редкие предметы!</p>
+      <div class="action">ОТКРЫТЬ →</div>
     </div>
 
-    <div class="section-title">🎮 Игровые режимы</div>
+    <div class="game-card">
+      <h2>ADOPT ME<br>CASES</h2>
+      <div class="card-art adopt-art">🐶🐱</div>
+      <p>Открывай кейсы и собирай милых питомцев!</p>
+      <div class="action">ОТКРЫТЬ →</div>
+    </div>
 
-    <div class="games">
-      <div class="card mm2">
-        <div class="card-icon">🔪</div>
-        <h2>MM2 Кейсы</h2>
-        <p>Открывай тематические кейсы</p>
-      </div>
+    <div class="game-card">
+      <h2>CRASH</h2>
+      <div class="card-art crash-art">🚀</div>
+      <p>Испытай удачу и забери выигрыш вовремя!</p>
+      <div class="action">ИГРАТЬ →</div>
+    </div>
 
-      <div class="card adopt">
-        <div class="card-icon">🐾</div>
-        <h2>Adopt Me</h2>
-        <p>Питомцы и коллекции</p>
-      </div>
-
-      <div class="card crash">
-        <div class="card-icon">📈</div>
-        <h2>Crash</h2>
-        <p>Успей забрать до краша</p>
-      </div>
-
-      <div class="card roulette">
-        <div class="card-icon">🎡</div>
-        <h2>Рулетка</h2>
-        <p>Испытай свою удачу</p>
-      </div>
+    <div class="game-card">
+      <h2>РУЛЕТКА</h2>
+      <div class="card-art roulette-art">🎡</div>
+      <p>Крути колесо и испытывай удачу!</p>
+      <div class="action">КРУТИТЬ →</div>
     </div>
 
   </div>
 
-  <div class="bottom-nav">
-    <div class="nav-inner">
-      <div class="nav-item active">
-        <span class="nav-icon">🏠</span>
-        Главная
-      </div>
-      <div class="nav-item">
-        <span class="nav-icon">🎁</span>
-        Кейсы
-      </div>
-      <div class="nav-item">
-        <span class="nav-icon">🎒</span>
-        Инвентарь
-      </div>
-      <div class="nav-item">
-        <span class="nav-icon">👤</span>
-       
+  <div class="small-row">
+    <div class="small-card">
+      <div>🎁</div>
+      <span>Ежедневный<br>бонус</span>
+    </div>
+
+    <div class="small-card">
+      <div>🏆</div>
+      <span>Топ<br>игроков</span>
+    </div>
+
+    <div class="small-card">
+      <div>⭐</div>
+      <span>Задания</span>
+    </div>
+  </div>
+
+</div>
+
+<div class="bottom-nav">
+  <div class="nav">
+    <div class="nav-item active"><i>⌂</i>ГЛАВНАЯ</div>
+    <div class="nav-item"><i>🎁</i>КЕЙСЫ</div>
+    <div class="nav-item"><i>🎮</i>ИГРЫ</div>
+    <div class="nav-item"><i>🎒</i>ИНВЕНТАРЬ</div>
+    <div class="nav-item"><i>👤</i>ПРОФИЛЬ</div>
+  </div>
+</div>
+
+<script>
+  const tg = window.Telegram.WebApp;
+  tg.ready();
+  tg.expand();
+</script>
+
+</body>
+</html>
