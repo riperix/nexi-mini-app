@@ -35,8 +35,6 @@
         linear-gradient(180deg, #0c0617 0%, #07030d 100%);
     }
 
-    /* ДЕКОРАТИВНЫЙ ФОН */
-
     body::before {
       content: "";
       position: fixed;
@@ -140,6 +138,15 @@
       border-radius: 50%;
     }
 
+    .gem-icon {
+      position: relative;
+      z-index: 1;
+      width: 38px;
+      height: 38px;
+      object-fit: contain;
+      filter: drop-shadow(0 0 8px rgba(187, 90, 255, .7));
+    }
+
     .balance strong {
       display: block;
       font-size: 17px;
@@ -220,19 +227,6 @@
       z-index: 2;
     }
 
-    .nexi::after {
-      content: "";
-      position: absolute;
-      left: 18%;
-      bottom: 0;
-      width: 65%;
-      height: 25px;
-      border-radius: 50%;
-      background: rgba(153, 57, 255, .35);
-      filter: blur(14px);
-      z-index: -1;
-    }
-
     .nexi img {
       width: 100%;
       height: 100%;
@@ -282,7 +276,7 @@
       font-weight: bold;
     }
 
-    /* SECTION */
+    /* ЗАГОЛОВКИ */
 
     .section-title {
       display: flex;
@@ -300,7 +294,7 @@
       background: linear-gradient(90deg, rgba(176, 88, 255, .4), transparent);
     }
 
-    /* GAME CARDS */
+    /* ИГРОВЫЕ КАРТОЧКИ */
 
     .grid {
       display: grid;
@@ -363,7 +357,6 @@
       position: absolute;
       z-index: 3;
       left: 3%;
-      right: 3%;
       top: 47px;
       width: 94%;
       height: 145px;
@@ -391,7 +384,6 @@
       right: 15px;
       bottom: 15px;
       padding: 11px;
-      overflow: hidden;
       border-radius: 14px;
       text-align: center;
       font-size: 12px;
@@ -402,18 +394,7 @@
         inset 0 1px 0 rgba(255, 255, 255, .18);
     }
 
-    .action::after {
-      content: "";
-      position: absolute;
-      top: 0;
-      left: -30%;
-      width: 30%;
-      height: 100%;
-      background: rgba(255, 255, 255, .12);
-      transform: skewX(-25deg);
-    }
-
-    /* QUICK CARDS */
+    /* БОНУСЫ */
 
     .small-row {
       display: grid;
@@ -424,9 +405,9 @@
 
     .small-card {
       position: relative;
-      min-height: 110px;
+      min-height: 135px;
       overflow: hidden;
-      padding: 14px 7px;
+      padding: 12px 7px;
       text-align: center;
       border-radius: 21px;
       border: 1px solid rgba(180, 88, 255, .34);
@@ -445,18 +426,24 @@
       font-size: 11px;
     }
 
-    .small-card-icon {
-      font-size: 29px;
-      margin-bottom: 7px;
+    .small-card-img {
+      width: 68px;
+      height: 68px;
+      object-fit: contain;
+      display: block;
+      margin: -5px auto 5px;
+      filter: drop-shadow(0 0 12px rgba(181, 82, 255, .55));
     }
 
     .small-card span {
+      display: block;
       color: #d7c8e5;
       font-size: 10px;
       line-height: 1.3;
+      font-weight: 700;
     }
 
-    /* BOTTOM NAV */
+    /* НИЖНЯЯ НАВИГАЦИЯ */
 
     .bottom-nav {
       position: fixed;
@@ -475,15 +462,19 @@
       margin: auto;
       display: flex;
       justify-content: space-around;
-      padding: 11px 3px 20px;
+      align-items: flex-end;
+      padding: 8px 2px 17px;
     }
 
     .nav-item {
       position: relative;
+      width: 20%;
+      min-width: 0;
       color: #897a9b;
       text-align: center;
-      font-size: 9px;
-      min-width: 55px;
+      font-size: 8px;
+      font-weight: 800;
+      transition: .2s ease;
     }
 
     .nav-item.active {
@@ -493,7 +484,7 @@
     .nav-item.active::before {
       content: "";
       position: absolute;
-      top: -11px;
+      top: -8px;
       left: 50%;
       width: 30px;
       height: 2px;
@@ -503,10 +494,25 @@
       box-shadow: 0 0 10px #a34dff;
     }
 
-    .nav-icon {
+    .nav-img {
+      width: 42px;
+      height: 42px;
+      object-fit: contain;
       display: block;
-      margin-bottom: 4px;
-      font-size: 21px;
+      margin: 0 auto 3px;
+      filter: drop-shadow(0 0 7px rgba(181, 82, 255, .35));
+      transition: transform .2s ease, filter .2s ease;
+    }
+
+    .nav-item.active .nav-img {
+      transform: translateY(-2px) scale(1.08);
+      filter:
+        drop-shadow(0 0 8px rgba(216, 135, 255, .8))
+        drop-shadow(0 0 16px rgba(138, 54, 255, .45));
+    }
+
+    .nav-item:active .nav-img {
+      transform: scale(.9);
     }
 
     @media (max-width: 380px) {
@@ -520,6 +526,20 @@
 
       .logo {
         font-size: 30px;
+      }
+
+      .small-card-img {
+        width: 58px;
+        height: 58px;
+      }
+
+      .nav-img {
+        width: 37px;
+        height: 37px;
+      }
+
+      .nav-item {
+        font-size: 7px;
       }
     }
   </style>
@@ -536,11 +556,13 @@
       </div>
 
       <div class="balance">
-        <div style="font-size:24px;">💎</div>
+        <img class="gem-icon" src="assets/gem.png" alt="Кристаллы">
+
         <div>
           <strong>1 000</strong>
           <span>NEXI COINS</span>
         </div>
+
         <div class="plus">+</div>
       </div>
     </header>
@@ -557,7 +579,7 @@
       </div>
     </section>
 
-    <div class="section-title">ИГРЫ 🎮</div>
+    <div class="section-title">ИГРЫ</div>
 
     <main class="grid">
 
@@ -596,17 +618,17 @@
     <div class="small-row">
 
       <div class="small-card">
-        <div class="small-card-icon">🎁</div>
+        <img class="small-card-img" src="assets/daily.png" alt="Ежедневный бонус">
         <span>Ежедневный<br>бонус</span>
       </div>
 
       <div class="small-card">
-        <div class="small-card-icon">🏆</div>
+        <img class="small-card-img" src="assets/top.png" alt="Топ игроков">
         <span>Топ<br>игроков</span>
       </div>
 
       <div class="small-card">
-        <div class="small-card-icon">⭐</div>
+        <img class="small-card-img" src="assets/tasks.png" alt="Задания">
         <span>Задания<br>и награды</span>
       </div>
 
@@ -618,28 +640,28 @@
     <div class="nav">
 
       <div class="nav-item active">
-        <span class="nav-icon">⌂</span>
-        ГЛАВНАЯ
+        <img class="nav-img" src="assets/home.png" alt="Главная">
+        <span>ГЛАВНАЯ</span>
       </div>
 
       <div class="nav-item">
-        <span class="nav-icon">🎁</span>
-        КЕЙСЫ
+        <img class="nav-img" src="assets/cases.png" alt="Кейсы">
+        <span>КЕЙСЫ</span>
       </div>
 
       <div class="nav-item">
-        <span class="nav-icon">🎮</span>
-        ИГРЫ
+        <img class="nav-img" src="assets/games.png" alt="Игры">
+        <span>ИГРЫ</span>
       </div>
 
       <div class="nav-item">
-        <span class="nav-icon">🎒</span>
-        ИНВЕНТАРЬ
+        <img class="nav-img" src="assets/inventory.png" alt="Инвентарь">
+        <span>ИНВЕНТАРЬ</span>
       </div>
 
       <div class="nav-item">
-        <span class="nav-icon">👤</span>
-        ПРОФИЛЬ
+        <img class="nav-img" src="assets/profile.png" alt="Профиль">
+        <span>ПРОФИЛЬ</span>
       </div>
 
     </div>
@@ -653,6 +675,20 @@
 
     document.querySelectorAll(".game-card").forEach(card => {
       card.addEventListener("click", () => {
+        if (tg.HapticFeedback) {
+          tg.HapticFeedback.impactOccurred("light");
+        }
+      });
+    });
+
+    document.querySelectorAll(".nav-item").forEach(item => {
+      item.addEventListener("click", () => {
+        document.querySelectorAll(".nav-item").forEach(nav => {
+          nav.classList.remove("active");
+        });
+
+        item.classList.add("active");
+
         if (tg.HapticFeedback) {
           tg.HapticFeedback.impactOccurred("light");
         }
