@@ -1,0 +1,53 @@
+```html
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>NEXI — Профиль</title>
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+<style>
+*{box-sizing:border-box}body{margin:0;font-family:Arial,sans-serif;color:#fff;background:radial-gradient(circle at 80% 0,#351061,transparent 35%),#090411;min-height:100vh}.app{max-width:600px;margin:auto;padding:20px 14px 110px}.profile{text-align:center;padding:22px 15px;border-radius:30px;background:linear-gradient(145deg,#210d3c,#0d0718);border:1px solid #7434ae}.avatar{width:92px;height:92px;margin:auto;border-radius:50%;display:grid;place-items:center;background:linear-gradient(135deg,#6d2ac5,#c06aff);font-size:40px;box-shadow:0 0 25px #8337ca}.profile h1{margin:12px 0 4px;font-size:25px}.profile p{margin:0;color:#b9a5c9;font-size:12px}.balance{margin:18px 0;padding:17px;border-radius:20px;background:#170b29;border:1px solid #673198;display:flex;align-items:center;justify-content:center;gap:12px}.balance img{width:48px;height:48px;object-fit:contain}.balance strong{display:block;font-size:23px;color:#e0a9ff}.balance span{font-size:9px;color:#a994b8}.title{font-size:18px;font-weight:900;margin:25px 3px 12px}.menu{display:flex;flex-direction:column;gap:9px}.item{padding:17px;border-radius:18px;background:#170b29;border:1px solid #572784;color:#fff;font-size:13px}.item span{float:right;color:#c986ff}.bottom{position:fixed;bottom:0;left:0;right:0;background:#0a0512;border-top:1px solid #653096}.nav{max-width:600px;margin:auto;display:flex;justify-content:space-around;padding:8px 2px 16px}.nav a{width:20%;text-align:center;text-decoration:none;color:#887996;font-size:8px;font-weight:bold}.nav img{display:block;width:40px;height:40px;object-fit:contain;margin:auto}.nav .active{color:#dda6ff}.nav .active img{filter:drop-shadow(0 0 8px #b65cff)}
+</style>
+</head>
+<body>
+<div class="app">
+<div class="profile">
+<div class="avatar" id="avatar">✦</div>
+<h1 id="name">NEXI PLAYER</h1>
+<p id="username">@player</p>
+</div>
+
+<div class="balance">
+<img src="assets/gem.png">
+<div><strong>1 000</strong><span>NEXI COINS</span></div>
+</div>
+
+<div class="title">ПРОФИЛЬ</div>
+<div class="menu">
+<div class="item">🎁 Ежедневный бонус <span>›</span></div>
+<div class="item">🏆 Топ игроков <span>›</span></div>
+<div class="item">📋 Задания <span>›</span></div>
+<div class="item">🎟 Промокоды <span>›</span></div>
+</div>
+</div>
+
+<nav class="bottom"><div class="nav">
+<a href="index.html"><img src="assets/home.png">ГЛАВНАЯ</a><a href="cases.html"><img src="assets/cases.png">КЕЙСЫ</a><a href="games.html"><img src="assets/games.png">ИГРЫ</a><a href="inventory.html"><img src="assets/inventory.png">ИНВЕНТАРЬ</a><a class="active" href="profile.html"><img src="assets/profile.png">ПРОФИЛЬ</a>
+</div></nav>
+
+<script>
+const tg=window.Telegram?.WebApp;
+if(tg){
+  tg.ready();
+  tg.expand();
+  const user=tg.initDataUnsafe?.user;
+  if(user){
+    document.getElementById("name").textContent=user.first_name||"NEXI PLAYER";
+    if(user.username) document.getElementById("username").textContent="@"+user.username;
+  }
+}
+</script>
+</body>
+</html>
+```
