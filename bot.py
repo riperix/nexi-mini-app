@@ -10,7 +10,7 @@ from telegram.ext import (
 TOKEN = os.getenv("BOT_TOKEN")
 
 # СЮДА ПОТОМ ВСТАВИМ ТВОЙ TELEGRAM ID
-ADMIN_ID = 123456789
+ADMIN_ID = 1282434336
 
 PACKS = {
     "100": {"coins": 100, "price": 20},
