@@ -2,39 +2,129 @@
 <html lang="ru">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover">
+<meta name="theme-color" content="#0a0613">
 <title>NEXI</title>
 
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
 
 <style>
+:root{
+  --bg:#090411;
+  --panel:#140a24;
+  --panel-2:#1b0d31;
+  --purple:#8b3cff;
+  --purple-2:#c45cff;
+  --text:#ffffff;
+  --muted:#b9a9c9;
+  --line:rgba(174,84,255,.52);
+}
+
 *{
   box-sizing:border-box;
   -webkit-tap-highlight-color:transparent;
 }
 
+html{
+  scroll-behavior:smooth;
+}
+
 body{
   margin:0;
-  font-family:Arial,sans-serif;
-  color:#fff;
   min-height:100vh;
+  overflow-x:hidden;
+  font-family:Arial,sans-serif;
+  color:var(--text);
   background:
-    radial-gradient(circle at 10% 0%,#351061,transparent 30%),
-    radial-gradient(circle at 90% 20%,#240b45,transparent 28%),
+    radial-gradient(circle at 8% 0%,rgba(92,30,163,.42),transparent 28%),
+    radial-gradient(circle at 96% 18%,rgba(74,20,127,.35),transparent 26%),
+    radial-gradient(circle at 50% 70%,rgba(55,14,98,.20),transparent 34%),
     #090411;
 }
 
+body::before,
+body::after{
+  content:"";
+  position:fixed;
+  pointer-events:none;
+  z-index:-1;
+}
+
+body::before{
+  inset:0;
+  opacity:.42;
+  background-image:
+    radial-gradient(circle,rgba(255,255,255,.8) 1px,transparent 1.8px),
+    radial-gradient(circle,rgba(192,91,255,.75) 1px,transparent 2px);
+  background-size:34px 34px,71px 71px;
+  background-position:4px 10px,22px 33px;
+  mask-image:linear-gradient(to bottom,black,transparent 72%);
+}
+
+body::after{
+  width:70vw;
+  height:70vw;
+  max-width:520px;
+  max-height:520px;
+  right:-32vw;
+  top:28vh;
+  border:1px solid rgba(167,72,255,.14);
+  border-radius:50%;
+  box-shadow:
+    0 0 0 38px rgba(118,44,196,.035),
+    0 0 0 76px rgba(118,44,196,.025),
+    0 0 90px rgba(134,47,255,.12);
+}
+
+button,
+a{
+  font:inherit;
+}
+
 button{
-  font-family:inherit;
+  border:0;
 }
 
 .app{
+  position:relative;
   max-width:600px;
   margin:auto;
-  padding:18px 14px 110px;
+  padding:18px 14px 122px;
+}
+
+.app::before,
+.app::after{
+  content:"";
+  position:absolute;
+  pointer-events:none;
+  z-index:-1;
+}
+
+.app::before{
+  width:210px;
+  height:210px;
+  top:260px;
+  left:-150px;
+  border:1px solid rgba(194,92,255,.12);
+  border-radius:50%;
+  box-shadow:
+    0 0 0 30px rgba(153,61,226,.025),
+    0 0 0 60px rgba(153,61,226,.018);
+}
+
+.app::after{
+  width:150px;
+  height:150px;
+  right:-110px;
+  top:900px;
+  border-radius:30px;
+  transform:rotate(22deg);
+  border:1px solid rgba(201,108,255,.16);
 }
 
 .header{
+  position:relative;
+  z-index:2;
   display:flex;
   justify-content:space-between;
   align-items:center;
@@ -45,206 +135,318 @@ button{
 .logo{
   font-size:35px;
   font-weight:1000;
+  line-height:.9;
   letter-spacing:-2px;
-  background:linear-gradient(135deg,#fff,#dca8ff,#9144ff);
+  background:linear-gradient(135deg,#fff 12%,#f0caff 48%,#9144ff);
   -webkit-background-clip:text;
+  background-clip:text;
   -webkit-text-fill-color:transparent;
 }
 
 .logo small{
   display:block;
+  margin-top:7px;
   font-size:8px;
   letter-spacing:2px;
-  margin-top:-2px;
 }
 
 .balance{
+  position:relative;
+  overflow:hidden;
   display:flex;
   align-items:center;
   gap:7px;
-  background:#1b0c30;
-  border:1px solid #7636ad;
-  border-radius:18px;
+  min-width:156px;
   padding:8px 10px;
+  border:1px solid rgba(167,79,226,.72);
+  border-radius:18px;
+  background:
+    linear-gradient(135deg,rgba(50,23,82,.96),rgba(18,8,31,.96));
+  box-shadow:0 10px 28px rgba(0,0,0,.24);
+}
+
+.balance::after{
+  content:"";
+  position:absolute;
+  width:90px;
+  height:90px;
+  right:-46px;
+  top:-55px;
+  border-radius:50%;
+  background:radial-gradient(circle,rgba(190,93,255,.18),transparent 68%);
 }
 
 .balance img{
-  width:34px;
-  height:34px;
+  position:relative;
+  z-index:1;
+  width:36px;
+  height:36px;
+  flex:0 0 36px;
   object-fit:contain;
 }
 
 .balance strong{
+  position:relative;
+  z-index:1;
   display:block;
-  font-size:16px;
+  font-size:18px;
+  line-height:1;
 }
 
 .balance span{
+  position:relative;
+  z-index:1;
+  display:block;
+  margin-top:4px;
   font-size:8px;
-  color:#c6addb;
+  color:#d2bddf;
+  letter-spacing:.5px;
 }
 
 .plus{
-  width:28px;
-  height:28px;
-  border:0;
-  border-radius:10px;
-  background:linear-gradient(135deg,#d179ff,#702dcc);
+  position:relative;
+  z-index:1;
+  width:31px;
+  height:31px;
+  margin-left:auto;
+  border-radius:11px;
   color:#fff;
-  font-size:20px;
+  font-size:22px;
   cursor:pointer;
+  background:linear-gradient(135deg,#d179ff,#702dcc);
+  box-shadow:0 7px 18px rgba(145,56,230,.3);
 }
 
 .hero{
   position:relative;
-  min-height:265px;
-  border-radius:30px;
   overflow:hidden;
-  padding:24px;
-  border:1px solid #8b3bd0;
-  background:
-    radial-gradient(circle at 10% 100%,#5c1ca3,transparent 42%),
-    linear-gradient(135deg,#210d3d,#0d0718);
+  border:1px solid rgba(180,81,255,.8);
+  border-radius:30px;
+  background:#12071f;
+  box-shadow:
+    0 18px 42px rgba(0,0,0,.24),
+    0 0 42px rgba(137,49,255,.08);
 }
 
-.nexi{
+.hero::before{
+  content:"";
   position:absolute;
-  left:0;
-  bottom:0;
-  width:56%;
-  height:245px;
-  object-fit:contain;
-  object-position:bottom;
+  inset:0;
+  z-index:1;
+  pointer-events:none;
+  background:
+    linear-gradient(90deg,rgba(7,3,13,.06),transparent 38%),
+    radial-gradient(circle at 50% 50%,transparent 58%,rgba(188,88,255,.08));
 }
 
-.hero-text{
-  position:relative;
-  z-index:2;
-  width:52%;
-  margin-left:auto;
-  padding-top:40px;
+.hero-image{
+  display:block;
+  width:100%;
+  height:auto;
+  min-height:250px;
+  object-fit:cover;
+  object-position:center;
 }
 
-.hero h1{
-  font-size:27px;
-  line-height:1;
-  margin:0 0 12px;
+.hero-play{
+  position:absolute;
+  z-index:3;
+  left:5%;
+  top:54%;
+  width:27%;
+  height:14%;
+  min-width:98px;
+  min-height:42px;
+  border-radius:24px;
+  background:transparent;
+  cursor:pointer;
 }
 
-.hero h1 span{
-  color:#d485ff;
+.hero-play:active{
+  transform:scale(.97);
 }
 
-.hero p{
-  font-size:12px;
-  line-height:1.5;
-  color:#d8cae9;
+.section-title{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  margin:28px 4px 14px;
+  font-size:23px;
+  font-weight:1000;
+  letter-spacing:.3px;
 }
 
-.badge{
-  display:inline-block;
-  padding:7px 10px;
-  border:1px solid #9d4ee0;
-  border-radius:20px;
-  color:#e2b0ff;
-  font-size:9px;
-}
-
-.title{
-  font-size:20px;
-  font-weight:900;
-  margin:24px 3px 12px;
+.section-title::after{
+  content:"";
+  height:1px;
+  flex:1;
+  background:linear-gradient(90deg,rgba(167,75,245,.35),transparent);
 }
 
 .grid{
   display:grid;
-  grid-template-columns:1fr 1fr;
+  grid-template-columns:repeat(2,minmax(0,1fr));
   gap:12px;
 }
 
 .game{
   position:relative;
-  min-height:275px;
-  overflow:hidden;
-  border-radius:25px;
+  display:flex;
+  flex-direction:column;
+  min-width:0;
+  min-height:342px;
   padding:17px;
-  border:1px solid #7130a9;
-  background:
-    radial-gradient(circle at 100% 0%,#512080,transparent 38%),
-    linear-gradient(145deg,#1b0d31,#0b0614);
+  overflow:hidden;
   text-decoration:none;
   color:#fff;
+  border:1px solid rgba(139,48,169,.78);
+  border-radius:25px;
+  background:
+    radial-gradient(circle at 100% 0%,rgba(111,40,165,.46),transparent 36%),
+    linear-gradient(145deg,#1b0d31,#0b0614);
+  box-shadow:0 12px 30px rgba(0,0,0,.16);
+}
+
+.game::before{
+  content:"";
+  position:absolute;
+  width:120px;
+  height:120px;
+  top:-72px;
+  right:-42px;
+  border-radius:50%;
+  border:1px solid rgba(193,96,255,.13);
+  box-shadow:
+    0 0 0 20px rgba(193,96,255,.025),
+    0 0 0 40px rgba(193,96,255,.018);
+}
+
+.game::after{
+  content:"✦";
+  position:absolute;
+  right:14px;
+  top:12px;
+  color:rgba(218,141,255,.46);
+  font-size:16px;
 }
 
 .game h2{
+  position:relative;
+  z-index:2;
+  min-height:44px;
   margin:0;
   font-size:18px;
+  line-height:1.25;
 }
 
-.game img{
+.game-art{
+  position:relative;
+  z-index:2;
   width:100%;
-  height:145px;
+  height:155px;
+  margin:7px 0 8px;
+  overflow:hidden;
+  border-radius:18px;
+}
+
+.game-art img{
+  display:block;
+  width:100%;
+  height:100%;
   object-fit:contain;
-  margin-top:8px;
+  object-position:center;
+  transition:transform .25s ease;
+}
+
+.game:hover .game-art img{
+  transform:scale(1.025);
 }
 
 .game p{
+  position:relative;
+  z-index:2;
+  min-height:32px;
+  margin:0 0 12px;
   font-size:11px;
-  color:#b8a9c9;
-  margin:0;
+  line-height:1.35;
+  color:#c5b4d2;
 }
 
 .action{
-  position:absolute;
-  left:14px;
-  right:14px;
-  bottom:14px;
-  padding:10px;
-  text-align:center;
-  border-radius:13px;
+  position:relative;
+  z-index:2;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  width:100%;
+  min-height:44px;
+  margin-top:auto;
+  border-radius:14px;
   background:linear-gradient(90deg,#6d2bc3,#b55cff);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.18),
+    0 10px 20px rgba(90,31,167,.22);
   font-size:11px;
-  font-weight:900;
+  font-weight:1000;
 }
 
 .bonuses{
   display:grid;
-  grid-template-columns:repeat(3,1fr);
+  grid-template-columns:repeat(3,minmax(0,1fr));
   gap:9px;
 }
 
 .bonus{
-  border:1px solid #653094;
-  color:#fff;
-  text-align:center;
-  min-height:130px;
-  padding:10px;
-  border-radius:20px;
-  background:#160b27;
+  position:relative;
+  min-width:0;
+  min-height:146px;
+  overflow:hidden;
+  padding:12px 8px;
   cursor:pointer;
+  color:#fff;
+  border:1px solid rgba(101,48,148,.9);
+  border-radius:21px;
+  background:
+    radial-gradient(circle at 50% 0%,rgba(117,44,183,.22),transparent 45%),
+    #160b27;
+}
+
+.bonus::after{
+  content:"✦";
+  position:absolute;
+  right:9px;
+  top:6px;
+  color:rgba(205,120,255,.42);
+  font-size:13px;
 }
 
 .bonus img{
-  width:65px;
-  height:65px;
+  display:block;
+  width:68px;
+  height:68px;
+  margin:0 auto 6px;
   object-fit:contain;
 }
 
 .bonus span{
   display:block;
   font-size:9px;
-  color:#d7c7e5;
+  line-height:1.35;
+  color:#e1d5e9;
   font-weight:bold;
 }
 
 .bottom{
   position:fixed;
-  bottom:0;
   left:0;
   right:0;
-  background:rgba(10,5,18,.97);
-  border-top:1px solid #663097;
-  z-index:10;
+  bottom:0;
+  z-index:20;
+  padding-bottom:env(safe-area-inset-bottom);
+  border-top:1px solid rgba(109,48,151,.8);
+  background:
+    linear-gradient(180deg,rgba(16,7,28,.94),rgba(7,3,13,.98));
+  backdrop-filter:blur(14px);
 }
 
 .nav{
@@ -252,32 +454,49 @@ button{
   margin:auto;
   display:flex;
   justify-content:space-around;
-  padding:8px 2px 16px;
+  padding:8px 2px 14px;
 }
 
 .nav a{
+  position:relative;
   width:20%;
+  min-width:0;
+  padding:4px 0;
   text-align:center;
   text-decoration:none;
-  color:#887996;
+  color:#a392b0;
   font-size:8px;
-  font-weight:bold;
+  line-height:1.15;
+  font-weight:1000;
 }
 
 .nav img{
   display:block;
-  width:40px;
-  height:40px;
+  width:44px;
+  height:44px;
+  margin:0 auto 4px;
   object-fit:contain;
-  margin:auto;
 }
 
 .nav .active{
-  color:#dda6ff;
+  color:#f0caff;
+}
+
+.nav .active::after{
+  content:"";
+  position:absolute;
+  width:5px;
+  height:5px;
+  left:50%;
+  bottom:-2px;
+  transform:translateX(-50%);
+  border-radius:50%;
+  background:#f2b4ff;
+  box-shadow:0 0 10px #d35cff;
 }
 
 .nav .active img{
-  filter:drop-shadow(0 0 8px #b65cff);
+  filter:drop-shadow(0 0 10px rgba(198,91,255,.9));
 }
 
 /* SHOP */
@@ -295,30 +514,35 @@ button{
 .shop{
   width:100%;
   max-width:600px;
-  margin:auto;
   max-height:88vh;
+  margin:auto;
   overflow:auto;
   padding:22px 15px 35px;
+  border:1px solid #a84cff;
+  border-bottom:0;
   border-radius:30px 30px 0 0;
-  background:linear-gradient(180deg,#281043,#0d0718);
-  border-top:1px solid #a84cff;
+  background:
+    radial-gradient(circle at 85% 0%,rgba(139,53,214,.25),transparent 28%),
+    linear-gradient(180deg,#281043,#0d0718);
 }
 
 .shop-head{
   display:flex;
   justify-content:space-between;
   align-items:center;
+  gap:12px;
 }
 
 .shop h2{
   margin:0;
   color:#e1adff;
+  font-size:22px;
 }
 
 .close{
   width:42px;
   height:42px;
-  border:0;
+  flex:0 0 42px;
   border-radius:50%;
   background:#301548;
   color:#fff;
@@ -336,16 +560,19 @@ button{
   display:flex;
   align-items:center;
   justify-content:space-between;
+  gap:10px;
   margin:10px 0;
   padding:14px;
-  border-radius:20px;
   border:1px solid #68309c;
+  border-radius:20px;
   background:#180b2a;
   color:#fff;
   cursor:pointer;
 }
 
-.pack:active{
+.pack:active,
+.copy-btn:active,
+.paid-btn:active{
   transform:scale(.98);
 }
 
@@ -372,6 +599,7 @@ button{
 }
 
 .price{
+  flex:0 0 auto;
   padding:10px 14px;
   border-radius:14px;
   background:linear-gradient(90deg,#6d2bc3,#b55cff);
@@ -384,9 +612,9 @@ button{
   display:none;
   margin-top:15px;
   padding:18px;
+  border:1px solid #8e45ca;
   border-radius:22px;
   background:#180b2a;
-  border:1px solid #8e45ca;
 }
 
 .payment-title{
@@ -399,15 +627,15 @@ button{
 .payment-info{
   padding:14px;
   margin:10px 0;
+  border:1px solid #43205f;
   border-radius:16px;
   background:#100719;
-  border:1px solid #43205f;
 }
 
 .payment-label{
+  margin-bottom:5px;
   color:#bca7ca;
   font-size:11px;
-  margin-bottom:5px;
 }
 
 .payment-value{
@@ -423,34 +651,26 @@ button{
   font-weight:1000;
 }
 
-.copy-btn{
+.copy-btn,
+.paid-btn{
   width:100%;
-  border:0;
-  border-radius:14px;
   padding:13px;
   margin-top:5px;
+  border-radius:14px;
   color:#fff;
   font-weight:bold;
   font-size:14px;
-  background:linear-gradient(90deg,#6d2bc3,#b55cff);
   cursor:pointer;
 }
 
-.copy-btn:active{
-  transform:scale(.98);
+.copy-btn{
+  background:linear-gradient(90deg,#6d2bc3,#b55cff);
 }
 
 .paid-btn{
-  width:100%;
-  border:0;
-  border-radius:14px;
-  padding:14px;
   margin-top:10px;
-  color:#fff;
-  font-weight:900;
-  font-size:15px;
+  padding:14px;
   background:linear-gradient(90deg,#147b58,#32b98b);
-  cursor:pointer;
 }
 
 .warning{
@@ -472,17 +692,83 @@ button{
   line-height:1.5;
 }
 
-@media(max-width:380px){
+@media(max-width:420px){
+  .app{
+    padding-left:12px;
+    padding-right:12px;
+  }
+
+  .logo{
+    font-size:32px;
+  }
+
+  .balance{
+    min-width:146px;
+  }
+
+  .hero-image{
+    min-height:220px;
+  }
+
+  .game{
+    min-height:318px;
+    padding:14px;
+  }
+
+  .game-art{
+    height:138px;
+  }
+
+  .game h2{
+    font-size:17px;
+  }
+}
+
+@media(max-width:360px){
   .logo{
     font-size:29px;
   }
 
-  .hero h1{
-    font-size:23px;
+  .logo small{
+    font-size:7px;
+  }
+
+  .balance{
+    min-width:136px;
+    padding:7px;
+  }
+
+  .balance img{
+    width:32px;
+    height:32px;
+    flex-basis:32px;
+  }
+
+  .balance strong{
+    font-size:16px;
+  }
+
+  .plus{
+    width:28px;
+    height:28px;
   }
 
   .game{
-    min-height:255px;
+    min-height:300px;
+    padding:12px;
+  }
+
+  .game h2{
+    font-size:16px;
+  }
+
+  .game-art{
+    height:125px;
+  }
+
+  .nav img{
+    width:40px;
+    height:40px;
   }
 }
 </style>
@@ -492,88 +778,107 @@ button{
 
 <div class="app">
 
-<header class="header">
-
-  <div class="logo">
-    NEXI
-    <small>PLAY • WIN • FLEX</small>
-  </div>
-
-  <div class="balance">
-    <img src="assets/gem.png" alt="">
-    <div>
-      <strong id="coins">500</strong>
-      <span>NEXI COINS</span>
+  <header class="header">
+    <div class="logo">
+      NEXI
+      <small>PLAY • WIN • FLEX</small>
     </div>
-    <button class="plus" onclick="openShop()">+</button>
+
+    <div class="balance">
+      <img src="assets/balance-crystal.png" alt="NEXI Coins">
+      <div>
+        <strong id="coins">250</strong>
+        <span>NEXI COINS</span>
+      </div>
+      <button class="plus" type="button" onclick="openShop()">+</button>
+    </div>
+  </header>
+
+  <section class="hero">
+    <img class="hero-image" src="assets/nexi-welcome.png" alt="Приветствие от Нэкси">
+
+    <button
+      class="hero-play"
+      type="button"
+      aria-label="Начать играть"
+      onclick="document.getElementById('games').scrollIntoView({behavior:'smooth'})">
+    </button>
+  </section>
+
+  <div class="section-title" id="games">ИГРЫ</div>
+
+  <div class="grid">
+
+    <a class="game" href="cases.html">
+      <h2>MM2<br>CASES</h2>
+
+      <div class="game-art">
+        <img src="assets/mm2-cases.png" alt="MM2 Cases">
+      </div>
+
+      <p>Открывай кейсы и получай предметы!</p>
+
+      <div class="action">ОТКРЫТЬ →</div>
+    </a>
+
+    <a class="game" href="cases.html">
+      <h2>ADOPT ME<br>CASES</h2>
+
+      <div class="game-art">
+        <img src="assets/adopt-me-cases.png" alt="Adopt Me Cases">
+      </div>
+
+      <p>Собирай питомцев и коллекцию!</p>
+
+      <div class="action">ОТКРЫТЬ →</div>
+    </a>
+
+    <a class="game" href="games.html">
+      <h2>CRASH</h2>
+
+      <div class="game-art">
+        <img src="assets/crash.png" alt="Crash">
+      </div>
+
+      <p>Успей забрать выигрыш!</p>
+
+      <div class="action">ИГРАТЬ →</div>
+    </a>
+
+    <a class="game" href="games.html">
+      <h2>РУЛЕТКА</h2>
+
+      <div class="game-art">
+        <img src="assets/roulette.png" alt="Рулетка">
+      </div>
+
+      <p>Испытай свою удачу!</p>
+
+      <div class="action">КРУТИТЬ →</div>
+    </a>
+
   </div>
 
-</header>
+  <div class="section-title">БОНУСЫ</div>
 
-<section class="hero">
-  <img class="nexi" src="assets/nexi.png" alt="Nexi">
+  <div class="bonuses">
 
-  <div class="hero-text">
-    <h1>ПРИВЕТ,<br><span>Я НЭКСИ!</span></h1>
-    <p>Выбирай игру и начинай своё приключение!</p>
-    <div class="badge">LET'S PLAY</div>
+    <button class="bonus" type="button" onclick="claimDailyBonus()">
+      <img src="assets/bonus-gift.png" alt="">
+      <span>Ежедневный<br>бонус +100</span>
+    </button>
+
+    <button class="bonus" type="button" onclick="location.href='profile.html#top'">
+      <img src="assets/crystal-cluster.png" alt="">
+      <span>Топ<br>игроков</span>
+    </button>
+
+    <button class="bonus" type="button" onclick="location.href='profile.html#tasks'">
+      <img src="assets/nexi-coin.png" alt="">
+      <span>Задания<br>и награды</span>
+    </button>
+
   </div>
-</section>
-
-<div class="title">ИГРЫ</div>
-
-<div class="grid">
-
-  <a class="game" href="cases.html">
-    <h2>MM2<br>CASES</h2>
-    <img src="assets/mm2.png" alt="">
-    <p>Открывай кейсы и получай предметы!</p>
-    <div class="action">ОТКРЫТЬ →</div>
-  </a>
-
-  <a class="game" href="cases.html">
-    <h2>ADOPT ME<br>CASES</h2>
-    <img src="assets/adopt.png" alt="">
-    <p>Собирай питомцев и коллекцию!</p>
-    <div class="action">ОТКРЫТЬ →</div>
-  </a>
-
-  <a class="game" href="games.html">
-    <h2>CRASH</h2>
-    <img src="assets/crash.png" alt="">
-    <p>Успей забрать выигрыш!</p>
-    <div class="action">ИГРАТЬ →</div>
-  </a>
-
-  <a class="game" href="games.html">
-    <h2>РУЛЕТКА</h2>
-    <img src="assets/roulette.png" alt="">
-    <p>Испытай свою удачу!</p>
-    <div class="action">КРУТИТЬ →</div>
-  </a>
-
-</div>
-
-<div class="title">БОНУСЫ</div>
-
-<div class="bonuses">
-
-  <button class="bonus" onclick="location.href='profile.html#daily'">
-    <img src="assets/daily.png" alt="">
-    <span>Ежедневный<br>бонус</span>
-  </button>
-
-  <button class="bonus" onclick="location.href='profile.html#top'">
-    <img src="assets/top.png" alt="">
-    <span>Топ<br>игроков</span>
-  </button>
-
-  <button class="bonus" onclick="location.href='profile.html#tasks'">
-    <img src="assets/tasks.png" alt="">
-    <span>Задания<br>и награды</span>
-  </button>
-
-</div>
 
 </div>
 
@@ -586,68 +891,97 @@ button{
 
     <div class="shop-head">
       <h2>ПОПОЛНИТЬ БАЛАНС</h2>
-      <button class="close" onclick="closeShop()">×</button>
+
+      <button
+        class="close"
+        type="button"
+        onclick="closeShop()">
+        ×
+      </button>
     </div>
 
     <p>Выбери пакет NEXI Coins</p>
 
-    <button class="pack" onclick="buyPack(100,20)">
+
+    <button class="pack" type="button" onclick="buyPack(100,20)">
       <div class="pack-left">
-        <img src="assets/gem.png" alt="">
+
+        <img src="assets/nexi-coin.png" alt="">
+
         <div>
           <strong>100 COINS</strong>
           <small>Мини пакет</small>
         </div>
+
       </div>
+
       <div class="price">20 ₽</div>
     </button>
 
-    <button class="pack" onclick="buyPack(250,50)">
+
+    <button class="pack" type="button" onclick="buyPack(250,50)">
       <div class="pack-left">
-        <img src="assets/gem.png" alt="">
+
+        <img src="assets/nexi-coin.png" alt="">
+
         <div>
           <strong>250 COINS</strong>
           <small>Малый пакет</small>
         </div>
+
       </div>
+
       <div class="price">50 ₽</div>
     </button>
 
-    <button class="pack" onclick="buyPack(600,100)">
+
+    <button class="pack" type="button" onclick="buyPack(600,100)">
       <div class="pack-left">
-        <img src="assets/gem.png" alt="">
+
+        <img src="assets/coin-stack.png" alt="">
+
         <div>
           <strong>600 COINS</strong>
           <small>Средний пакет</small>
         </div>
+
       </div>
+
       <div class="price">100 ₽</div>
     </button>
 
-    <button class="pack" onclick="buyPack(1500,200)">
+
+    <button class="pack" type="button" onclick="buyPack(1500,200)">
       <div class="pack-left">
-        <img src="assets/gem.png" alt="">
+
+        <img src="assets/coin-stack.png" alt="">
+
         <div>
           <strong>1500 COINS</strong>
           <small>Большой пакет</small>
         </div>
+
       </div>
+
       <div class="price">200 ₽</div>
     </button>
 
-    <button class="pack" onclick="buyPack(3000,350)">
+
+    <button class="pack" type="button" onclick="buyPack(3000,350)">
       <div class="pack-left">
-        <img src="assets/gem.png" alt="">
+
+        <img src="assets/coin-stack.png" alt="">
+
         <div>
           <strong>3000 COINS</strong>
           <small>VIP пакет</small>
         </div>
+
       </div>
+
       <div class="price">350 ₽</div>
     </button>
 
-
-    <!-- ОКНО ОПЛАТЫ -->
 
     <div class="payment-box" id="paymentBox">
 
@@ -655,37 +989,54 @@ button{
         Оплата NEXI Coins 💜
       </div>
 
+
       <div class="payment-info">
         <div class="payment-label">Пакет</div>
-        <div class="payment-value" id="selectedPack">
-          —
-        </div>
+        <div class="payment-value" id="selectedPack">—</div>
       </div>
+
 
       <div class="payment-info">
         <div class="payment-label">Сумма к оплате</div>
-        <div class="payment-amount" id="selectedPrice">
-          —
-        </div>
+        <div class="payment-amount" id="selectedPrice">—</div>
       </div>
 
+
       <div class="payment-info">
-        <div class="payment-label">Переведи на карту Сбербанка</div>
+        <div class="payment-label">
+          Переведи на карту Сбербанка
+        </div>
+
         <div class="payment-value" id="cardNumber">
           2202208259839729
         </div>
       </div>
 
-      <button class="copy-btn" onclick="copyCard()">
+
+      <button
+        class="copy-btn"
+        type="button"
+        onclick="copyCard()">
+
         📋 СКОПИРОВАТЬ НОМЕР КАРТЫ
+
       </button>
 
-      <button class="paid-btn" onclick="confirmPayment()">
+
+      <button
+        class="paid-btn"
+        type="button"
+        onclick="confirmPayment()">
+
         ✓ Я ОПЛАТИЛ(А)
+
       </button>
+
 
       <div class="warning">
-        После перевода нажми «Я оплатил(а)». Заявка на выбранный пакет будет отправлена в Telegram-бот.
+        После перевода нажми «Я оплатил(а)».
+        Заявка на выбранный пакет будет отправлена
+        в Telegram-бот.
       </div>
 
     </div>
@@ -701,34 +1052,40 @@ button{
 <!-- НИЖНЕЕ МЕНЮ -->
 
 <nav class="bottom">
+
   <div class="nav">
 
     <a class="active" href="index.html">
-      <img src="assets/home.png" alt="">
+      <img src="assets/nav-home.png" alt="">
       ГЛАВНАЯ
     </a>
 
+
     <a href="cases.html">
-      <img src="assets/cases.png" alt="">
+      <img src="assets/nav-cases.png" alt="">
       КЕЙСЫ
     </a>
 
+
     <a href="games.html">
-      <img src="assets/games.png" alt="">
+      <img src="assets/nav-games.png" alt="">
       ИГРЫ
     </a>
 
+
     <a href="inventory.html">
-      <img src="assets/inventory.png" alt="">
+      <img src="assets/nav-inventory.png" alt="">
       ИНВЕНТАРЬ
     </a>
 
+
     <a href="profile.html">
-      <img src="assets/profile.png" alt="">
+      <img src="assets/nav-profile.png" alt="">
       ПРОФИЛЬ
     </a>
 
   </div>
+
 </nav>
 
 
@@ -742,15 +1099,22 @@ if(tg){
 }
 
 
-/* БАЛАНС */
+/* =========================
+   БАЛАНС
+========================= */
 
 function getCoins(){
 
   let coins = localStorage.getItem("nexiCoins");
 
   if(coins === null){
-    coins = 500;
-    localStorage.setItem("nexiCoins",coins);
+
+    coins = 250;
+
+    localStorage.setItem(
+      "nexiCoins",
+      coins
+    );
   }
 
   return Number(coins);
@@ -765,44 +1129,173 @@ function updateCoins(){
 }
 
 
-/* МАГАЗИН */
+/* =========================
+   ЕЖЕДНЕВНЫЙ БОНУС
+========================= */
+
+function getTodayKey(){
+
+  const now = new Date();
+
+  const year = now.getFullYear();
+
+  const month =
+    String(now.getMonth() + 1).padStart(2,"0");
+
+  const day =
+    String(now.getDate()).padStart(2,"0");
+
+  return year + "-" + month + "-" + day;
+}
+
+
+function claimDailyBonus(){
+
+  const today = getTodayKey();
+
+  const lastClaim =
+    localStorage.getItem("nexiDailyBonusDate");
+
+
+  if(lastClaim === today){
+
+    const message =
+      "Ты уже забрал(а) ежедневный бонус сегодня 💜\nВозвращайся завтра!";
+
+    if(tg && tg.showAlert){
+
+      tg.showAlert(message);
+
+    }else{
+
+      alert(message);
+
+    }
+
+    return;
+  }
+
+
+  const newBalance =
+    getCoins() + 100;
+
+
+  localStorage.setItem(
+    "nexiCoins",
+    newBalance
+  );
+
+
+  localStorage.setItem(
+    "nexiDailyBonusDate",
+    today
+  );
+
+
+  updateCoins();
+
+
+  const message =
+    "🎁 Ежедневный бонус получен!\n+100 NEXI COINS 💎";
+
+
+  if(tg && tg.showPopup){
+
+    tg.showPopup({
+      title:"БОНУС ПОЛУЧЕН!",
+      message:"+100 NEXI COINS уже начислены на баланс 💜",
+      buttons:[
+        {
+          type:"close"
+        }
+      ]
+    });
+
+  }else{
+
+    alert(message);
+
+  }
+
+}
+
+
+/* =========================
+   МАГАЗИН
+========================= */
 
 function openShop(){
 
-  document.getElementById("shopOverlay").style.display = "flex";
+  document.getElementById(
+    "shopOverlay"
+  ).style.display = "flex";
 
 }
 
 
 function closeShop(){
 
-  document.getElementById("shopOverlay").style.display = "none";
+  document.getElementById(
+    "shopOverlay"
+  ).style.display = "none";
 
-  document.getElementById("paymentBox").style.display = "none";
 
-  document.getElementById("paymentNotice").style.display = "none";
+  document.getElementById(
+    "paymentBox"
+  ).style.display = "none";
+
+
+  document.getElementById(
+    "paymentNotice"
+  ).style.display = "none";
 
 }
 
 
-/* ВЫБОР ПАКЕТА */
+/* =========================
+   ВЫБОР ПАКЕТА
+========================= */
 
 function buyPack(coins,price){
 
-  localStorage.setItem("selectedCoins",coins);
-  localStorage.setItem("selectedPrice",price);
+  localStorage.setItem(
+    "selectedCoins",
+    coins
+  );
 
-  document.getElementById("selectedPack").textContent =
-    coins.toLocaleString("ru-RU") + " NEXI COINS";
 
-  document.getElementById("selectedPrice").textContent =
+  localStorage.setItem(
+    "selectedPrice",
+    price
+  );
+
+
+  document.getElementById(
+    "selectedPack"
+  ).textContent =
+    coins.toLocaleString("ru-RU") +
+    " NEXI COINS";
+
+
+  document.getElementById(
+    "selectedPrice"
+  ).textContent =
     price + " ₽";
 
-  document.getElementById("paymentBox").style.display = "block";
 
-  document.getElementById("paymentNotice").style.display = "none";
+  document.getElementById(
+    "paymentBox"
+  ).style.display = "block";
 
-  document.getElementById("paymentBox").scrollIntoView({
+
+  document.getElementById(
+    "paymentNotice"
+  ).style.display = "none";
+
+
+  document.getElementById(
+    "paymentBox"
+  ).scrollIntoView({
     behavior:"smooth",
     block:"nearest"
   });
@@ -810,62 +1303,99 @@ function buyPack(coins,price){
 }
 
 
-/* КОПИРОВАНИЕ КАРТЫ */
+/* =========================
+   КОПИРОВАНИЕ КАРТЫ
+========================= */
 
 async function copyCard(){
 
-  const card = "2202208259839729";
+  const card =
+    "2202208259839729";
+
 
   try{
 
-    await navigator.clipboard.writeText(card);
+    await navigator.clipboard.writeText(
+      card
+    );
+
 
     if(tg && tg.showAlert){
-      tg.showAlert("Номер карты скопирован 💜");
+
+      tg.showAlert(
+        "Номер карты скопирован 💜"
+      );
+
     }else{
-      alert("Номер карты скопирован: " + card);
+
+      alert(
+        "Номер карты скопирован: " +
+        card
+      );
+
     }
 
   }catch(error){
 
-    const textArea = document.createElement("textarea");
+    const textArea =
+      document.createElement("textarea");
+
 
     textArea.value = card;
 
-    document.body.appendChild(textArea);
+
+    document.body.appendChild(
+      textArea
+    );
+
 
     textArea.select();
 
+
     document.execCommand("copy");
+
 
     textArea.remove();
 
-    alert("Номер карты скопирован 💜");
+
+    alert(
+      "Номер карты скопирован 💜"
+    );
 
   }
 
 }
 
 
-/* ПОДТВЕРЖДЕНИЕ ОПЛАТЫ */
+/* =========================
+   ПОДТВЕРЖДЕНИЕ ОПЛАТЫ
+========================= */
 
 function confirmPayment(){
 
   const coins = Number(
-    localStorage.getItem("selectedCoins") || 0
+    localStorage.getItem(
+      "selectedCoins"
+    ) || 0
   );
 
+
   const price = Number(
-    localStorage.getItem("selectedPrice") || 0
+    localStorage.getItem(
+      "selectedPrice"
+    ) || 0
   );
+
 
   if(!coins || !price){
 
-    alert("Сначала выбери пакет");
+    alert(
+      "Сначала выбери пакет"
+    );
 
     return;
-
   }
+
 
   const paymentData = {
 
@@ -882,8 +1412,6 @@ function confirmPayment(){
   };
 
 
-  /* Сохраняем заявку */
-
   localStorage.setItem(
     "nexiPendingPayment",
     JSON.stringify(paymentData)
@@ -891,21 +1419,27 @@ function confirmPayment(){
 
 
   const notice =
-    document.getElementById("paymentNotice");
+    document.getElementById(
+      "paymentNotice"
+    );
+
 
   notice.style.display = "block";
 
+
   notice.innerHTML =
     "💜 <b>Заявка создана!</b><br><br>" +
-    "Пакет: <b>" + coins + " NEXI COINS</b><br>" +
-    "Сумма: <b>" + price + " ₽</b><br><br>" +
+
+    "Пакет: <b>" +
+    coins +
+    " NEXI COINS</b><br>" +
+
+    "Сумма: <b>" +
+    price +
+    " ₽</b><br><br>" +
+
     "После проверки оплаты NEXI Coins будут начислены.";
 
-
-  /*
-    Отправляем данные в Telegram-бот,
-    если Mini App поддерживает sendData
-  */
 
   try{
 
@@ -956,9 +1490,33 @@ function confirmPayment(){
 }
 
 
+/* =========================
+   ЗАКРЫТИЕ МАГАЗИНА ПО ФОНУ
+========================= */
+
+document
+  .getElementById("shopOverlay")
+  .addEventListener(
+    "click",
+    function(event){
+
+      if(event.target === this){
+
+        closeShop();
+
+      }
+
+    }
+  );
+
+
+/* =========================
+   ЗАПУСК
+========================= */
+
 updateCoins();
 
 </script>
 
 </body>
-  </html>
+        </html>
