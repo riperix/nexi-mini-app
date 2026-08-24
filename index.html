@@ -1,14 +1,18 @@
-```html
 <!DOCTYPE html>
 <html lang="ru">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>NEXI</title>
+
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
 
 <style>
-*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+*{
+  box-sizing:border-box;
+  -webkit-tap-highlight-color:transparent;
+}
+
 body{
   margin:0;
   font-family:Arial,sans-serif;
@@ -19,109 +23,467 @@ body{
     radial-gradient(circle at 90% 20%,#240b45,transparent 28%),
     #090411;
 }
-.app{max-width:600px;margin:auto;padding:18px 14px 110px}
-.header{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:18px}
+
+button{
+  font-family:inherit;
+}
+
+.app{
+  max-width:600px;
+  margin:auto;
+  padding:18px 14px 110px;
+}
+
+.header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:10px;
+  margin-bottom:18px;
+}
+
 .logo{
-  font-size:35px;font-weight:1000;letter-spacing:-2px;
+  font-size:35px;
+  font-weight:1000;
+  letter-spacing:-2px;
   background:linear-gradient(135deg,#fff,#dca8ff,#9144ff);
-  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
 }
-.logo small{display:block;font-size:8px;letter-spacing:2px;margin-top:-2px}
+
+.logo small{
+  display:block;
+  font-size:8px;
+  letter-spacing:2px;
+  margin-top:-2px;
+}
+
 .balance{
-  display:flex;align-items:center;gap:7px;
-  background:#1b0c30;border:1px solid #7636ad;
-  border-radius:18px;padding:8px 10px;
+  display:flex;
+  align-items:center;
+  gap:7px;
+  background:#1b0c30;
+  border:1px solid #7636ad;
+  border-radius:18px;
+  padding:8px 10px;
 }
-.balance img{width:34px;height:34px;object-fit:contain}
-.balance strong{display:block;font-size:16px}
-.balance span{font-size:8px;color:#c6addb}
+
+.balance img{
+  width:34px;
+  height:34px;
+  object-fit:contain;
+}
+
+.balance strong{
+  display:block;
+  font-size:16px;
+}
+
+.balance span{
+  font-size:8px;
+  color:#c6addb;
+}
+
 .plus{
-  width:28px;height:28px;border:0;border-radius:10px;
+  width:28px;
+  height:28px;
+  border:0;
+  border-radius:10px;
   background:linear-gradient(135deg,#d179ff,#702dcc);
-  color:#fff;font-size:20px;cursor:pointer;
+  color:#fff;
+  font-size:20px;
+  cursor:pointer;
 }
+
 .hero{
-  position:relative;min-height:265px;border-radius:30px;overflow:hidden;
-  padding:24px;border:1px solid #8b3bd0;
-  background:radial-gradient(circle at 10% 100%,#5c1ca3,transparent 42%),linear-gradient(135deg,#210d3d,#0d0718);
+  position:relative;
+  min-height:265px;
+  border-radius:30px;
+  overflow:hidden;
+  padding:24px;
+  border:1px solid #8b3bd0;
+  background:
+    radial-gradient(circle at 10% 100%,#5c1ca3,transparent 42%),
+    linear-gradient(135deg,#210d3d,#0d0718);
 }
-.nexi{position:absolute;left:0;bottom:0;width:56%;height:245px;object-fit:contain;object-position:bottom}
-.hero-text{position:relative;z-index:2;width:52%;margin-left:auto;padding-top:40px}
-.hero h1{font-size:27px;line-height:1;margin:0 0 12px}
-.hero h1 span{color:#d485ff}
-.hero p{font-size:12px;line-height:1.5;color:#d8cae9}
-.badge{display:inline-block;padding:7px 10px;border:1px solid #9d4ee0;border-radius:20px;color:#e2b0ff;font-size:9px}
-.title{font-size:20px;font-weight:900;margin:24px 3px 12px}
-.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+
+.nexi{
+  position:absolute;
+  left:0;
+  bottom:0;
+  width:56%;
+  height:245px;
+  object-fit:contain;
+  object-position:bottom;
+}
+
+.hero-text{
+  position:relative;
+  z-index:2;
+  width:52%;
+  margin-left:auto;
+  padding-top:40px;
+}
+
+.hero h1{
+  font-size:27px;
+  line-height:1;
+  margin:0 0 12px;
+}
+
+.hero h1 span{
+  color:#d485ff;
+}
+
+.hero p{
+  font-size:12px;
+  line-height:1.5;
+  color:#d8cae9;
+}
+
+.badge{
+  display:inline-block;
+  padding:7px 10px;
+  border:1px solid #9d4ee0;
+  border-radius:20px;
+  color:#e2b0ff;
+  font-size:9px;
+}
+
+.title{
+  font-size:20px;
+  font-weight:900;
+  margin:24px 3px 12px;
+}
+
+.grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px;
+}
+
 .game{
-  position:relative;min-height:275px;overflow:hidden;border-radius:25px;padding:17px;
+  position:relative;
+  min-height:275px;
+  overflow:hidden;
+  border-radius:25px;
+  padding:17px;
   border:1px solid #7130a9;
-  background:radial-gradient(circle at 100% 0%,#512080,transparent 38%),linear-gradient(145deg,#1b0d31,#0b0614);
-  text-decoration:none;color:#fff;
+  background:
+    radial-gradient(circle at 100% 0%,#512080,transparent 38%),
+    linear-gradient(145deg,#1b0d31,#0b0614);
+  text-decoration:none;
+  color:#fff;
 }
-.game h2{margin:0;font-size:18px}
-.game img{width:100%;height:145px;object-fit:contain;margin-top:8px}
-.game p{font-size:11px;color:#b8a9c9;margin:0}
+
+.game h2{
+  margin:0;
+  font-size:18px;
+}
+
+.game img{
+  width:100%;
+  height:145px;
+  object-fit:contain;
+  margin-top:8px;
+}
+
+.game p{
+  font-size:11px;
+  color:#b8a9c9;
+  margin:0;
+}
+
 .action{
-  position:absolute;left:14px;right:14px;bottom:14px;padding:10px;text-align:center;
-  border-radius:13px;background:linear-gradient(90deg,#6d2bc3,#b55cff);
-  font-size:11px;font-weight:900;
+  position:absolute;
+  left:14px;
+  right:14px;
+  bottom:14px;
+  padding:10px;
+  text-align:center;
+  border-radius:13px;
+  background:linear-gradient(90deg,#6d2bc3,#b55cff);
+  font-size:11px;
+  font-weight:900;
 }
-.bonuses{display:grid;grid-template-columns:repeat(3,1fr);gap:9px}
+
+.bonuses{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:9px;
+}
+
 .bonus{
-  border:1px solid #653094;color:#fff;text-align:center;min-height:130px;padding:10px;
-  border-radius:20px;background:#160b27;cursor:pointer;
+  border:1px solid #653094;
+  color:#fff;
+  text-align:center;
+  min-height:130px;
+  padding:10px;
+  border-radius:20px;
+  background:#160b27;
+  cursor:pointer;
 }
-.bonus img{width:65px;height:65px;object-fit:contain}
-.bonus span{display:block;font-size:9px;color:#d7c7e5;font-weight:bold}
+
+.bonus img{
+  width:65px;
+  height:65px;
+  object-fit:contain;
+}
+
+.bonus span{
+  display:block;
+  font-size:9px;
+  color:#d7c7e5;
+  font-weight:bold;
+}
+
 .bottom{
-  position:fixed;bottom:0;left:0;right:0;background:rgba(10,5,18,.97);
-  border-top:1px solid #663097;z-index:10;
+  position:fixed;
+  bottom:0;
+  left:0;
+  right:0;
+  background:rgba(10,5,18,.97);
+  border-top:1px solid #663097;
+  z-index:10;
 }
-.nav{max-width:600px;margin:auto;display:flex;justify-content:space-around;padding:8px 2px 16px}
-.nav a{width:20%;text-align:center;text-decoration:none;color:#887996;font-size:8px;font-weight:bold}
-.nav img{display:block;width:40px;height:40px;object-fit:contain;margin:auto}
-.nav .active{color:#dda6ff}
-.nav .active img{filter:drop-shadow(0 0 8px #b65cff)}
+
+.nav{
+  max-width:600px;
+  margin:auto;
+  display:flex;
+  justify-content:space-around;
+  padding:8px 2px 16px;
+}
+
+.nav a{
+  width:20%;
+  text-align:center;
+  text-decoration:none;
+  color:#887996;
+  font-size:8px;
+  font-weight:bold;
+}
+
+.nav img{
+  display:block;
+  width:40px;
+  height:40px;
+  object-fit:contain;
+  margin:auto;
+}
+
+.nav .active{
+  color:#dda6ff;
+}
+
+.nav .active img{
+  filter:drop-shadow(0 0 8px #b65cff);
+}
+
+/* SHOP */
 
 .overlay{
-  position:fixed;inset:0;z-index:100;
-  display:none;align-items:flex-end;
-  background:rgba(0,0,0,.7);backdrop-filter:blur(8px);
+  position:fixed;
+  inset:0;
+  z-index:100;
+  display:none;
+  align-items:flex-end;
+  background:rgba(0,0,0,.72);
+  backdrop-filter:blur(8px);
 }
+
 .shop{
-  width:100%;max-width:600px;margin:auto;
-  max-height:85vh;overflow:auto;
+  width:100%;
+  max-width:600px;
+  margin:auto;
+  max-height:88vh;
+  overflow:auto;
   padding:22px 15px 35px;
   border-radius:30px 30px 0 0;
   background:linear-gradient(180deg,#281043,#0d0718);
   border-top:1px solid #a84cff;
 }
-.shop-head{display:flex;justify-content:space-between;align-items:center}
-.shop h2{margin:0;color:#e1adff}
+
+.shop-head{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+
+.shop h2{
+  margin:0;
+  color:#e1adff;
+}
+
 .close{
-  width:38px;height:38px;border:0;border-radius:50%;
-  background:#301548;color:#fff;font-size:22px;cursor:pointer;
+  width:42px;
+  height:42px;
+  border:0;
+  border-radius:50%;
+  background:#301548;
+  color:#fff;
+  font-size:24px;
+  cursor:pointer;
 }
-.shop p{color:#bba8c9;font-size:12px}
+
+.shop p{
+  color:#bba8c9;
+  font-size:13px;
+}
+
 .pack{
-  width:100%;display:flex;align-items:center;justify-content:space-between;
-  margin:10px 0;padding:14px;border-radius:20px;
-  border:1px solid #68309c;background:#180b2a;color:#fff;cursor:pointer;
+  width:100%;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  margin:10px 0;
+  padding:14px;
+  border-radius:20px;
+  border:1px solid #68309c;
+  background:#180b2a;
+  color:#fff;
+  cursor:pointer;
 }
-.pack:hover{border-color:#b75cff}
-.pack-left{display:flex;align-items:center;gap:10px}
-.pack img{width:45px;height:45px;object-fit:contain}
-.pack strong{display:block;font-size:16px}
-.pack small{color:#bda9ca}
+
+.pack:active{
+  transform:scale(.98);
+}
+
+.pack-left{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  text-align:left;
+}
+
+.pack img{
+  width:45px;
+  height:45px;
+  object-fit:contain;
+}
+
+.pack strong{
+  display:block;
+  font-size:16px;
+}
+
+.pack small{
+  color:#bda9ca;
+}
+
 .price{
-  padding:10px 14px;border-radius:14px;
+  padding:10px 14px;
+  border-radius:14px;
   background:linear-gradient(90deg,#6d2bc3,#b55cff);
   font-weight:bold;
 }
+
+/* PAYMENT */
+
+.payment-box{
+  display:none;
+  margin-top:15px;
+  padding:18px;
+  border-radius:22px;
+  background:#180b2a;
+  border:1px solid #8e45ca;
+}
+
+.payment-title{
+  margin:0 0 12px;
+  color:#e4b5ff;
+  font-size:18px;
+  font-weight:900;
+}
+
+.payment-info{
+  padding:14px;
+  margin:10px 0;
+  border-radius:16px;
+  background:#100719;
+  border:1px solid #43205f;
+}
+
+.payment-label{
+  color:#bca7ca;
+  font-size:11px;
+  margin-bottom:5px;
+}
+
+.payment-value{
+  font-size:20px;
+  font-weight:900;
+  letter-spacing:.5px;
+  word-break:break-all;
+}
+
+.payment-amount{
+  color:#fff;
+  font-size:24px;
+  font-weight:1000;
+}
+
+.copy-btn{
+  width:100%;
+  border:0;
+  border-radius:14px;
+  padding:13px;
+  margin-top:5px;
+  color:#fff;
+  font-weight:bold;
+  font-size:14px;
+  background:linear-gradient(90deg,#6d2bc3,#b55cff);
+  cursor:pointer;
+}
+
+.copy-btn:active{
+  transform:scale(.98);
+}
+
+.paid-btn{
+  width:100%;
+  border:0;
+  border-radius:14px;
+  padding:14px;
+  margin-top:10px;
+  color:#fff;
+  font-weight:900;
+  font-size:15px;
+  background:linear-gradient(90deg,#147b58,#32b98b);
+  cursor:pointer;
+}
+
+.warning{
+  margin-top:12px;
+  color:#bba8c9;
+  font-size:11px;
+  line-height:1.5;
+}
+
 .notice{
-  display:none;margin-top:12px;padding:14px;text-align:center;
-  border-radius:16px;background:#1b0c30;color:#e2b6ff;font-size:12px;
+  display:none;
+  margin-top:12px;
+  padding:14px;
+  text-align:center;
+  border-radius:16px;
+  background:#1b0c30;
+  color:#e2b6ff;
+  font-size:12px;
+  line-height:1.5;
+}
+
+@media(max-width:380px){
+  .logo{
+    font-size:29px;
+  }
+
+  .hero h1{
+    font-size:23px;
+  }
+
+  .game{
+    min-height:255px;
+  }
 }
 </style>
 </head>
@@ -131,6 +493,7 @@ body{
 <div class="app">
 
 <header class="header">
+
   <div class="logo">
     NEXI
     <small>PLAY • WIN • FLEX</small>
@@ -144,10 +507,12 @@ body{
     </div>
     <button class="plus" onclick="openShop()">+</button>
   </div>
+
 </header>
 
 <section class="hero">
   <img class="nexi" src="assets/nexi.png" alt="Nexi">
+
   <div class="hero-text">
     <h1>ПРИВЕТ,<br><span>Я НЭКСИ!</span></h1>
     <p>Выбирай игру и начинай своё приключение!</p>
@@ -158,6 +523,7 @@ body{
 <div class="title">ИГРЫ</div>
 
 <div class="grid">
+
   <a class="game" href="cases.html">
     <h2>MM2<br>CASES</h2>
     <img src="assets/mm2.png" alt="">
@@ -185,11 +551,13 @@ body{
     <p>Испытай свою удачу!</p>
     <div class="action">КРУТИТЬ →</div>
   </a>
+
 </div>
 
 <div class="title">БОНУСЫ</div>
 
 <div class="bonuses">
+
   <button class="bonus" onclick="location.href='profile.html#daily'">
     <img src="assets/daily.png" alt="">
     <span>Ежедневный<br>бонус</span>
@@ -204,12 +572,18 @@ body{
     <img src="assets/tasks.png" alt="">
     <span>Задания<br>и награды</span>
   </button>
+
 </div>
 
 </div>
+
+
+<!-- МАГАЗИН -->
 
 <div class="overlay" id="shopOverlay">
+
   <div class="shop">
+
     <div class="shop-head">
       <h2>ПОПОЛНИТЬ БАЛАНС</h2>
       <button class="close" onclick="closeShop()">×</button>
@@ -220,7 +594,10 @@ body{
     <button class="pack" onclick="buyPack(100,20)">
       <div class="pack-left">
         <img src="assets/gem.png" alt="">
-        <div><strong>100 COINS</strong><small>Мини пакет</small></div>
+        <div>
+          <strong>100 COINS</strong>
+          <small>Мини пакет</small>
+        </div>
       </div>
       <div class="price">20 ₽</div>
     </button>
@@ -228,7 +605,10 @@ body{
     <button class="pack" onclick="buyPack(250,50)">
       <div class="pack-left">
         <img src="assets/gem.png" alt="">
-        <div><strong>250 COINS</strong><small>Малый пакет</small></div>
+        <div>
+          <strong>250 COINS</strong>
+          <small>Малый пакет</small>
+        </div>
       </div>
       <div class="price">50 ₽</div>
     </button>
@@ -236,7 +616,10 @@ body{
     <button class="pack" onclick="buyPack(600,100)">
       <div class="pack-left">
         <img src="assets/gem.png" alt="">
-        <div><strong>600 COINS</strong><small>Средний пакет</small></div>
+        <div>
+          <strong>600 COINS</strong>
+          <small>Средний пакет</small>
+        </div>
       </div>
       <div class="price">100 ₽</div>
     </button>
@@ -244,7 +627,10 @@ body{
     <button class="pack" onclick="buyPack(1500,200)">
       <div class="pack-left">
         <img src="assets/gem.png" alt="">
-        <div><strong>1500 COINS</strong><small>Большой пакет</small></div>
+        <div>
+          <strong>1500 COINS</strong>
+          <small>Большой пакет</small>
+        </div>
       </div>
       <div class="price">200 ₽</div>
     </button>
@@ -252,61 +638,327 @@ body{
     <button class="pack" onclick="buyPack(3000,350)">
       <div class="pack-left">
         <img src="assets/gem.png" alt="">
-        <div><strong>3000 COINS</strong><small>VIP пакет</small></div>
+        <div>
+          <strong>3000 COINS</strong>
+          <small>VIP пакет</small>
+        </div>
       </div>
       <div class="price">350 ₽</div>
     </button>
 
+
+    <!-- ОКНО ОПЛАТЫ -->
+
+    <div class="payment-box" id="paymentBox">
+
+      <div class="payment-title">
+        Оплата NEXI Coins 💜
+      </div>
+
+      <div class="payment-info">
+        <div class="payment-label">Пакет</div>
+        <div class="payment-value" id="selectedPack">
+          —
+        </div>
+      </div>
+
+      <div class="payment-info">
+        <div class="payment-label">Сумма к оплате</div>
+        <div class="payment-amount" id="selectedPrice">
+          —
+        </div>
+      </div>
+
+      <div class="payment-info">
+        <div class="payment-label">Переведи на карту Сбербанка</div>
+        <div class="payment-value" id="cardNumber">
+          2202208259839729
+        </div>
+      </div>
+
+      <button class="copy-btn" onclick="copyCard()">
+        📋 СКОПИРОВАТЬ НОМЕР КАРТЫ
+      </button>
+
+      <button class="paid-btn" onclick="confirmPayment()">
+        ✓ Я ОПЛАТИЛ(А)
+      </button>
+
+      <div class="warning">
+        После перевода нажми «Я оплатил(а)». Заявка на выбранный пакет будет отправлена в Telegram-бот.
+      </div>
+
+    </div>
+
+
     <div class="notice" id="paymentNotice"></div>
+
   </div>
+
 </div>
+
+
+<!-- НИЖНЕЕ МЕНЮ -->
 
 <nav class="bottom">
   <div class="nav">
-    <a class="active" href="index.html"><img src="assets/home.png" alt="">ГЛАВНАЯ</a>
-    <a href="cases.html"><img src="assets/cases.png" alt="">КЕЙСЫ</a>
-    <a href="games.html"><img src="assets/games.png" alt="">ИГРЫ</a>
-    <a href="inventory.html"><img src="assets/inventory.png" alt="">ИНВЕНТАРЬ</a>
-    <a href="profile.html"><img src="assets/profile.png" alt="">ПРОФИЛЬ</a>
+
+    <a class="active" href="index.html">
+      <img src="assets/home.png" alt="">
+      ГЛАВНАЯ
+    </a>
+
+    <a href="cases.html">
+      <img src="assets/cases.png" alt="">
+      КЕЙСЫ
+    </a>
+
+    <a href="games.html">
+      <img src="assets/games.png" alt="">
+      ИГРЫ
+    </a>
+
+    <a href="inventory.html">
+      <img src="assets/inventory.png" alt="">
+      ИНВЕНТАРЬ
+    </a>
+
+    <a href="profile.html">
+      <img src="assets/profile.png" alt="">
+      ПРОФИЛЬ
+    </a>
+
   </div>
 </nav>
 
+
 <script>
-const tg=window.Telegram?.WebApp;
-if(tg){tg.ready();tg.expand();}
+
+const tg = window.Telegram?.WebApp;
+
+if(tg){
+  tg.ready();
+  tg.expand();
+}
+
+
+/* БАЛАНС */
 
 function getCoins(){
-  let coins=localStorage.getItem("nexiCoins");
-  if(coins===null){
-    coins=500;
+
+  let coins = localStorage.getItem("nexiCoins");
+
+  if(coins === null){
+    coins = 500;
     localStorage.setItem("nexiCoins",coins);
   }
+
   return Number(coins);
 }
 
+
 function updateCoins(){
-  document.getElementById("coins").textContent=
+
+  document.getElementById("coins").textContent =
     getCoins().toLocaleString("ru-RU");
+
 }
+
+
+/* МАГАЗИН */
 
 function openShop(){
-  document.getElementById("shopOverlay").style.display="flex";
+
+  document.getElementById("shopOverlay").style.display = "flex";
+
 }
+
 
 function closeShop(){
-  document.getElementById("shopOverlay").style.display="none";
+
+  document.getElementById("shopOverlay").style.display = "none";
+
+  document.getElementById("paymentBox").style.display = "none";
+
+  document.getElementById("paymentNotice").style.display = "none";
+
 }
+
+
+/* ВЫБОР ПАКЕТА */
 
 function buyPack(coins,price){
-  const notice=document.getElementById("paymentNotice");
-  notice.style.display="block";
-  notice.innerHTML=
-    "Выбран пакет <b>"+coins+" Coins</b> за <b>"+price+" ₽</b>.<br><br>Настоящая оплата будет подключена следующим этапом.";
+
+  localStorage.setItem("selectedCoins",coins);
+  localStorage.setItem("selectedPrice",price);
+
+  document.getElementById("selectedPack").textContent =
+    coins.toLocaleString("ru-RU") + " NEXI COINS";
+
+  document.getElementById("selectedPrice").textContent =
+    price + " ₽";
+
+  document.getElementById("paymentBox").style.display = "block";
+
+  document.getElementById("paymentNotice").style.display = "none";
+
+  document.getElementById("paymentBox").scrollIntoView({
+    behavior:"smooth",
+    block:"nearest"
+  });
+
 }
 
+
+/* КОПИРОВАНИЕ КАРТЫ */
+
+async function copyCard(){
+
+  const card = "2202208259839729";
+
+  try{
+
+    await navigator.clipboard.writeText(card);
+
+    if(tg && tg.showAlert){
+      tg.showAlert("Номер карты скопирован 💜");
+    }else{
+      alert("Номер карты скопирован: " + card);
+    }
+
+  }catch(error){
+
+    const textArea = document.createElement("textarea");
+
+    textArea.value = card;
+
+    document.body.appendChild(textArea);
+
+    textArea.select();
+
+    document.execCommand("copy");
+
+    textArea.remove();
+
+    alert("Номер карты скопирован 💜");
+
+  }
+
+}
+
+
+/* ПОДТВЕРЖДЕНИЕ ОПЛАТЫ */
+
+function confirmPayment(){
+
+  const coins = Number(
+    localStorage.getItem("selectedCoins") || 0
+  );
+
+  const price = Number(
+    localStorage.getItem("selectedPrice") || 0
+  );
+
+  if(!coins || !price){
+
+    alert("Сначала выбери пакет");
+
+    return;
+
+  }
+
+  const paymentData = {
+
+    type:"payment_request",
+
+    coins:coins,
+
+    price:price,
+
+    card:"2202208259839729",
+
+    date:new Date().toISOString()
+
+  };
+
+
+  /* Сохраняем заявку */
+
+  localStorage.setItem(
+    "nexiPendingPayment",
+    JSON.stringify(paymentData)
+  );
+
+
+  const notice =
+    document.getElementById("paymentNotice");
+
+  notice.style.display = "block";
+
+  notice.innerHTML =
+    "💜 <b>Заявка создана!</b><br><br>" +
+    "Пакет: <b>" + coins + " NEXI COINS</b><br>" +
+    "Сумма: <b>" + price + " ₽</b><br><br>" +
+    "После проверки оплаты NEXI Coins будут начислены.";
+
+
+  /*
+    Отправляем данные в Telegram-бот,
+    если Mini App поддерживает sendData
+  */
+
+  try{
+
+    if(
+      tg &&
+      typeof tg.sendData === "function"
+    ){
+
+      tg.sendData(
+        JSON.stringify(paymentData)
+      );
+
+    }
+
+  }catch(error){
+
+    console.log(
+      "Заявка сохранена локально",
+      error
+    );
+
+  }
+
+
+  if(tg && tg.showPopup){
+
+    tg.showPopup({
+
+      title:"Заявка отправлена 💜",
+
+      message:
+        "Мы получили заявку на " +
+        coins +
+        " NEXI Coins за " +
+        price +
+        " ₽.",
+
+      buttons:[
+        {
+          type:"close"
+        }
+      ]
+
+    });
+
+  }
+
+}
+
+
 updateCoins();
+
 </script>
 
 </body>
-</html>
-```
+  </html>
