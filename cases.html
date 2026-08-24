@@ -1,873 +1,1153 @@
-```html
 <!DOCTYPE html>
 <html lang="ru">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-<title>NEXI CASES</title>
+<title>NEXI CASE</title>
 
 <style>
 *{
-  box-sizing:border-box;
-  -webkit-tap-highlight-color:transparent;
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    -webkit-tap-highlight-color:transparent;
+}
+
+:root{
+    --bg:#0b0614;
+    --card:#1b0f2d;
+    --purple:#7b2fe0;
+    --purple2:#b65cff;
+    --text:#f5efff;
+    --muted:#bdb3ca;
 }
 
 body{
-  margin:0;
-  min-height:100vh;
-  font-family:Arial,sans-serif;
-  color:#fff;
-  background:
-    radial-gradient(circle at 15% 0%,#35115f,transparent 32%),
-    radial-gradient(circle at 90% 35%,#250a45,transparent 30%),
-    #0b0513;
+    font-family:Arial, Helvetica, sans-serif;
+    background:
+        radial-gradient(circle at top, #301052 0%, #12091e 42%, #09050f 100%);
+    color:var(--text);
+    min-height:100vh;
+    padding-bottom:110px;
+    overflow-x:hidden;
 }
 
-.app{
-  max-width:600px;
-  margin:auto;
-  padding:18px 14px 115px;
+/* ВЕРХ */
+
+.topbar{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:22px 22px 12px;
 }
 
-/* ===== HEADER ===== */
-
-.header{
-  display:flex;
-  align-items:center;
-  gap:12px;
-  margin-bottom:20px;
+.back-btn{
+    width:58px;
+    height:58px;
+    border:1px solid #6b3c9b;
+    border-radius:18px;
+    background:#180c27;
+    color:white;
+    font-size:38px;
+    cursor:pointer;
 }
 
-.back{
-  width:42px;
-  height:42px;
-  border:none;
-  border-radius:15px;
-  background:#1b0c30;
-  border:1px solid #7434ae;
-  color:#fff;
-  font-size:28px;
-  cursor:pointer;
+.top-title{
+    font-size:28px;
+    font-weight:900;
+    letter-spacing:1px;
 }
 
-.title-box{
-  flex:1;
+.coins-box{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    background:rgba(34,18,55,.9);
+    border:1px solid #7041a0;
+    border-radius:22px;
+    padding:10px 14px;
+    min-width:150px;
+    justify-content:center;
 }
 
-.title-box h1{
-  margin:0;
-  font-size:24px;
-  letter-spacing:1px;
+.coin-img{
+    width:42px;
+    height:42px;
+    object-fit:contain;
 }
 
-.title-box p{
-  margin:5px 0 0;
-  color:#bba7c9;
-  font-size:10px;
+.coins-number{
+    font-size:25px;
+    font-weight:900;
 }
 
-.balance{
-  display:flex;
-  align-items:center;
-  gap:7px;
-  padding:7px 10px;
-  border-radius:17px;
-  background:#1b0c30;
-  border:1px solid #7434ae;
+.coins-label{
+    font-size:11px;
+    color:#b9afc6;
+    margin-top:2px;
 }
 
-.balance img{
-  width:30px;
-  height:30px;
-  object-fit:contain;
-  filter:drop-shadow(0 0 8px rgba(196,100,255,.7));
+/* ЗАГОЛОВОК */
+
+.page-head{
+    padding:15px 30px 10px;
 }
 
-.balance-info strong{
-  display:block;
-  font-size:15px;
-  color:#e5b1ff;
+.page-head h1{
+    font-size:42px;
+    letter-spacing:1px;
 }
 
-.balance-info span{
-  font-size:7px;
-  color:#b9a4c9;
-  white-space:nowrap;
+.page-head p{
+    margin-top:10px;
+    color:var(--muted);
+    font-size:17px;
 }
 
-/* ===== TABS ===== */
+/* ИГРЫ */
 
 .tabs{
-  display:flex;
-  gap:10px;
-  margin-bottom:18px;
+    display:flex;
+    gap:16px;
+    padding:22px 30px;
 }
 
 .tab{
-  flex:1;
-  padding:13px;
-  border-radius:16px;
-  border:1px solid #4e2378;
-  background:#150923;
-  color:#a994bc;
-  font-weight:bold;
-  cursor:pointer;
+    flex:1;
+    border-radius:20px;
+    padding:18px 10px;
+    text-align:center;
+    border:1px solid #67348f;
+    background:#170b24;
+    color:#c9bed7;
+    font-size:18px;
+    font-weight:800;
+    cursor:pointer;
 }
 
 .tab.active{
-  color:#fff;
-  border-color:#b759ff;
-  background:linear-gradient(135deg,#6d2bc3,#9b4ee2);
-  box-shadow:0 0 20px rgba(170,80,255,.25);
+    background:linear-gradient(135deg,#6621c6,#b45bff);
+    color:white;
+    box-shadow:0 0 25px rgba(163,76,255,.4);
 }
 
-/* ===== CASES ===== */
+/* КЕЙСЫ */
 
-.case{
-  position:relative;
-  overflow:hidden;
-  margin-bottom:18px;
-  padding:20px;
-  border-radius:28px;
-  border:1px solid #7137a8;
-  background:
-    radial-gradient(circle at 100% 0%,rgba(177,76,255,.25),transparent 35%),
-    radial-gradient(circle at 0% 100%,rgba(109,38,193,.16),transparent 30%),
-    linear-gradient(145deg,#211035,#0e0719);
+.cases{
+    padding:10px 30px 30px;
+    display:flex;
+    flex-direction:column;
+    gap:32px;
 }
 
-.case::before{
-  content:"✦";
-  position:absolute;
-  right:18px;
-  top:10px;
-  font-size:28px;
-  color:#d995ff;
-  text-shadow:0 0 12px #b855ff;
+.case-card{
+    position:relative;
+    overflow:hidden;
+    background:
+        radial-gradient(circle at 85% 0%, rgba(152,68,255,.18), transparent 35%),
+        linear-gradient(145deg,#26143a,#130b20);
+    border:1.5px solid #673a92;
+    border-radius:34px;
+    padding:30px;
+    box-shadow:
+        0 20px 40px rgba(0,0,0,.3),
+        inset 0 0 40px rgba(141,56,255,.05);
 }
 
-.case.start{
-  border-color:#3f78b8;
+.case-card::after{
+    content:"✦";
+    position:absolute;
+    right:32px;
+    top:25px;
+    font-size:45px;
+    color:#d58aff;
+    text-shadow:0 0 20px #a947ff;
 }
 
-.case.godly{
-  border-color:#e04d9d;
+.case-title{
+    font-size:36px;
+    font-weight:900;
+    letter-spacing:1px;
+    padding-right:40px;
 }
 
-.case.nexi{
-  border-color:#a24cff;
-  box-shadow:0 0 30px rgba(145,59,255,.15);
+.case-desc{
+    color:#bfb4ca;
+    font-size:17px;
+    margin-top:10px;
 }
-
-.case h2{
-  position:relative;
-  z-index:2;
-  margin:0;
-  font-size:24px;
-  letter-spacing:.5px;
-}
-
-.case-description{
-  position:relative;
-  z-index:2;
-  margin:7px 0 5px;
-  color:#bba9c9;
-  font-size:11px;
-}
-
-/* ===== CASE IMAGE ===== */
 
 .case-image-wrap{
-  position:relative;
-  height:205px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  margin:0 auto 10px;
-}
-
-.case-image-wrap::before{
-  content:"";
-  position:absolute;
-  width:170px;
-  height:170px;
-  border-radius:50%;
-  background:rgba(152,59,255,.14);
-  filter:blur(25px);
+    width:100%;
+    height:320px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    margin:15px 0 8px;
 }
 
 .case-image{
-  position:relative;
-  z-index:2;
-  width:100%;
-  max-width:290px;
-  height:195px;
-  object-fit:contain;
-  filter:drop-shadow(0 0 18px rgba(170,60,255,.55));
+    width:95%;
+    max-width:440px;
+    height:100%;
+    object-fit:contain;
+    filter:
+        drop-shadow(0 0 15px rgba(147,50,255,.5))
+        drop-shadow(0 15px 20px rgba(0,0,0,.45));
+    transition:.3s;
 }
 
-/* ===== RARITIES ===== */
+.case-image.opening{
+    animation:caseShake .5s infinite;
+}
 
-.info{
-  display:flex;
-  flex-wrap:wrap;
-  gap:7px;
-  margin:12px 0 15px;
+.chances{
+    display:flex;
+    flex-wrap:wrap;
+    gap:12px;
+    margin:15px 0 25px;
 }
 
 .chance{
-  padding:7px 10px;
-  border-radius:12px;
-  font-size:9px;
-  font-weight:900;
+    padding:13px 18px;
+    border-radius:18px;
+    font-size:15px;
+    font-weight:900;
+    background:#1c1028;
 }
 
 .rare{
-  color:#82e8ff;
-  background:#092b3b;
-  border:1px solid #248faa;
+    color:#77e7ff;
+    border:1px solid #297f98;
+    box-shadow:0 0 15px rgba(57,204,255,.2);
 }
 
 .legendary{
-  color:#ff8e9e;
-  background:#3b0c19;
-  border:1px solid #b63550;
+    color:#ff9aa7;
+    border:1px solid #9b3546;
+    box-shadow:0 0 15px rgba(255,70,100,.15);
 }
 
-.godly-rarity{
-  color:#ff9fe8;
-  background:#3c1038;
-  border:1px solid #ff58d5;
-  box-shadow:0 0 12px rgba(255,85,215,.2);
+.godly{
+    color:#ff9df1;
+    border:1px solid #bd45ad;
+    box-shadow:0 0 15px rgba(255,65,215,.18);
 }
 
 .ancient{
-  color:#d7a2ff;
-  background:#280a40;
-  border:1px solid #9749df;
-  box-shadow:0 0 14px rgba(151,73,223,.3);
+    color:#c69aff;
+    border:1px solid #7541d4;
+    box-shadow:0 0 15px rgba(135,74,255,.22);
 }
 
-/* ===== OPEN BUTTON ===== */
-
 .open-btn{
-  width:100%;
-  padding:16px;
-  border:none;
-  border-radius:17px;
-  color:#fff;
-  font-size:13px;
-  font-weight:900;
-  letter-spacing:.3px;
-  cursor:pointer;
-  background:linear-gradient(90deg,#6727bb,#bf62ff);
-  box-shadow:0 8px 22px rgba(128,46,210,.3);
+    width:100%;
+    border:none;
+    border-radius:24px;
+    padding:24px 15px;
+    background:linear-gradient(135deg,#6620c4,#b45cff);
+    color:white;
+    font-size:22px;
+    font-weight:900;
+    letter-spacing:.5px;
+    cursor:pointer;
+    box-shadow:0 12px 25px rgba(101,35,204,.3);
+    transition:.2s;
 }
 
 .open-btn:active{
-  transform:scale(.97);
+    transform:scale(.97);
 }
 
-/* ===== BOTTOM NAV ===== */
-
-.bottom{
-  position:fixed;
-  bottom:0;
-  left:0;
-  right:0;
-  z-index:50;
-  background:rgba(10,5,18,.97);
-  border-top:1px solid #653096;
+.open-btn:disabled{
+    opacity:.5;
 }
 
-.nav{
-  max-width:600px;
-  margin:auto;
-  display:flex;
-  justify-content:space-around;
-  padding:8px 2px 15px;
+/* НИЖНЕЕ МЕНЮ */
+
+.bottom-nav{
+    position:fixed;
+    z-index:50;
+    left:0;
+    right:0;
+    bottom:0;
+    height:92px;
+    background:rgba(11,5,20,.96);
+    border-top:1px solid #4c276d;
+    backdrop-filter:blur(15px);
+    display:flex;
+    justify-content:space-around;
+    align-items:center;
 }
 
-.nav a{
-  width:20%;
-  text-align:center;
-  text-decoration:none;
-  color:#887996;
-  font-size:8px;
-  font-weight:bold;
+.nav-item{
+    text-decoration:none;
+    color:#a79caf;
+    font-size:11px;
+    font-weight:800;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:5px;
+    min-width:55px;
 }
 
-.nav img{
-  display:block;
-  width:40px;
-  height:40px;
-  object-fit:contain;
-  margin:auto;
+.nav-item img{
+    width:40px;
+    height:40px;
+    object-fit:contain;
+    filter:drop-shadow(0 0 7px rgba(168,70,255,.45));
 }
 
-.nav .active{
-  color:#dda6ff;
+.nav-item.active{
+    color:#e6c7ff;
 }
 
-.nav .active img{
-  filter:drop-shadow(0 0 8px #b65cff);
-}
-
-/* ===== RESULT MODAL ===== */
+/* МОДАЛКА */
 
 .modal{
-  position:fixed;
-  inset:0;
-  z-index:100;
-  display:none;
-  align-items:center;
-  justify-content:center;
-  padding:18px;
-  background:rgba(0,0,0,.84);
-  backdrop-filter:blur(8px);
+    position:fixed;
+    inset:0;
+    z-index:100;
+    display:none;
+    align-items:center;
+    justify-content:center;
+    padding:20px;
+    background:rgba(5,2,10,.86);
+    backdrop-filter:blur(8px);
 }
 
 .modal.show{
-  display:flex;
+    display:flex;
 }
 
-.modal-box{
-  width:min(410px,100%);
-  padding:28px 20px;
-  text-align:center;
-  border-radius:30px;
-  border:1px solid #a952e3;
-  background:
-    radial-gradient(circle at 50% 0%,#4b1874,transparent 45%),
-    #12081f;
+.open-box{
+    position:relative;
+    width:100%;
+    max-width:460px;
+    min-height:570px;
+    overflow:hidden;
+    border-radius:35px;
+    border:1px solid #8547c5;
+    background:
+        radial-gradient(circle at 50% 25%, rgba(177,69,255,.28), transparent 40%),
+        linear-gradient(180deg,#261139,#100817);
+    padding:25px;
+    text-align:center;
+    animation:modalIn .25s ease;
 }
 
-.modal-gem{
-  width:85px;
-  height:85px;
-  object-fit:contain;
-  filter:drop-shadow(0 0 20px #b855ff);
+.close-modal{
+    position:absolute;
+    right:18px;
+    top:14px;
+    width:42px;
+    height:42px;
+    border:none;
+    border-radius:50%;
+    background:#2b153e;
+    color:white;
+    font-size:26px;
+    cursor:pointer;
+    z-index:5;
 }
 
-.modal-box p{
-  color:#bdaaca;
-  font-size:11px;
-  margin:10px 0;
+.modal-title{
+    font-size:27px;
+    font-weight:900;
+    margin-top:15px;
 }
 
-.result-name{
-  margin-top:15px;
-  font-size:27px;
-  font-weight:900;
+.open-status{
+    color:#c5b9d1;
+    margin-top:10px;
+    min-height:25px;
+}
+
+/* РУЛЕТКА */
+
+.roulette-window{
+    position:relative;
+    height:220px;
+    margin-top:35px;
+    overflow:hidden;
+    border-radius:25px;
+    border:1px solid #5c337d;
+    background:#12091d;
+}
+
+.roulette-window::before{
+    content:"";
+    position:absolute;
+    z-index:5;
+    left:50%;
+    top:0;
+    transform:translateX(-50%);
+    width:5px;
+    height:100%;
+    background:#f6b8ff;
+    box-shadow:0 0 20px #d94dff;
+}
+
+.roulette{
+    height:100%;
+    display:flex;
+    align-items:center;
+    gap:14px;
+    padding:0 25px;
+    width:max-content;
+    transform:translateX(0);
+}
+
+.weapon-card{
+    width:160px;
+    height:170px;
+    flex:none;
+    border-radius:22px;
+    padding:16px 10px;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    background:#21102f;
+    border:2px solid #684078;
+}
+
+.weapon-icon{
+    font-size:55px;
+    margin-bottom:12px;
+    filter:drop-shadow(0 0 12px currentColor);
+}
+
+.weapon-name{
+    font-size:14px;
+    font-weight:900;
+}
+
+.weapon-rare{
+    border-color:#2f9bbb;
+    box-shadow:0 0 20px rgba(55,205,255,.18);
+}
+
+.weapon-legendary{
+    border-color:#cf465b;
+    box-shadow:0 0 20px rgba(255,64,93,.18);
+}
+
+.weapon-godly{
+    border-color:#ee4fcd;
+    box-shadow:0 0 24px rgba(255,70,220,.25);
+}
+
+.weapon-ancient{
+    border-color:#8b52ff;
+    box-shadow:0 0 25px rgba(130,70,255,.3);
+}
+
+.result{
+    display:none;
+    margin-top:20px;
+    animation:resultPop .4s ease;
+}
+
+.result.show{
+    display:block;
 }
 
 .result-rarity{
-  display:inline-block;
-  margin-top:12px;
-  padding:8px 13px;
-  border-radius:13px;
-  font-size:10px;
-  font-weight:900;
+    font-size:14px;
+    font-weight:900;
+    margin-top:10px;
 }
 
-.close-btn{
-  width:100%;
-  margin-top:22px;
-  padding:14px;
-  border:none;
-  border-radius:16px;
-  color:#fff;
-  font-weight:bold;
-  background:linear-gradient(90deg,#6226b6,#b85cff);
-  cursor:pointer;
+.result-name{
+    font-size:29px;
+    font-weight:900;
+    margin:8px 0;
+}
+
+.result-text{
+    color:#c7bdd0;
+    margin-bottom:15px;
+}
+
+.inventory-btn{
+    border:none;
+    border-radius:18px;
+    padding:16px 25px;
+    width:100%;
+    background:linear-gradient(135deg,#6620c4,#b45cff);
+    color:white;
+    font-size:17px;
+    font-weight:900;
+    cursor:pointer;
+}
+
+/* АНИМАЦИИ */
+
+@keyframes caseShake{
+    0%{transform:rotate(0) scale(1)}
+    20%{transform:rotate(-3deg) scale(1.03)}
+    40%{transform:rotate(3deg) scale(1.05)}
+    60%{transform:rotate(-2deg) scale(1.03)}
+    80%{transform:rotate(2deg) scale(1.02)}
+    100%{transform:rotate(0) scale(1)}
+}
+
+@keyframes modalIn{
+    from{
+        opacity:0;
+        transform:scale(.8);
+    }
+    to{
+        opacity:1;
+        transform:scale(1);
+    }
+}
+
+@keyframes resultPop{
+    0%{
+        opacity:0;
+        transform:scale(.6);
+    }
+    70%{
+        transform:scale(1.08);
+    }
+    100%{
+        opacity:1;
+        transform:scale(1);
+    }
+}
+
+@media(max-width:480px){
+
+    .top-title{
+        font-size:22px;
+    }
+
+    .coins-box{
+        min-width:125px;
+        padding:8px;
+    }
+
+    .page-head h1{
+        font-size:34px;
+    }
+
+    .case-card{
+        padding:24px 20px;
+    }
+
+    .case-title{
+        font-size:30px;
+    }
+
+    .case-image-wrap{
+        height:280px;
+    }
+
+    .open-btn{
+        font-size:19px;
+    }
 }
 </style>
 </head>
 
 <body>
 
-<div class="app">
+<div class="topbar">
 
-  <div class="header">
+    <button class="back-btn" onclick="history.back()">‹</button>
 
-    <button class="back" onclick="location.href='index.html'">‹</button>
+    <div class="top-title">NEXI CASE</div>
 
-    <div class="title-box">
-      <h1>MM2 CASES</h1>
-      <p>Открывай кейсы и собирай оружия</p>
+    <div class="coins-box">
+        <img src="assets/gem.png" class="coin-img" alt="coins">
+        <div>
+            <div class="coins-number" id="coinsNumber">250</div>
+            <div class="coins-label">NEXI COINS</div>
+        </div>
     </div>
 
-    <div class="balance">
-      <img src="assets/gem.png" alt="Coins">
-      <div class="balance-info">
-        <strong id="coins">250</strong>
-        <span>NEXI COINS</span>
-      </div>
-    </div>
+</div>
 
-  </div>
 
-  <div class="tabs">
+<div class="page-head">
+    <h1>MM2 CASES</h1>
+    <p>Открывай кейсы и собирай оружия</p>
+</div>
+
+
+<div class="tabs">
     <button class="tab active">MM2</button>
-    <button class="tab" onclick="alert('ADOPT ME CASES добавим следующим 💜')">
-      ADOPT ME
-    </button>
-  </div>
+    <button class="tab" onclick="alert('ADOPT ME CASES сделаем следующим этапом 🐼')">ADOPT ME</button>
+</div>
 
 
-  <!-- START CASE -->
+<main class="cases">
 
-  <section class="case start">
+    <!-- START CASE -->
 
-    <h2>START CASE</h2>
-    <p class="case-description">Твой первый MM2 кейс</p>
+    <section class="case-card">
 
-    <div class="case-image-wrap">
-      <img
-        class="case-image"
-        src="assets/start-case(4).png"
-        alt="START CASE"
-      >
+        <div class="case-title">START CASE</div>
+        <div class="case-desc">Твой первый MM2 кейс</div>
+
+        <div class="case-image-wrap">
+            <img
+                id="startImage"
+                src="assets/start-case(4).png"
+                class="case-image"
+                alt="START CASE">
+        </div>
+
+        <div class="chances">
+            <div class="chance rare">RARE 60%</div>
+            <div class="chance legendary">LEGENDARY 30%</div>
+            <div class="chance godly">GODLY 10%</div>
+        </div>
+
+        <button class="open-btn" onclick="openCase('start')">
+            ОТКРЫТЬ ЗА 250 COINS
+        </button>
+
+    </section>
+
+
+    <!-- GODLY CASE -->
+
+    <section class="case-card">
+
+        <div class="case-title">GODLY CASE</div>
+        <div class="case-desc">Больше шансов на очень редкое оружие</div>
+
+        <div class="case-image-wrap">
+            <img
+                id="godlyImage"
+                src="assets/godly-case(4).png"
+                class="case-image"
+                alt="GODLY CASE">
+        </div>
+
+        <div class="chances">
+            <div class="chance legendary">LEGENDARY 80%</div>
+            <div class="chance godly">GODLY 20%</div>
+        </div>
+
+        <button class="open-btn" onclick="openCase('godly')">
+            ОТКРЫТЬ ЗА 470 COINS
+        </button>
+
+    </section>
+
+
+    <!-- NEXI CASE -->
+
+    <section class="case-card">
+
+        <div class="case-title">NEXI CASE ✦</div>
+        <div class="case-desc">Фирменный и самый ценный кейс NEXI</div>
+
+        <div class="case-image-wrap">
+            <img
+                id="nexiImage"
+                src="assets/nexi-case(4).png"
+                class="case-image"
+                alt="NEXI CASE">
+        </div>
+
+        <div class="chances">
+            <div class="chance legendary">LEGENDARY 40%</div>
+            <div class="chance godly">GODLY 40%</div>
+            <div class="chance ancient">ANCIENT 20%</div>
+        </div>
+
+        <button class="open-btn" onclick="openCase('nexi')">
+            ОТКРЫТЬ ЗА 800 COINS
+        </button>
+
+    </section>
+
+</main>
+
+
+<!-- МОДАЛЬНОЕ ОКНО ОТКРЫТИЯ -->
+
+<div class="modal" id="openModal">
+
+    <div class="open-box">
+
+        <button class="close-modal" onclick="closeModal()">×</button>
+
+        <div class="modal-title" id="modalCaseName">
+            OPENING CASE...
+        </div>
+
+        <div class="open-status" id="openStatus">
+            Кейс открывается...
+        </div>
+
+        <div class="roulette-window">
+            <div class="roulette" id="roulette"></div>
+        </div>
+
+
+        <div class="result" id="result">
+
+            <div class="weapon-icon" id="resultIcon">🔪</div>
+
+            <div class="result-rarity" id="resultRarity">
+                GODLY
+            </div>
+
+            <div class="result-name" id="resultName">
+                Battleaxe II
+            </div>
+
+            <div class="result-text">
+                Предмет добавлен в твой инвентарь! ✨
+            </div>
+
+            <button class="inventory-btn" onclick="goInventory()">
+                ПЕРЕЙТИ В ИНВЕНТАРЬ
+            </button>
+
+        </div>
+
     </div>
-
-    <div class="info">
-      <span class="chance rare">RARE 60%</span>
-      <span class="chance legendary">LEGENDARY 30%</span>
-      <span class="chance godly-rarity">GODLY 10%</span>
-    </div>
-
-    <button class="open-btn" onclick="openCase('start',250)">
-      ОТКРЫТЬ ЗА 250 COINS
-    </button>
-
-  </section>
-
-
-  <!-- GODLY CASE -->
-
-  <section class="case godly">
-
-    <h2>GODLY CASE</h2>
-    <p class="case-description">Больше шансов на очень редкое оружие</p>
-
-    <div class="case-image-wrap">
-      <img
-        class="case-image"
-        src="assets/godly-case(4).png"
-        alt="GODLY CASE"
-      >
-    </div>
-
-    <div class="info">
-      <span class="chance legendary">LEGENDARY 80%</span>
-      <span class="chance godly-rarity">GODLY 20%</span>
-    </div>
-
-    <button class="open-btn" onclick="openCase('godly',470)">
-      ОТКРЫТЬ ЗА 470 COINS
-    </button>
-
-  </section>
-
-
-  <!-- NEXI CASE -->
-
-  <section class="case nexi">
-
-    <h2>NEXI CASE ✦</h2>
-    <p class="case-description">Фирменный и самый ценный кейс NEXI</p>
-
-    <div class="case-image-wrap">
-      <img
-        class="case-image"
-        src="assets/nexi-case(4).png"
-        alt="NEXI CASE"
-      >
-    </div>
-
-    <div class="info">
-      <span class="chance legendary">LEGENDARY 40%</span>
-      <span class="chance godly-rarity">GODLY 40%</span>
-      <span class="chance ancient">ANCIENT 20%</span>
-    </div>
-
-    <button class="open-btn" onclick="openCase('nexi',800)">
-      ОТКРЫТЬ ЗА 800 COINS
-    </button>
-
-  </section>
 
 </div>
 
 
-<!-- RESULT -->
+<!-- НИЖНЕЕ МЕНЮ -->
 
-<div class="modal" id="modal">
+<nav class="bottom-nav">
 
-  <div class="modal-box">
-
-    <img
-      class="modal-gem"
-      src="assets/gem.png"
-      alt="NEXI"
-    >
-
-    <p>ТЕБЕ ВЫПАЛО</p>
-
-    <div class="result-name" id="resultName"></div>
-
-    <div class="result-rarity" id="resultRarity"></div>
-
-    <button class="close-btn" onclick="closeModal()">
-      ЗАБРАТЬ В ИНВЕНТАРЬ
-    </button>
-
-  </div>
-
-</div>
-
-
-<!-- BOTTOM NAVIGATION -->
-
-<div class="bottom">
-
-  <div class="nav">
-
-    <a href="index.html">
-      <img src="assets/home.png" alt="">
-      ГЛАВНАЯ
+    <a href="index.html" class="nav-item">
+        <img src="assets/home.png" alt="">
+        <span>ГЛАВНАЯ</span>
     </a>
 
-    <a class="active" href="cases.html">
-      <img src="assets/cases.png" alt="">
-      КЕЙСЫ
+    <a href="cases.html" class="nav-item active">
+        <img src="assets/cases.png" alt="">
+        <span>КЕЙСЫ</span>
     </a>
 
-    <a href="games.html">
-      <img src="assets/games.png" alt="">
-      ИГРЫ
+    <a href="games.html" class="nav-item">
+        <img src="assets/games.png" alt="">
+        <span>ИГРЫ</span>
     </a>
 
-    <a href="inventory.html">
-      <img src="assets/inventory.png" alt="">
-      ИНВЕНТАРЬ
+    <a href="inventory.html" class="nav-item">
+        <img src="assets/inventory.png" alt="">
+        <span>ИНВЕНТАРЬ</span>
     </a>
 
-    <a href="profile.html">
-      <img src="assets/profile.png" alt="">
-      ПРОФИЛЬ
+    <a href="profile.html" class="nav-item">
+        <img src="assets/profile.png" alt="">
+        <span>ПРОФИЛЬ</span>
     </a>
 
-  </div>
-
-</div>
+</nav>
 
 
 <script>
 
 /* =========================
-   COINS
+   СОХРАНЕНИЕ КОИНОВ
 ========================= */
 
-function getCoins(){
+let coins = Number(localStorage.getItem("nexiCoins"));
 
-  let coins = localStorage.getItem("nexiCoins");
-
-  if(coins === null){
+if (!Number.isFinite(coins)) {
     coins = 250;
-    localStorage.setItem("nexiCoins","250");
-  }
-
-  return Number(coins);
+    localStorage.setItem("nexiCoins", coins);
 }
 
 function updateCoins(){
-
-  document.getElementById("coins").textContent =
-    getCoins().toLocaleString("ru-RU");
-
+    document.getElementById("coinsNumber").textContent = coins;
+    localStorage.setItem("nexiCoins", coins);
 }
+
+updateCoins();
 
 
 /* =========================
-   MM2 CASES
+   ВСЕ ПРЕДМЕТЫ MM2
 ========================= */
 
-const cases = {
+const caseItems = {
 
-  start:{
+    start: [
 
-    chances:{
-      rare:60,
-      legendary:30,
-      godly:10
-    },
+        {name:"Hacker", rarity:"RARE", icon:"🔪"},
+        {name:"Rainbow (Gun)", rarity:"RARE", icon:"🔫"},
+        {name:"Rainbow (Knife)", rarity:"RARE", icon:"🔪"},
+        {name:"Nightfire", rarity:"RARE", icon:"🔪"},
+        {name:"Purple", rarity:"RARE", icon:"🔫"},
+        {name:"Deep Sea", rarity:"RARE", icon:"🔪"},
 
-    items:{
+        {name:"Splash", rarity:"LEGENDARY", icon:"🔪"},
+        {name:"Splash Gun", rarity:"LEGENDARY", icon:"🔫"},
+        {name:"Shiny", rarity:"LEGENDARY", icon:"🔪"},
 
-      rare:[
-        "Hacker",
-        "Rainbow (Gun)",
-        "Rainbow (Knife)",
-        "Nightfire",
-        "Purple",
-        "Deep Sea"
-      ],
+        {name:"Battleaxe II", rarity:"GODLY", icon:"🪓"},
+        {name:"Gemstone", rarity:"GODLY", icon:"💎"},
+        {name:"Boneblade", rarity:"GODLY", icon:"🗡️"},
+        {name:"Prismatic", rarity:"GODLY", icon:"🔪"},
+        {name:"Pumpking", rarity:"GODLY", icon:"🔫"}
 
-      legendary:[
-        "Splash",
-        "Splash (Gun)",
-        "Shiny"
-      ],
+    ],
 
-      godly:[
-        "Battleaxe II",
-        "Gemstone",
-        "Boneblade",
-        "Prismatic",
-        "Pumpking"
-      ]
+    godly: [
 
-    }
+        {name:"Splash", rarity:"LEGENDARY", icon:"🔪"},
+        {name:"Splash Gun", rarity:"LEGENDARY", icon:"🔫"},
+        {name:"Shiny", rarity:"LEGENDARY", icon:"🔪"},
+        {name:"Deep Sea", rarity:"LEGENDARY", icon:"🔪"},
 
-  },
+        {name:"Candleflame", rarity:"GODLY", icon:"🔪"},
+        {name:"Amerilaser", rarity:"GODLY", icon:"🔫"},
+        {name:"Laser", rarity:"GODLY", icon:"🔫"},
+        {name:"Shark", rarity:"GODLY", icon:"🔫"},
+        {name:"Pixel", rarity:"GODLY", icon:"🔫"},
+        {name:"Gemstone", rarity:"GODLY", icon:"💎"},
+        {name:"Swirly Gun", rarity:"GODLY", icon:"🔫"},
+        {name:"Old Glory", rarity:"GODLY", icon:"🔫"}
 
+    ],
 
-  godly:{
+    nexi: [
 
-    chances:{
-      legendary:80,
-      godly:20
-    },
+        {name:"Splash", rarity:"LEGENDARY", icon:"🔪"},
+        {name:"Splash Gun", rarity:"LEGENDARY", icon:"🔫"},
+        {name:"Shiny", rarity:"LEGENDARY", icon:"🔪"},
+        {name:"Deep Sea", rarity:"LEGENDARY", icon:"🔪"},
 
-    items:{
+        {name:"Nightblade", rarity:"GODLY", icon:"🔪"},
+        {name:"Hallowgun", rarity:"GODLY", icon:"🔫"},
+        {name:"Candleflame", rarity:"GODLY", icon:"🔪"},
+        {name:"Sugar", rarity:"GODLY", icon:"🔪"},
+        {name:"Lightbringer", rarity:"GODLY", icon:"🔫"},
 
-      legendary:[
-        "Splash",
-        "Splash Gun",
-        "Shiny",
-        "Deep Sea"
-      ],
+        {name:"Logchopper", rarity:"ANCIENT", icon:"🪓"},
+        {name:"Hallowscythe", rarity:"ANCIENT", icon:"⚔️"},
+        {name:"Swirly Axe", rarity:"ANCIENT", icon:"🪓"},
+        {name:"Icewing", rarity:"ANCIENT", icon:"🗡️"}
 
-      godly:[
-        "Candleflame",
-        "Amerilaser",
-        "Laser",
-        "Shark",
-        "Pixel",
-        "Gemstone",
-        "Swirly Gun",
-        "Old Glory"
-      ]
-
-    }
-
-  },
-
-
-  nexi:{
-
-    chances:{
-      legendary:40,
-      godly:40,
-      ancient:20
-    },
-
-    items:{
-
-      legendary:[
-        "Splash",
-        "Splash Gun",
-        "Shiny",
-        "Deep Sea"
-      ],
-
-      godly:[
-        "Nightblade",
-        "Hallowgun",
-        "Candleflame",
-        "Sugar",
-        "Lightbringer"
-      ],
-
-      ancient:[
-        "Logchopper",
-        "Hallowscythe",
-        "Swirly Axe",
-        "Icewing"
-      ]
-
-    }
-
-  }
+    ]
 
 };
 
 
 /* =========================
-   RANDOM DROP
+   ЦЕНЫ
 ========================= */
 
-function getDrop(caseName){
+const casePrices = {
+    start:250,
+    godly:470,
+    nexi:800
+};
 
-  const box = cases[caseName];
-  const roll = Math.random() * 100;
+const caseNames = {
+    start:"START CASE",
+    godly:"GODLY CASE",
+    nexi:"NEXI CASE"
+};
 
-  let current = 0;
-  let rarity = "";
 
-  for(const key in box.chances){
+/* =========================
+   ВЫБОР ПО ШАНСАМ
+========================= */
 
-    current += box.chances[key];
+function getRandomPrize(caseType){
 
-    if(roll < current){
-      rarity = key;
-      break;
+    const roll = Math.random() * 100;
+
+    let wantedRarity;
+
+    if(caseType === "start"){
+
+        if(roll < 60){
+            wantedRarity = "RARE";
+        }
+        else if(roll < 90){
+            wantedRarity = "LEGENDARY";
+        }
+        else{
+            wantedRarity = "GODLY";
+        }
+
     }
 
-  }
+    if(caseType === "godly"){
 
-  const items = box.items[rarity];
+        if(roll < 80){
+            wantedRarity = "LEGENDARY";
+        }
+        else{
+            wantedRarity = "GODLY";
+        }
 
-  const item =
-    items[Math.floor(Math.random() * items.length)];
+    }
 
-  return {
-    name:item,
-    rarity:rarity
-  };
+    if(caseType === "nexi"){
+
+        if(roll < 40){
+            wantedRarity = "LEGENDARY";
+        }
+        else if(roll < 80){
+            wantedRarity = "GODLY";
+        }
+        else{
+            wantedRarity = "ANCIENT";
+        }
+
+    }
+
+    const possible = caseItems[caseType].filter(
+        item => item.rarity === wantedRarity
+    );
+
+    return possible[
+        Math.floor(Math.random() * possible.length)
+    ];
+}
+
+
+/* =========================
+   ОТКРЫТИЕ КЕЙСА
+========================= */
+
+let currentPrize = null;
+let isOpening = false;
+
+function openCase(caseType){
+
+    if(isOpening){
+        return;
+    }
+
+    const price = casePrices[caseType];
+
+    if(coins < price){
+        alert(
+            "Недостаточно NEXI COINS! 💎\n\n" +
+            "Нужно: " + price + "\n" +
+            "У тебя: " + coins
+        );
+        return;
+    }
+
+    isOpening = true;
+
+    coins -= price;
+    updateCoins();
+
+    currentPrize = getRandomPrize(caseType);
+
+    document.getElementById("openModal").classList.add("show");
+
+    document.getElementById("modalCaseName").textContent =
+        caseNames[caseType];
+
+    document.getElementById("openStatus").textContent =
+        "Кейс открывается...";
+
+    document.getElementById("result").classList.remove("show");
+
+    createRoulette(caseType, currentPrize);
 
 }
 
 
 /* =========================
-   OPEN CASE
+   СОЗДАНИЕ РУЛЕТКИ
 ========================= */
 
-function openCase(caseName,price){
+function createRoulette(caseType, prize){
 
-  let coins = getCoins();
+    const roulette = document.getElementById("roulette");
 
-  if(coins < price){
+    roulette.innerHTML = "";
+    roulette.style.transition = "none";
+    roulette.style.transform = "translateX(0px)";
 
-    alert("Недостаточно NEXI COINS 💜");
-    return;
+    const items = [];
 
-  }
+    for(let i = 0; i < 22; i++){
 
-  coins -= price;
+        const randomItem =
+            caseItems[caseType][
+                Math.floor(
+                    Math.random() *
+                    caseItems[caseType].length
+                )
+            ];
 
-  localStorage.setItem("nexiCoins",coins);
+        items.push(randomItem);
+    }
 
-  updateCoins();
+    /* Победитель почти в конце */
 
-  const drop = getDrop(caseName);
+    items.splice(18, 0, prize);
 
-  saveToInventory(drop);
+    items.forEach(item => {
 
-  setTimeout(function(){
-    showResult(drop);
-  },250);
+        const card = document.createElement("div");
 
-}
+        card.className =
+            "weapon-card weapon-" +
+            item.rarity.toLowerCase();
 
+        card.innerHTML = `
+            <div class="weapon-icon">${item.icon}</div>
+            <div class="weapon-name">${item.name}</div>
+        `;
 
-/* =========================
-   INVENTORY
-========================= */
+        roulette.appendChild(card);
 
-function saveToInventory(drop){
-
-  let inventory =
-    JSON.parse(localStorage.getItem("nexiInventory")) || [];
-
-  const existing = inventory.find(function(item){
-
-    return item.name === drop.name &&
-           item.rarity === drop.rarity;
-
-  });
-
-  if(existing){
-
-    existing.count += 1;
-
-  }else{
-
-    inventory.push({
-      name:drop.name,
-      rarity:drop.rarity,
-      game:"MM2",
-      count:1
     });
 
-  }
 
-  localStorage.setItem(
-    "nexiInventory",
-    JSON.stringify(inventory)
-  );
+    setTimeout(() => {
+
+        const cardWidth = 174;
+
+        const finalPosition =
+            -(18 * cardWidth) + 110;
+
+        roulette.style.transition =
+            "transform 2.4s cubic-bezier(.12,.8,.12,1)";
+
+        roulette.style.transform =
+            "translateX(" + finalPosition + "px)";
+
+    }, 100);
+
+
+    /* ПОСЛЕ КОРОТКОЙ АНИМАЦИИ */
+
+    setTimeout(() => {
+
+        showPrize(prize);
+
+    }, 2700);
 
 }
 
 
 /* =========================
-   RESULT
+   ПОКАЗ ПРИЗА
 ========================= */
 
-function showResult(drop){
+function showPrize(prize){
 
-  const modal =
-    document.getElementById("modal");
+    savePrizeToInventory(prize);
 
-  const name =
-    document.getElementById("resultName");
+    document.getElementById("openStatus").textContent =
+        "Тебе выпало!";
 
-  const rarity =
-    document.getElementById("resultRarity");
+    document.getElementById("resultIcon").textContent =
+        prize.icon;
 
-  name.textContent = drop.name;
+    document.getElementById("resultName").textContent =
+        prize.name;
 
-  rarity.textContent =
-    drop.rarity.toUpperCase();
+    const rarityElement =
+        document.getElementById("resultRarity");
 
-  rarity.className =
-    "result-rarity " + getRarityClass(drop.rarity);
+    rarityElement.textContent =
+        prize.rarity;
 
-  modal.classList.add("show");
+    if(prize.rarity === "RARE"){
+        rarityElement.style.color = "#77e7ff";
+    }
+
+    if(prize.rarity === "LEGENDARY"){
+        rarityElement.style.color = "#ff8797";
+    }
+
+    if(prize.rarity === "GODLY"){
+        rarityElement.style.color = "#ff83e7";
+    }
+
+    if(prize.rarity === "ANCIENT"){
+        rarityElement.style.color = "#ad7cff";
+    }
+
+    document.getElementById("result").classList.add("show");
+
+    isOpening = false;
 
 }
 
 
-function getRarityClass(rarity){
+/* =========================
+   СОХРАНЕНИЕ В ИНВЕНТАРЬ
+========================= */
 
-  if(rarity === "godly"){
-    return "godly-rarity";
-  }
+function savePrizeToInventory(prize){
 
-  return rarity;
+    let inventory;
+
+    try{
+        inventory =
+            JSON.parse(
+                localStorage.getItem("nexiInventory")
+            ) || [];
+    }
+    catch(e){
+        inventory = [];
+    }
+
+    const newItem = {
+        id: Date.now() + Math.floor(Math.random() * 9999),
+        name: prize.name,
+        rarity: prize.rarity,
+        icon: prize.icon,
+        game: "MM2",
+        receivedAt: new Date().toLocaleString("ru-RU")
+    };
+
+    inventory.push(newItem);
+
+    localStorage.setItem(
+        "nexiInventory",
+        JSON.stringify(inventory)
+    );
 
 }
 
+
+/* =========================
+   ЗАКРЫТИЕ
+========================= */
 
 function closeModal(){
 
-  document
-    .getElementById("modal")
-    .classList.remove("show");
+    if(isOpening){
+        return;
+    }
+
+    document
+        .getElementById("openModal")
+        .classList.remove("show");
 
 }
 
+function goInventory(){
+    window.location.href = "inventory.html";
+}
 
-/* =========================
-   START
-========================= */
 
-updateCoins();
+/* ОБНОВЛЯЕМ КОИНЫ ПРИ ВОЗВРАТЕ */
+
+window.addEventListener("focus", updateCoins);
 
 </script>
 
 </body>
 </html>
-```
