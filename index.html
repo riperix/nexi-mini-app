@@ -15,43 +15,42 @@
     }
 
     :root {
-      --bg: #0c0618;
-      --bg2: #140925;
-      --card: #1b0e30;
-      --card2: #271342;
-      --purple: #8e3cff;
-      --purple2: #c36cff;
-      --pink: #e75cff;
-      --text: #f8f4ff;
-      --muted: #b9aec8;
-      --border: rgba(183, 94, 255, .5);
+      --bg: #0b0615;
+      --panel: #1a0c2d;
+      --panel2: #281142;
+      --purple: #8138ed;
+      --purple-light: #c271ff;
+      --text: #fbf8ff;
+      --muted: #b9adc5;
+      --border: rgba(187, 100, 255, .48);
     }
 
     html {
+      min-height: 100%;
       background: var(--bg);
     }
 
     body {
       margin: 0;
       min-height: 100vh;
-      padding-bottom: 95px;
+      padding-bottom: 105px;
       overflow-x: hidden;
       color: var(--text);
       font-family: Arial, sans-serif;
       background:
-        radial-gradient(circle at 8% 8%, rgba(120, 40, 210, .28), transparent 28%),
-        radial-gradient(circle at 95% 28%, rgba(225, 70, 255, .15), transparent 25%),
-        linear-gradient(180deg, #120822 0%, #0c0618 55%, #090511 100%);
+        radial-gradient(circle at 8% 4%, rgba(125, 42, 218, .25), transparent 27%),
+        radial-gradient(circle at 95% 22%, rgba(205, 76, 255, .14), transparent 25%),
+        linear-gradient(180deg, #140824 0%, #0b0615 65%, #09040f 100%);
     }
 
     body::before {
-      content: "✦  ·  ✧  ·  ✦  ·  ✧";
+      content: "✦ · ✧ · ✦ · ✧ · ✦";
       position: fixed;
-      top: 150px;
-      left: -20px;
-      width: 110%;
-      color: rgba(196, 112, 255, .12);
-      font-size: 24px;
+      top: 180px;
+      left: -30px;
+      width: 120%;
+      color: rgba(194, 108, 255, .08);
+      font-size: 28px;
       letter-spacing: 25px;
       pointer-events: none;
       z-index: -1;
@@ -68,10 +67,15 @@
       -webkit-user-drag: none;
     }
 
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
     .app {
       width: 100%;
       max-width: 760px;
-      margin: auto;
+      margin: 0 auto;
       padding: 14px;
     }
 
@@ -91,38 +95,39 @@
 
     .brand-title {
       margin: 0;
-      font-size: clamp(24px, 7vw, 34px);
+      font-size: clamp(25px, 7vw, 35px);
+      line-height: 1;
       font-weight: 950;
       letter-spacing: 1px;
       white-space: nowrap;
     }
 
     .brand-subtitle {
-      margin-top: 3px;
-      color: #aa99bb;
-      font-size: 9px;
+      margin-top: 5px;
+      color: #a897b7;
+      font-size: 8px;
       font-weight: 900;
-      letter-spacing: 3px;
+      letter-spacing: 2.5px;
     }
 
     .balance-btn {
       min-width: 142px;
-      min-height: 57px;
-      padding: 7px 10px;
+      min-height: 58px;
+      padding: 7px 9px;
       border: 1px solid var(--border);
-      border-radius: 19px;
+      border-radius: 18px;
       color: white;
-      background: rgba(27, 13, 47, .9);
+      background: rgba(28, 12, 47, .92);
       display: flex;
       align-items: center;
       gap: 7px;
       cursor: pointer;
-      box-shadow: 0 10px 30px rgba(0,0,0,.2);
+      box-shadow: 0 10px 28px rgba(0,0,0,.25);
     }
 
     .balance-btn img {
-      width: 38px;
-      height: 38px;
+      width: 37px;
+      height: 37px;
       object-fit: contain;
     }
 
@@ -133,11 +138,12 @@
 
     .balance-number {
       font-size: 19px;
+      line-height: 1;
       font-weight: 950;
     }
 
     .balance-label {
-      margin-top: 3px;
+      margin-top: 5px;
       color: var(--muted);
       font-size: 8px;
       font-weight: 900;
@@ -145,73 +151,54 @@
     }
 
     .balance-plus {
-      width: 28px;
-      height: 28px;
+      width: 27px;
+      height: 27px;
       flex: 0 0 auto;
-      border-radius: 9px;
       display: grid;
       place-items: center;
-      font-size: 21px;
-      background: linear-gradient(135deg, #6727c6, #be62ff);
-    }
-
-    /* PAGES */
-
-    .page {
-      display: none;
-      animation: showPage .25s ease;
-    }
-
-    .page.active {
-      display: block;
-    }
-
-    @keyframes showPage {
-      from {
-        opacity: 0;
-        transform: translateY(8px);
-      }
-
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    .section-title {
-      margin: 28px 0 15px;
-      font-size: clamp(27px, 7vw, 38px);
-      font-weight: 950;
-      text-transform: uppercase;
+      border-radius: 9px;
+      font-size: 20px;
+      font-weight: 700;
+      background: linear-gradient(135deg, #6728c5, #bd61ff);
     }
 
     /* HERO */
 
     .hero {
       position: relative;
-      min-height: 285px;
+      min-height: 280px;
       overflow: hidden;
-      border: 1px solid rgba(183, 94, 255, .65);
-      border-radius: 30px;
       padding: 25px;
-      display: flex;
-      align-items: center;
+      border: 1px solid rgba(189, 102, 255, .58);
+      border-radius: 30px;
       background:
-        radial-gradient(circle at 18% 85%, rgba(127, 38, 225, .42), transparent 42%),
-        radial-gradient(circle at 88% 15%, rgba(219, 80, 255, .18), transparent 32%),
-        linear-gradient(135deg, #291041, #120920);
-      box-shadow: 0 18px 50px rgba(0,0,0,.28);
+        radial-gradient(circle at 15% 90%, rgba(116, 33, 215, .45), transparent 40%),
+        radial-gradient(circle at 90% 10%, rgba(214, 74, 255, .16), transparent 35%),
+        linear-gradient(135deg, #29103f, #11091d);
+      box-shadow: 0 18px 48px rgba(0,0,0,.28);
+    }
+
+    .hero::before,
+    .hero::after {
+      content: "";
+      position: absolute;
+      border: 1px solid rgba(200, 119, 255, .12);
+      border-radius: 50%;
+      pointer-events: none;
     }
 
     .hero::before {
-      content: "";
-      position: absolute;
-      width: 280px;
-      height: 280px;
-      border-radius: 50%;
-      border: 1px solid rgba(204, 120, 255, .12);
-      left: -120px;
-      bottom: -160px;
+      width: 230px;
+      height: 230px;
+      left: -110px;
+      bottom: -140px;
+    }
+
+    .hero::after {
+      width: 150px;
+      height: 150px;
+      right: 15px;
+      top: -85px;
     }
 
     .hero-content {
@@ -221,7 +208,7 @@
     }
 
     .hero-kicker {
-      color: #c0a4d7;
+      color: #c2a5d7;
       font-size: 10px;
       font-weight: 900;
       letter-spacing: 2px;
@@ -229,47 +216,58 @@
     }
 
     .hero-title {
-      margin: 8px 0 0;
-      font-size: clamp(34px, 9vw, 58px);
-      line-height: .95;
+      margin: 9px 0 0;
+      font-size: clamp(35px, 9vw, 58px);
+      line-height: .92;
       font-weight: 950;
     }
 
     .hero-title span {
-      color: var(--purple2);
+      color: var(--purple-light);
     }
 
     .hero-text {
       margin: 15px 0 18px;
-      color: #c8bdcf;
+      color: #c8bccf;
       font-size: 14px;
       line-height: 1.4;
     }
 
     .hero-btn {
-      min-height: 47px;
+      min-height: 48px;
       padding: 0 20px;
       border: 0;
       border-radius: 16px;
       color: white;
       font-weight: 950;
       cursor: pointer;
-      background: linear-gradient(135deg, #6424bf, #b952ff);
-      box-shadow: 0 10px 25px rgba(110, 36, 210, .35);
+      background: linear-gradient(135deg, #6424bf, #b954ff);
+      box-shadow: 0 10px 24px rgba(111, 37, 210, .35);
     }
 
     .hero-art {
       position: absolute;
       right: 0;
       bottom: 0;
-      width: 50%;
+      width: 49%;
       height: 100%;
       object-fit: contain;
       object-position: right bottom;
       z-index: 1;
+      pointer-events: none;
     }
 
-    /* GAMES */
+    /* TITLES */
+
+    .section-title {
+      margin: 28px 0 15px;
+      font-size: clamp(28px, 7vw, 39px);
+      line-height: 1;
+      font-weight: 950;
+      text-transform: uppercase;
+    }
+
+    /* GAME CARDS */
 
     .games-grid {
       display: grid;
@@ -279,21 +277,21 @@
 
     .game-card {
       min-width: 0;
-      min-height: 335px;
+      min-height: 330px;
       overflow: hidden;
-      padding: 17px;
-      border: 1px solid rgba(181, 91, 255, .55);
+      padding: 16px;
+      border: 1px solid rgba(181, 91, 255, .52);
       border-radius: 27px;
       display: flex;
       flex-direction: column;
       background:
-        radial-gradient(circle at 90% 0%, rgba(178, 76, 255, .13), transparent 40%),
-        linear-gradient(145deg, #25103d, #12091f);
-      box-shadow: 0 14px 38px rgba(0,0,0,.22);
+        radial-gradient(circle at 95% 0%, rgba(177, 75, 255, .13), transparent 42%),
+        linear-gradient(145deg, #26103e, #11091d);
+      box-shadow: 0 14px 35px rgba(0,0,0,.2);
     }
 
     .game-name {
-      min-height: 52px;
+      min-height: 48px;
       margin: 0;
       font-size: clamp(20px, 5vw, 28px);
       line-height: 1.05;
@@ -304,7 +302,7 @@
     .game-image-wrap {
       width: 100%;
       height: 165px;
-      margin: 10px 0 7px;
+      margin: 8px 0;
       overflow: hidden;
       display: flex;
       align-items: center;
@@ -320,7 +318,7 @@
 
     .game-desc {
       min-height: 38px;
-      margin: 6px 0 14px;
+      margin: 5px 0 13px;
       color: var(--muted);
       font-size: 12px;
       line-height: 1.35;
@@ -328,17 +326,18 @@
 
     .game-btn {
       width: 100%;
-      min-height: 51px;
+      min-height: 50px;
       margin-top: auto;
       border: 0;
       border-radius: 16px;
       color: white;
+      font-size: 12px;
       font-weight: 950;
       cursor: pointer;
-      background: linear-gradient(135deg, #6524c3, #b650ff);
+      background: linear-gradient(135deg, #6424bf, #b64fff);
     }
 
-    /* QUICK CARDS */
+    /* BONUS CARDS */
 
     .quick-grid {
       display: grid;
@@ -347,13 +346,13 @@
     }
 
     .quick-card {
+      min-width: 0;
       min-height: 132px;
-      padding: 10px 7px;
+      padding: 10px 6px;
       border: 1px solid rgba(181, 91, 255, .4);
       border-radius: 22px;
       color: white;
-      cursor: pointer;
-      background: linear-gradient(145deg, #291241, #12091f);
+      background: linear-gradient(145deg, #291241, #11091d);
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -361,104 +360,17 @@
     }
 
     .quick-card img {
-      width: 65px;
-      height: 65px;
+      width: 64px;
+      height: 64px;
       object-fit: contain;
     }
 
     .quick-card span {
       font-size: 9px;
-      line-height: 1.2;
+      line-height: 1.25;
       font-weight: 950;
       text-align: center;
       text-transform: uppercase;
-    }
-
-    /* CONTENT PAGES */
-
-    .content-card {
-      padding: 19px;
-      margin-bottom: 14px;
-      border: 1px solid rgba(181, 91, 255, .45);
-      border-radius: 26px;
-      background: linear-gradient(145deg, #211034, #12091f);
-    }
-
-    .content-card h3 {
-      margin: 0 0 8px;
-      font-size: 20px;
-    }
-
-    .content-card p {
-      margin: 0;
-      color: var(--muted);
-      line-height: 1.45;
-    }
-
-    .case-row {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      padding: 13px;
-      margin-bottom: 10px;
-      border: 1px solid rgba(181, 91, 255, .25);
-      border-radius: 21px;
-      background: rgba(255,255,255,.035);
-    }
-
-    .case-row img {
-      width: 65px;
-      height: 65px;
-      object-fit: contain;
-    }
-
-    .case-info {
-      flex: 1;
-      min-width: 0;
-    }
-
-    .case-title {
-      font-weight: 950;
-    }
-
-    .case-price {
-      margin-top: 5px;
-      color: var(--purple2);
-      font-size: 13px;
-      font-weight: 800;
-    }
-
-    .small-btn {
-      border: 0;
-      border-radius: 13px;
-      padding: 10px 12px;
-      color: white;
-      font-size: 11px;
-      font-weight: 950;
-      cursor: pointer;
-      background: linear-gradient(135deg, #6424bf, #ad4cff);
-    }
-
-    /* INVENTORY */
-
-    .empty {
-      min-height: 250px;
-      padding: 35px 20px;
-      border: 1px dashed rgba(181, 91, 255, .45);
-      border-radius: 26px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      color: var(--muted);
-    }
-
-    .empty img {
-      width: 90px;
-      height: 90px;
-      object-fit: contain;
-      margin-bottom: 12px;
     }
 
     /* BOTTOM NAV */
@@ -469,13 +381,14 @@
       right: 0;
       bottom: 0;
       z-index: 100;
-      padding: 7px 8px max(9px, env(safe-area-inset-bottom));
-      background: rgba(9, 4, 17, .96);
+      padding: 7px 8px max(10px, env(safe-area-inset-bottom));
       border-top: 1px solid rgba(181, 91, 255, .3);
+      background: rgba(9, 4, 17, .96);
       backdrop-filter: blur(18px);
     }
 
     .nav-inner {
+      width: 100%;
       max-width: 760px;
       margin: auto;
       display: grid;
@@ -487,10 +400,9 @@
       min-height: 66px;
       padding: 3px;
       border: 0;
-      border-radius: 15px;
+      border-radius: 14px;
+      color: #82778c;
       background: transparent;
-      color: #85798f;
-      cursor: pointer;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -502,7 +414,7 @@
       width: 39px;
       height: 39px;
       object-fit: contain;
-      opacity: .72;
+      opacity: .7;
     }
 
     .nav-item span {
@@ -511,11 +423,12 @@
       font-size: 8px;
       font-weight: 900;
       text-overflow: ellipsis;
+      white-space: nowrap;
       text-transform: uppercase;
     }
 
     .nav-item.active {
-      color: #e0baff;
+      color: #e1bbff;
     }
 
     .nav-item.active img {
@@ -524,7 +437,7 @@
       filter: drop-shadow(0 0 7px rgba(195, 99, 255, .65));
     }
 
-    /* MODAL */
+    /* COINS MODAL */
 
     .modal {
       position: fixed;
@@ -534,7 +447,7 @@
       align-items: flex-end;
       justify-content: center;
       padding: 12px;
-      background: rgba(3,1,7,.74);
+      background: rgba(3, 1, 7, .74);
       backdrop-filter: blur(7px);
     }
 
@@ -543,19 +456,20 @@
     }
 
     .modal-box {
-      width: min(100%, 500px);
-      max-height: 84vh;
+      width: min(100%, 470px);
+      max-height: 82vh;
       overflow-y: auto;
       padding: 17px;
-      border: 1px solid rgba(191, 104, 255, .7);
+      border: 1px solid rgba(190, 102, 255, .65);
       border-radius: 27px;
-      background: linear-gradient(180deg, #1d0d31, #0e0719);
+      background: linear-gradient(180deg, #1e0d32, #0f071a);
     }
 
     .modal-head {
       display: flex;
       align-items: center;
       justify-content: space-between;
+      gap: 10px;
     }
 
     .modal-title {
@@ -567,17 +481,17 @@
     .close-btn {
       width: 37px;
       height: 37px;
+      flex: 0 0 auto;
       border: 0;
       border-radius: 12px;
-      background: rgba(255,255,255,.08);
       color: white;
       font-size: 23px;
-      cursor: pointer;
+      background: rgba(255,255,255,.08);
     }
 
     .current-balance {
-      margin: 12px 0;
-      padding: 9px;
+      margin: 13px 0;
+      padding: 10px;
       border-radius: 16px;
       display: flex;
       align-items: center;
@@ -594,24 +508,24 @@
 
     .packs {
       display: grid;
-      grid-template-columns: repeat(2, 1fr);
+      grid-template-columns: repeat(2, minmax(0, 1fr));
       gap: 10px;
     }
 
     .pack {
       min-height: 132px;
       padding: 10px;
-      border: 1px solid rgba(185, 95, 255, .4);
+      border: 1px solid rgba(185, 95, 255, .38);
       border-radius: 20px;
-      background: linear-gradient(145deg, #31154f, #160a25);
       text-align: center;
+      background: linear-gradient(145deg, #31154f, #160a25);
     }
 
     .pack img {
-      width: 68px;
-      height: 68px;
+      width: 65px;
+      height: 65px;
       object-fit: contain;
-      margin: auto;
+      margin: 0 auto;
     }
 
     .pack-amount {
@@ -625,9 +539,8 @@
       border: 0;
       border-radius: 10px;
       color: white;
-      font-size: 11px;
-      font-weight: 900;
-      cursor: pointer;
+      font-size: 10px;
+      font-weight: 950;
       background: linear-gradient(135deg, #6828c8, #ae52f5);
     }
 
@@ -640,16 +553,16 @@
       z-index: 500;
       max-width: calc(100vw - 30px);
       padding: 12px 16px;
-      border: 1px solid rgba(190,100,255,.55);
+      border: 1px solid rgba(190, 100, 255, .55);
       border-radius: 15px;
       color: white;
+      background: #211034;
       font-weight: 800;
       text-align: center;
-      background: #211034;
-      transform: translateX(-50%) translateY(20px);
       opacity: 0;
       pointer-events: none;
-      transition: .2s;
+      transform: translateX(-50%) translateY(20px);
+      transition: .2s ease;
     }
 
     .toast.show {
@@ -661,10 +574,6 @@
       .hero {
         min-height: 260px;
         padding: 20px;
-      }
-
-      .hero-title {
-        font-size: 38px;
       }
 
       .game-card {
@@ -691,8 +600,8 @@
       }
 
       .hero-art {
+        width: 74%;
         opacity: .32;
-        width: 75%;
       }
 
       .hero-content {
@@ -709,7 +618,7 @@
     <header class="topbar">
       <div class="brand">
         <h1 class="brand-title">NEXI CASE</h1>
-        <div class="brand-subtitle">PLAY • WIN • FLEX</div>
+        <div class="brand-subtitle">PLAY • WIN • COLLECT</div>
       </div>
 
       <button class="balance-btn" onclick="openCoinsModal()">
@@ -724,328 +633,157 @@
       </button>
     </header>
 
-
-    <!-- HOME -->
-    <section class="page active" id="page-home">
-
-      <div class="hero">
-        <div class="hero-content">
-          <div class="hero-kicker">Добро пожаловать</div>
-
-          <h2 class="hero-title">
-            ПРИВЕТ,<br>
-            <span>Я NEXI!</span>
-          </h2>
-
-          <p class="hero-text">
-            Выбирай игру, открывай кейсы и начинай своё приключение!
-          </p>
-
-          <button class="hero-btn" onclick="switchPage('games')">
-            LET'S PLAY →
-          </button>
-        </div>
-
-        <img src="assets/nexi.png" class="hero-art" alt="Nexi">
-      </div>
-
-
-      <h2 class="section-title">Игры</h2>
-
-      <div class="games-grid">
-
-        <article class="game-card">
-          <h3 class="game-name">MM2 CASES</h3>
-
-          <div class="game-image-wrap">
-            <img src="assets/mm2.png" class="game-image" alt="MM2">
-          </div>
-
-          <p class="game-desc">
-            Открывай кейсы и собирай редкие предметы!
-          </p>
-
-          <button class="game-btn" onclick="switchPage('cases')">
-            ОТКРЫТЬ →
-          </button>
-        </article>
-
-
-        <article class="game-card">
-          <h3 class="game-name">ADOPT ME</h3>
-
-          <div class="game-image-wrap">
-            <img src="assets/adopt.png" class="game-image" alt="Adopt Me">
-          </div>
-
-          <p class="game-desc">
-            Собирай питомцев и находи новых друзей!
-          </p>
-
-          <button class="game-btn" onclick="switchPage('cases')">
-            ОТКРЫТЬ →
-          </button>
-        </article>
-
-
-        <article class="game-card">
-          <h3 class="game-name">CRASH</h3>
-
-          <div class="game-image-wrap">
-            <img src="assets/crash.png" class="game-image" alt="Crash">
-          </div>
-
-          <p class="game-desc">
-            Успей забрать выигрыш до остановки!
-          </p>
-
-          <button class="game-btn" onclick="openGame('Crash')">
-            ИГРАТЬ →
-          </button>
-        </article>
-
-
-        <article class="game-card">
-          <h3 class="game-name">РУЛЕТКА</h3>
-
-          <div class="game-image-wrap">
-            <img src="assets/roulette.png" class="game-image" alt="Рулетка">
-          </div>
-
-          <p class="game-desc">
-            Испытай свою удачу и забери награду!
-          </p>
-
-          <button class="game-btn" onclick="openGame('Рулетка')">
-            КРУТИТЬ →
-          </button>
-        </article>
-
-      </div>
-
-
-      <h2 class="section-title">Бонусы</h2>
-
-      <div class="quick-grid">
-
-        <button class="quick-card" onclick="claimDailyBonus()">
-          <img src="assets/daily.png" alt="Бонус">
-          <span>Бонус<br>+100 Coins</span>
-        </button>
-
-        <button class="quick-card" onclick="showToast('Задания скоро появятся!')">
-          <img src="assets/tasks.png" alt="Задания">
-          <span>Задания</span>
-        </button>
-
-        <button class="quick-card" onclick="showToast('Топ игроков скоро появится!')">
-          <img src="assets/top.png" alt="Топ">
-          <span>Топ игроков</span>
-        </button>
-
-      </div>
-
-    </section>
-
-
-    <!-- CASES -->
-    <section class="page" id="page-cases">
-
-      <h2 class="section-title">Кейсы</h2>
-
-      <div class="content-card">
-        <h3>Открывай кейсы</h3>
-        <p>
-          Трать NEXI Coins и получай новые предметы.
-        </p>
-      </div>
-
-      <div class="case-row">
-        <img src="assets/godly-case(4).png" alt="Godly Case">
-
-        <div class="case-info">
-          <div class="case-title">GODLY CASE</div>
-          <div class="case-price">50 Coins</div>
-        </div>
-
-        <button class="small-btn"
-          onclick="buyCase('Godly Case', 50, 'assets/godly-case(4).png')">
-          ОТКРЫТЬ
-        </button>
-      </div>
-
-      <div class="case-row">
-        <img src="assets/nexi-case(4).png" alt="Nexi Case">
-
-        <div class="case-info">
-          <div class="case-title">NEXI CASE</div>
-          <div class="case-price">100 Coins</div>
-        </div>
-
-        <button class="small-btn"
-          onclick="buyCase('Nexi Case', 100, 'assets/nexi-case(4).png')">
-          ОТКРЫТЬ
-        </button>
-      </div>
-
-      <div class="case-row">
-        <img src="assets/start-case(4).png" alt="Start Case">
-
-        <div class="case-info">
-          <div class="case-title">START CASE</div>
-          <div class="case-price">25 Coins</div>
-        </div>
-
-        <button class="small-btn"
-          onclick="buyCase('Start Case', 25, 'assets/start-case(4).png')">
-          ОТКРЫТЬ
-        </button>
-      </div>
-
-    </section>
-
-
-    <!-- GAMES -->
-    <section class="page" id="page-games">
-
-      <h2 class="section-title">Все игры</h2>
-
-      <div class="games-grid">
-
-        <article class="game-card">
-          <h3 class="game-name">MM2 CASES</h3>
-          <div class="game-image-wrap">
-            <img src="assets/mm2.png" class="game-image" alt="MM2">
-          </div>
-          <p class="game-desc">Открывай MM2 кейсы.</p>
-          <button class="game-btn" onclick="switchPage('cases')">ИГРАТЬ →</button>
-        </article>
-
-        <article class="game-card">
-          <h3 class="game-name">ADOPT ME</h3>
-          <div class="game-image-wrap">
-            <img src="assets/adopt.png" class="game-image" alt="Adopt">
-          </div>
-          <p class="game-desc">Собирай питомцев.</p>
-          <button class="game-btn" onclick="switchPage('cases')">ИГРАТЬ →</button>
-        </article>
-
-        <article class="game-card">
-          <h3 class="game-name">CRASH</h3>
-          <div class="game-image-wrap">
-            <img src="assets/crash.png" class="game-image" alt="Crash">
-          </div>
-          <p class="game-desc">Проверь свою удачу.</p>
-          <button class="game-btn" onclick="openGame('Crash')">ИГРАТЬ →</button>
-        </article>
-
-        <article class="game-card">
-          <h3 class="game-name">РУЛЕТКА</h3>
-          <div class="game-image-wrap">
-            <img src="assets/roulette.png" class="game-image" alt="Рулетка">
-          </div>
-          <p class="game-desc">Крути колесо удачи.</p>
-          <button class="game-btn" onclick="openGame('Рулетка')">КРУТИТЬ →</button>
-        </article>
-
-      </div>
-
-    </section>
-
-
-    <!-- INVENTORY -->
-    <section class="page" id="page-inventory">
-
-      <h2 class="section-title">Инвентарь</h2>
-
-      <div class="empty">
-        <img src="assets/inventory.png" alt="Инвентарь">
-        <strong>Инвентарь пока пуст</strong>
-        <p>Открывай кейсы, чтобы получать предметы.</p>
-      </div>
-
-    </section>
-
-
-    <!-- PROFILE -->
-    <section class="page" id="page-profile">
-
-      <h2 class="section-title">Профиль</h2>
-
-      <div class="content-card" style="text-align:center;">
-        <img src="assets/nexi.png"
-             style="width:110px;height:110px;object-fit:contain;margin:auto;"
-             alt="Nexi">
-
-        <h3 style="margin-top:10px;">Игрок NEXI</h3>
-
-        <p>
-          Баланс:
-          <strong id="profileBalance">250</strong>
-          NEXI Coins
-        </p>
-      </div>
-
-      <div class="content-card">
-        <h3>Ежедневный бонус</h3>
-        <p id="dailyStatus">
-          Забери +100 NEXI Coins!
+    <section class="hero">
+      <div class="hero-content">
+        <div class="hero-kicker">Добро пожаловать</div>
+
+        <h2 class="hero-title">
+          ПРИВЕТ,<br>
+          <span>Я NEXI!</span>
+        </h2>
+
+        <p class="hero-text">
+          Выбирай игру, открывай кейсы и начинай своё приключение!
         </p>
 
-        <button
-          id="dailyButton"
-          class="game-btn"
-          style="margin-top:15px;"
-          onclick="claimDailyBonus()">
-          ЗАБРАТЬ +100 COINS
-        </button>
+        <a href="games.html">
+          <button class="hero-btn">LET'S PLAY →</button>
+        </a>
       </div>
+
+      <img src="assets/nexi.png" class="hero-art" alt="Nexi">
+    </section>
+
+
+    <h2 class="section-title">Игры</h2>
+
+    <section class="games-grid">
+
+      <article class="game-card">
+        <h3 class="game-name">MM2 CASES</h3>
+
+        <div class="game-image-wrap">
+          <img src="assets/mm2.png" class="game-image" alt="MM2">
+        </div>
+
+        <p class="game-desc">
+          Открывай кейсы и собирай редкие предметы!
+        </p>
+
+        <a href="cases.html">
+          <button class="game-btn">ОТКРЫТЬ →</button>
+        </a>
+      </article>
+
+
+      <article class="game-card">
+        <h3 class="game-name">ADOPT ME</h3>
+
+        <div class="game-image-wrap">
+          <img src="assets/adopt.png" class="game-image" alt="Adopt Me">
+        </div>
+
+        <p class="game-desc">
+          Собирай питомцев и находи новых друзей!
+        </p>
+
+        <a href="games.html#adopt">
+          <button class="game-btn">ИГРАТЬ →</button>
+        </a>
+      </article>
+
+
+      <article class="game-card">
+        <h3 class="game-name">CRASH</h3>
+
+        <div class="game-image-wrap">
+          <img src="assets/crash.png" class="game-image" alt="Crash">
+        </div>
+
+        <p class="game-desc">
+          Успей забрать выигрыш до остановки!
+        </p>
+
+        <a href="games.html#crash">
+          <button class="game-btn">ИГРАТЬ →</button>
+        </a>
+      </article>
+
+
+      <article class="game-card">
+        <h3 class="game-name">РУЛЕТКА</h3>
+
+        <div class="game-image-wrap">
+          <img src="assets/roulette.png" class="game-image" alt="Рулетка">
+        </div>
+
+        <p class="game-desc">
+          Испытай удачу и забери свою награду!
+        </p>
+
+        <a href="games.html#roulette">
+          <button class="game-btn">КРУТИТЬ →</button>
+        </a>
+      </article>
+
+    </section>
+
+
+    <h2 class="section-title">Бонусы</h2>
+
+    <section class="quick-grid">
+
+      <button class="quick-card" onclick="claimDailyBonus()">
+        <img src="assets/daily.png" alt="">
+        <span>Бонус<br>+100 Coins</span>
+      </button>
+
+      <a href="games.html#tasks" class="quick-card">
+        <img src="assets/tasks.png" alt="">
+        <span>Задания</span>
+      </a>
+
+      <a href="profile.html#top" class="quick-card">
+        <img src="assets/top.png" alt="">
+        <span>Топ игроков</span>
+      </a>
 
     </section>
 
   </main>
 
 
-  <!-- BOTTOM MENU -->
-
   <nav class="bottom-nav">
     <div class="nav-inner">
 
-      <button class="nav-item active" data-page="home"
-              onclick="switchPage('home')">
+      <a href="index.html" class="nav-item active">
         <img src="assets/home.png" alt="">
         <span>Главная</span>
-      </button>
+      </a>
 
-      <button class="nav-item" data-page="cases"
-              onclick="switchPage('cases')">
+      <a href="cases.html" class="nav-item">
         <img src="assets/cases.png" alt="">
         <span>Кейсы</span>
-      </button>
+      </a>
 
-      <button class="nav-item" data-page="games"
-              onclick="switchPage('games')">
+      <a href="games.html" class="nav-item">
         <img src="assets/games.png" alt="">
         <span>Игры</span>
-      </button>
+      </a>
 
-      <button class="nav-item" data-page="inventory"
-              onclick="switchPage('inventory')">
+      <a href="inventory.html" class="nav-item">
         <img src="assets/inventory.png" alt="">
         <span>Инвентарь</span>
-      </button>
+      </a>
 
-      <button class="nav-item" data-page="profile"
-              onclick="switchPage('profile')">
+      <a href="profile.html" class="nav-item">
         <img src="assets/profile.png" alt="">
         <span>Профиль</span>
-      </button>
+      </a>
 
     </div>
   </nav>
 
-
-  <!-- COINS MODAL -->
 
   <div class="modal" id="coinsModal">
     <div class="modal-box">
@@ -1053,10 +791,7 @@
       <div class="modal-head">
         <h2 class="modal-title">Пополнить Coins</h2>
 
-        <button class="close-btn"
-                onclick="closeCoinsModal()">
-          ×
-        </button>
+        <button class="close-btn" onclick="closeCoinsModal()">×</button>
       </div>
 
       <div class="current-balance">
@@ -1090,17 +825,10 @@
           <button class="buy-btn" onclick="buyCoins(1500)">КУПИТЬ</button>
         </div>
 
-        <div class="pack">
-          <img src="assets/gem.png" alt="">
-          <div class="pack-amount">3000 Coins</div>
-          <button class="buy-btn" onclick="buyCoins(3000)">КУПИТЬ</button>
-        </div>
-
       </div>
 
     </div>
   </div>
-
 
   <div class="toast" id="toast"></div>
 
@@ -1115,27 +843,38 @@
       tg.expand();
     }
 
-    const STORAGE_KEY = "nexi_state_v2";
+    /*
+      ЕДИНОЕ ХРАНИЛИЩЕ ДЛЯ ВСЕХ СТРАНИЦ.
+      cases.html, games.html, inventory.html и profile.html
+      дальше будут использовать этот же ключ.
+    */
+    const STORAGE_KEY = "nexi_game_state";
 
     function loadState() {
       try {
         const saved = JSON.parse(
           localStorage.getItem(STORAGE_KEY)
-        );
+        ) || {};
 
         return {
-          balance:
-            typeof saved?.balance === "number"
-              ? saved.balance
-              : 250,
+          balance: typeof saved.balance === "number"
+            ? saved.balance
+            : 250,
 
-          lastDaily:
-            saved?.lastDaily || null
+          lastDaily: saved.lastDaily || null,
+
+          inventory: Array.isArray(saved.inventory)
+            ? saved.inventory
+            : [],
+
+          gamesPlayed: saved.gamesPlayed || 0
         };
-      } catch {
+      } catch (error) {
         return {
           balance: 250,
-          lastDaily: null
+          lastDaily: null,
+          inventory: [],
+          gamesPlayed: 0
         };
       }
     }
@@ -1149,47 +888,21 @@
       );
     }
 
-    function updateUI() {
+    function updateBalance() {
       document.getElementById("balanceValue").textContent =
-        state.balance;
-
-      document.getElementById("profileBalance").textContent =
         state.balance;
 
       document.getElementById("modalBalance").textContent =
         state.balance;
-
-      updateDailyUI();
-    }
-
-    function switchPage(pageName) {
-      document.querySelectorAll(".page")
-        .forEach(page => page.classList.remove("active"));
-
-      document.querySelectorAll(".nav-item")
-        .forEach(item => {
-          item.classList.toggle(
-            "active",
-            item.dataset.page === pageName
-          );
-        });
-
-      document.getElementById("page-" + pageName)
-        .classList.add("active");
-
-      window.scrollTo({
-        top: 0,
-        behavior: "smooth"
-      });
     }
 
     function getToday() {
-      const now = new Date();
+      const date = new Date();
 
       return [
-        now.getFullYear(),
-        String(now.getMonth() + 1).padStart(2, "0"),
-        String(now.getDate()).padStart(2, "0")
+        date.getFullYear(),
+        String(date.getMonth() + 1).padStart(2, "0"),
+        String(date.getDate()).padStart(2, "0")
       ].join("-");
     }
 
@@ -1203,35 +916,13 @@
       state.lastDaily = getToday();
 
       saveState();
-      updateUI();
+      updateBalance();
+
+      if (tg && tg.HapticFeedback) {
+        tg.HapticFeedback.notificationOccurred("success");
+      }
 
       showToast("+100 NEXI Coins! 💎");
-    }
-
-    function updateDailyUI() {
-      const button =
-        document.getElementById("dailyButton");
-
-      const status =
-        document.getElementById("dailyStatus");
-
-      if (!button || !status) return;
-
-      if (state.lastDaily === getToday()) {
-        button.disabled = true;
-        button.textContent = "БОНУС ПОЛУЧЕН";
-        button.classList.add("disabled");
-
-        status.textContent =
-          "Возвращайся завтра за следующим бонусом!";
-      } else {
-        button.disabled = false;
-        button.textContent = "ЗАБРАТЬ +100 COINS";
-        button.classList.remove("disabled");
-
-        status.textContent =
-          "Забери +100 NEXI Coins!";
-      }
     }
 
     function openCoinsModal() {
@@ -1244,51 +935,21 @@
         .classList.remove("show");
     }
 
+    /*
+      Сейчас кнопки тестово начисляют Coins.
+      Позже сюда подключим настоящее пополнение через Telegram.
+    */
     function buyCoins(amount) {
       state.balance += amount;
 
       saveState();
-      updateUI();
+      updateBalance();
 
-      showToast("+" + amount + " Coins добавлено 💎");
-
-      if (tg?.HapticFeedback) {
+      if (tg && tg.HapticFeedback) {
         tg.HapticFeedback.notificationOccurred("success");
       }
-    }
 
-    function buyCase(name, price, image) {
-      if (state.balance < price) {
-        showToast("Недостаточно Coins 💎");
-        openCoinsModal();
-        return;
-      }
-
-      state.balance -= price;
-
-      saveState();
-      updateUI();
-
-      showToast(name + " открыт! 🎁");
-    }
-
-    function openGame(name) {
-      showToast(name + " скоро будет доступна 🎮");
-    }
-
-    let toastTimer;
-
-    function showToast(message) {
-      const toast = document.getElementById("toast");
-
-      toast.textContent = message;
-      toast.classList.add("show");
-
-      clearTimeout(toastTimer);
-
-      toastTimer = setTimeout(() => {
-        toast.classList.remove("show");
-      }, 2500);
+      showToast("+" + amount + " Coins добавлено 💎");
     }
 
     document.getElementById("coinsModal")
@@ -1298,8 +959,23 @@
         }
       });
 
-    updateUI();
+    let toastTimer;
+
+    function showToast(text) {
+      const toast = document.getElementById("toast");
+
+      toast.textContent = text;
+      toast.classList.add("show");
+
+      clearTimeout(toastTimer);
+
+      toastTimer = setTimeout(function() {
+        toast.classList.remove("show");
+      }, 2500);
+    }
+
+    updateBalance();
   </script>
 
 </body>
-            </html>
+</html>
