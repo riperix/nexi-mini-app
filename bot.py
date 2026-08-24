@@ -1,13 +1,12 @@
-# bot.py
-
-```python
 import os
-import asyncio
-import threading
+import json
+import hmac
+import hashlib
+from contextlib import asynccontextmanager
+from urllib.parse import parse_qsl
 
-from fastapi import FastAPI, HTTPException
-from pydantic import BaseModel
-import uvicorn
+from fastapi import FastAPI, HTTPException, Request
+from fastapi.middleware.cors import CORSMiddleware
 
 from telegram import (
     Update,
@@ -21,6 +20,11 @@ from telegram.ext import (
     ContextTypes,
 )
 
+
+# =========================
+# НАСТРОЙКИ
+# =========================
+
 TOKEN = os.getenv("BOT_TOKEN")
 ADMIN_ID = 1282434336
 
@@ -32,151 +36,109 @@ PACKS = {
     3000: 350,
 }
 
+if not TOKEN:
+    raise RuntimeError(
+        "BOT_TOKEN не найден в Railway Variables"
+    )
+
+
 # =========================
-# WEB SERVER
+# ПРОВЕРКА TELEGRAM Mini App
 # =========================
 
-api = FastAPI()
-
-
-class PaymentRequest(BaseModel):
-    coins: int
-    price: int
-    user_id: int
-    username: str = ""
-    first_name: str = ""
-
-
-telegram_app = None
-telegram_loop = None
-
-
-@api.get("/")
-async def health():
-    return {
-        "status": "ok",
-        "service": "NEXI CASES",
-    }
-
-
-@api.post("/payment")
-async def payment(request: PaymentRequest):
-
-    if PACKS.get(request.coins) != request.price:
-        raise HTTPException(
-            status_code=400,
-            detail="Неверный пакет",
-        )
-
-    if not telegram_app or not telegram_loop:
-        raise HTTPException(
-            status_code=503,
-            detail="Бот ещё не запущен",
-        )
-
-    username = (
-        f"@{request.username}"
-        if request.username
-        else "нет username"
-    )
-
-    admin_text = (
-        "🚨 НОВАЯ ЗАЯВКА НА ОПЛАТУ\n\n"
-        f"👤 Имя: {request.first_name or 'Неизвестно'}\n"
-        f"🔗 Username: {username}\n"
-        f"🆔 ID: {request.user_id}\n\n"
-        f"💎 Пакет: {request.coins} COINS\n"
-        f"💰 Сумма: {request.price} ₽\n\n"
-        "⚠️ Пользователь нажал «Я ОПЛАТИЛ(А)»."
-    )
-
-    keyboard = InlineKeyboardMarkup([
-        [
-            InlineKeyboardButton(
-                "✅ ПОДТВЕРДИТЬ",
-                callback_data=(
-                    f"approve:{request.user_id}:{request.coins}"
-                ),
-            ),
-            InlineKeyboardButton(
-                "❌ ОТКЛОНИТЬ",
-                callback_data=(
-                    f"reject:{request.user_id}:{request.coins}"
-                ),
-            ),
-        ]
-    ])
-
-    future = asyncio.run_coroutine_threadsafe(
-        telegram_app.bot.send_message(
-            chat_id=ADMIN_ID,
-            text=admin_text,
-            reply_markup=keyboard,
-        ),
-        telegram_loop,
-    )
-
+def validate_init_data(init_data: str):
     try:
-        future.result(timeout=15)
-    except Exception as error:
-        print("ОШИБКА ОТПРАВКИ:", repr(error))
-        raise HTTPException(
-            status_code=500,
-            detail="Не удалось отправить заявку",
+        data = dict(
+            parse_qsl(
+                init_data,
+                keep_blank_values=True
+            )
         )
 
-    print(
-        "ЗАЯВКА ОТПРАВЛЕНА:",
-        request.user_id,
-        request.coins,
-        request.price,
-    )
+        received_hash = data.pop("hash", None)
 
-    return {
-        "ok": True,
-    }
+        if not received_hash:
+            return None
+
+        data_check_string = "\n".join(
+            f"{key}={value}"
+            for key, value in sorted(data.items())
+        )
+
+        secret_key = hmac.new(
+            b"WebAppData",
+            TOKEN.encode(),
+            hashlib.sha256
+        ).digest()
+
+        calculated_hash = hmac.new(
+            secret_key,
+            data_check_string.encode(),
+            hashlib.sha256
+        ).hexdigest()
+
+        if not hmac.compare_digest(
+            calculated_hash,
+            received_hash
+        ):
+            return None
+
+        user_json = data.get("user")
+
+        if not user_json:
+            return None
+
+        return json.loads(user_json)
+
+    except Exception as error:
+        print("ОШИБКА ПРОВЕРКИ INIT DATA:", error)
+        return None
 
 
 # =========================
-# TELEGRAM BOT
+# TELEGRAM КОМАНДА /start
 # =========================
 
 async def start(
     update: Update,
-    context: ContextTypes.DEFAULT_TYPE,
+    context: ContextTypes.DEFAULT_TYPE
 ):
     await update.message.reply_text(
-        "💜 NEXI CASES BOT работает.\n\n"
-        "Я принимаю заявки из Mini App."
+        "💜 NEXI CASES BOT работает!\n\n"
+        "Заявки из Mini App будут приходить сюда."
     )
 
 
+# =========================
+# КНОПКИ ПОДТВЕРЖДЕНИЯ
+# =========================
+
 async def button_handler(
     update: Update,
-    context: ContextTypes.DEFAULT_TYPE,
+    context: ContextTypes.DEFAULT_TYPE
 ):
     query = update.callback_query
 
     if query.from_user.id != ADMIN_ID:
         await query.answer(
             "Нет доступа.",
-            show_alert=True,
+            show_alert=True
         )
         return
 
     await query.answer()
 
     try:
-        action, buyer_id, coins = query.data.split(":")
+        action, buyer_id, coins, price = (
+            query.data.split("_")
+        )
 
         buyer_id = int(buyer_id)
         coins = int(coins)
+        price = int(price)
 
     except Exception as error:
-        print("ОШИБКА КНОПКИ:", repr(error))
-        return
-
-    if coins not in PACKS:
+        print("ОШИБКА КНОПКИ:", error)
         return
 
     if action == "approve":
@@ -184,16 +146,17 @@ async def button_handler(
         await context.bot.send_message(
             chat_id=buyer_id,
             text=(
-                "🎉 ОПЛАТА ПОДТВЕРЖДЕНА!\n\n"
+                "🎉 Оплата подтверждена!\n\n"
                 f"💎 Тебе начислен пакет: "
                 f"{coins} COINS\n\n"
                 "Спасибо за покупку 💜"
-            ),
+            )
         )
 
         await query.edit_message_text(
             query.message.text
-            + "\n\n━━━━━━━━━━━━━━\n"
+            + "\n\n"
+            + "━━━━━━━━━━━━━━\n"
             + "✅ ОПЛАТА ПОДТВЕРЖДЕНА"
         )
 
@@ -203,80 +166,227 @@ async def button_handler(
             chat_id=buyer_id,
             text=(
                 "❌ Заявка на оплату отклонена.\n\n"
-                "Если произошла ошибка, "
+                "Если ты действительно оплатил(а), "
                 "обратись в поддержку."
-            ),
+            )
         )
 
         await query.edit_message_text(
             query.message.text
-            + "\n\n━━━━━━━━━━━━━━\n"
+            + "\n\n"
+            + "━━━━━━━━━━━━━━\n"
             + "❌ ЗАЯВКА ОТКЛОНЕНА"
         )
 
 
 # =========================
-# ЗАПУСК БОТА
+# TELEGRAM BOT
 # =========================
 
-def run_bot():
+telegram_app = (
+    ApplicationBuilder()
+    .token(TOKEN)
+    .build()
+)
 
-    global telegram_app
-    global telegram_loop
+telegram_app.add_handler(
+    CommandHandler("start", start)
+)
 
-    if not TOKEN:
-        raise ValueError(
-            "BOT_TOKEN не найден в Variables"
+telegram_app.add_handler(
+    CallbackQueryHandler(button_handler)
+)
+
+
+# =========================
+# ЗАПУСК БОТА В FASTAPI
+# =========================
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+
+    await telegram_app.initialize()
+    await telegram_app.start()
+
+    if telegram_app.updater:
+        await telegram_app.updater.start_polling(
+            drop_pending_updates=False
         )
 
-    loop = asyncio.new_event_loop()
-    asyncio.set_event_loop(loop)
+    print("💜 TELEGRAM БОТ ЗАПУЩЕН")
+    print("💜 ОЖИДАЮ ЗАЯВКИ ИЗ MINI APP")
 
-    telegram_loop = loop
+    yield
 
-    telegram_app = (
-        ApplicationBuilder()
-        .token(TOKEN)
-        .build()
-    )
+    if telegram_app.updater:
+        await telegram_app.updater.stop()
 
-    telegram_app.add_handler(
-        CommandHandler("start", start)
-    )
-
-    telegram_app.add_handler(
-        CallbackQueryHandler(button_handler)
-    )
-
-    telegram_app.run_polling(
-        allowed_updates=Update.ALL_TYPES,
-    )
+    await telegram_app.stop()
+    await telegram_app.shutdown()
 
 
 # =========================
-# ЗАПУСК ВСЕГО
+# FASTAPI SERVER
 # =========================
 
-if __name__ == "__main__":
+app = FastAPI(
+    title="NEXI CASES API",
+    lifespan=lifespan
+)
 
-    bot_thread = threading.Thread(
-        target=run_bot,
-        daemon=True,
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=False,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+
+# =========================
+# ПРОВЕРКА СЕРВЕРА
+# =========================
+
+@app.get("/")
+async def home():
+    return {
+        "status": "ok",
+        "message": "NEXI CASES API работает"
+    }
+
+
+@app.get("/health")
+async def health():
+    return {
+        "status": "ok"
+    }
+
+
+# =========================
+# ПРИЁМ ЗАЯВКИ
+# =========================
+
+@app.post("/payment")
+async def payment(request: Request):
+
+    try:
+        body = await request.json()
+
+    except Exception:
+        raise HTTPException(
+            status_code=400,
+            detail="Неверный JSON"
+        )
+
+    init_data = body.get("initData", "")
+
+    user = validate_init_data(init_data)
+
+    if not user:
+        raise HTTPException(
+            status_code=403,
+            detail=(
+                "Не удалось проверить "
+                "пользователя Telegram"
+            )
+        )
+
+    try:
+        coins = int(body.get("coins"))
+        price = int(body.get("price"))
+
+    except Exception:
+        raise HTTPException(
+            status_code=400,
+            detail="Неверные данные пакета"
+        )
+
+    if PACKS.get(coins) != price:
+        raise HTTPException(
+            status_code=400,
+            detail="Неверный пакет или цена"
+        )
+
+    user_id = user.get("id")
+
+    first_name = (
+        user.get("first_name")
+        or "Без имени"
     )
 
-    bot_thread.start()
-
-    port = int(
-        os.getenv("PORT", "8000")
+    last_name = (
+        user.get("last_name")
+        or ""
     )
 
-    print(
-        f"WEB SERVER ЗАПУЩЕН НА PORT {port}"
+    full_name = (
+        f"{first_name} {last_name}"
+    ).strip()
+
+    username = user.get("username")
+
+    username_text = (
+        f"@{username}"
+        if username
+        else "нет username"
     )
 
-    uvicorn.run(
-        api,
-        host="0.0.0.0",
-        port=port,
+    admin_text = (
+        "💜 НОВАЯ ЗАЯВКА НА ОПЛАТУ\n\n"
+        f"👤 Пользователь: {full_name}\n"
+        f"🔗 Username: {username_text}\n"
+        f"🆔 ID: {user_id}\n\n"
+        f"💎 Пакет: {coins} COINS\n"
+        f"💰 Сумма: {price} ₽\n\n"
+        "⚠️ Проверь оплату вручную."
     )
-```
+
+    keyboard = InlineKeyboardMarkup([
+        [
+            InlineKeyboardButton(
+                "✅ ПОДТВЕРДИТЬ",
+                callback_data=(
+                    f"approve_{user_id}_"
+                    f"{coins}_{price}"
+                )
+            ),
+            InlineKeyboardButton(
+                "❌ ОТКЛОНИТЬ",
+                callback_data=(
+                    f"reject_{user_id}_"
+                    f"{coins}_{price}"
+                )
+            ),
+        ]
+    ])
+
+    try:
+        await telegram_app.bot.send_message(
+            chat_id=ADMIN_ID,
+            text=admin_text,
+            reply_markup=keyboard
+        )
+
+        print(
+            f"💜 ЗАЯВКА ОТПРАВЛЕНА: "
+            f"{user_id} | "
+            f"{coins} COINS | "
+            f"{price} ₽"
+        )
+
+        return {
+            "ok": True,
+            "message": "Заявка отправлена"
+        }
+
+    except Exception as error:
+
+        print(
+            "ОШИБКА ОТПРАВКИ ЗАЯВКИ:",
+            repr(error)
+        )
+
+        raise HTTPException(
+            status_code=500,
+            detail="Не удалось отправить заявку"
+        )
