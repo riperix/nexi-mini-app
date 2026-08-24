@@ -1,1284 +1,1342 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport"
-        content="width=device-width, initial-scale=1, viewport-fit=cover">
-
-  <title>NEXI CASE</title>
-
-  <style>
-    :root {
-      --bg: #080411;
-      --bg-soft: #11081d;
-      --card: #1a0d29;
-      --card-2: #241139;
-      --purple: #8d3cff;
-      --purple-2: #b95cff;
-      --pink: #ed75ff;
-      --text: #f5f1fa;
-      --muted: #bcb3c8;
-      --border: rgba(169, 83, 255, .72);
-      --shadow: 0 18px 50px rgba(0, 0, 0, .35);
-    }
-
-    * {
-      box-sizing: border-box;
-      -webkit-tap-highlight-color: transparent;
-    }
-
-    html {
-      scroll-behavior: smooth;
-    }
-
-    body {
-      margin: 0;
-      min-width: 320px;
-      color: var(--text);
-      font-family: Arial, Helvetica, sans-serif;
-      background:
-        radial-gradient(circle at 80% 10%, rgba(131, 41, 225, .20), transparent 28%),
-        radial-gradient(circle at 10% 45%, rgba(119, 44, 207, .13), transparent 30%),
-        var(--bg);
-      overflow-x: hidden;
-    }
-
-    body::before {
-      content: "";
-      position: fixed;
-      inset: 0;
-      pointer-events: none;
-      opacity: .22;
-      background-image:
-        radial-gradient(circle, #b56cff 1px, transparent 1px);
-      background-size: 36px 36px;
-      mask-image: linear-gradient(to bottom, transparent, black 20%, black 80%, transparent);
-      z-index: -1;
-    }
-
-    button {
-      font: inherit;
-    }
-
-    .app {
-      width: 100%;
-      max-width: 900px;
-      margin: 0 auto;
-      padding-bottom: 118px;
-    }
-
-    /* ================= HEADER ================= */
-
-    .topbar {
-      position: sticky;
-      top: 0;
-      z-index: 50;
-      height: 92px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 0 26px;
-      background: rgba(24, 31, 42, .97);
-      border-bottom: 1px solid rgba(255,255,255,.06);
-      backdrop-filter: blur(18px);
-    }
-
-    .brand-row {
-      display: flex;
-      align-items: center;
-      gap: 24px;
-    }
-
-    .close-btn,
-    .menu-btn {
-      width: 44px;
-      height: 44px;
-      border: 0;
-      background: transparent;
-      color: white;
-      font-size: 38px;
-      cursor: pointer;
-      line-height: 1;
-    }
-
-    .title {
-      font-size: clamp(25px, 5vw, 34px);
-      font-weight: 800;
-      letter-spacing: 1px;
-    }
-
-    .header-actions {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    /* ================= MAIN ================= */
-
-    main {
-      padding: 22px 24px 40px;
-    }
-
-    .brand-balance {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 16px;
-      margin-bottom: 24px;
-    }
-
-    .logo-box {
-      min-width: 160px;
-    }
-
-    .logo {
-      font-size: 42px;
-      line-height: .9;
-      font-weight: 900;
-      letter-spacing: -2px;
-      color: #e6c7ff;
-      text-shadow: 0 0 22px rgba(178, 86, 255, .4);
-    }
-
-    .tagline {
-      margin-top: 9px;
-      font-size: 10px;
-      letter-spacing: 5px;
-      color: #d2addf;
-      font-weight: 800;
-    }
-
-    .balance {
-      min-width: 210px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 12px;
-      padding: 12px 14px;
-      border-radius: 26px;
-      background:
-        linear-gradient(145deg, rgba(58, 28, 82, .95), rgba(25, 13, 39, .98));
-      border: 1px solid var(--border);
-      box-shadow: var(--shadow);
-    }
-
-    .crystal {
-      width: 46px;
-      height: 46px;
-      position: relative;
-      flex: 0 0 auto;
-      filter: drop-shadow(0 0 9px rgba(176, 72, 255, .8));
-    }
-
-    .crystal::before,
-    .crystal::after {
-      content: "";
-      position: absolute;
-      inset: 7px;
-      background: linear-gradient(135deg, #f0b7ff, #a437ff 42%, #5616aa);
-      clip-path: polygon(50% 0%, 90% 28%, 75% 88%, 50% 100%, 25% 88%, 10% 28%);
-      transform: rotate(12deg);
-    }
-
-    .crystal::after {
-      inset: 15px 10px;
-      opacity: .7;
-      background: #fff;
-      transform: rotate(-12deg) scale(.7);
-    }
-
-    .balance-info {
-      display: flex;
-      flex-direction: column;
-      gap: 3px;
-    }
-
-    .balance-value {
-      font-size: 27px;
-      font-weight: 900;
-      line-height: 1;
-    }
-
-    .balance-label {
-      color: var(--muted);
-      font-size: 11px;
-      letter-spacing: 1px;
-    }
-
-    .plus-balance {
-      width: 46px;
-      height: 46px;
-      border: 0;
-      border-radius: 16px;
-      background: linear-gradient(135deg, #7130cc, #c460ff);
-      color: white;
-      font-size: 31px;
-      font-weight: 500;
-      cursor: pointer;
-      box-shadow: 0 7px 20px rgba(139, 55, 255, .35);
-    }
-
-    /* ================= WELCOME ================= */
-
-    .welcome {
-      position: relative;
-      width: 100%;
-      min-height: 360px;
-      overflow: hidden;
-      border-radius: 38px;
-      border: 1px solid var(--border);
-      background:
-        linear-gradient(90deg, rgba(31, 12, 49, .92), rgba(24, 11, 40, .82));
-      box-shadow: var(--shadow);
-      margin-bottom: 48px;
-    }
-
-    /* НОВЫЙ БАННЕР */
-    .welcome-img {
-      position: absolute;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-      display: block;
-      object-fit: cover;
-      object-position: center;
-      z-index: 1;
-      transform: none;
-    }
-
-    /* Затемнение только для читаемости текста */
-    .welcome::after {
-      content: "";
-      position: absolute;
-      inset: 0;
-      z-index: 2;
-      pointer-events: none;
-      background:
-        linear-gradient(90deg,
-          rgba(22, 8, 36, .05) 0%,
-          rgba(22, 8, 36, .05) 35%,
-          rgba(22, 8, 36, .60) 65%,
-          rgba(22, 8, 36, .88) 100%);
-    }
-
-    .welcome-content {
-      position: absolute;
-      z-index: 3;
-      top: 50%;
-      right: 8%;
-      width: min(48%, 390px);
-      transform: translateY(-50%);
-    }
-
-    .welcome-content h1 {
-      margin: 0 0 18px;
-      font-size: clamp(34px, 5vw, 54px);
-      line-height: 1.05;
-      font-weight: 900;
-      text-transform: uppercase;
-    }
-
-    .welcome-content h1 span {
-      display: block;
-      color: #d79bff;
-    }
-
-    .welcome-content p {
-      margin: 0 0 24px;
-      color: #d7cedf;
-      font-size: clamp(16px, 2.5vw, 22px);
-      line-height: 1.45;
-    }
-
-    .small-action {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      min-height: 48px;
-      padding: 0 24px;
-      border-radius: 18px;
-      border: 1px solid #ae62ff;
-      color: white;
-      background: rgba(53, 21, 81, .68);
-      cursor: pointer;
-      text-transform: uppercase;
-      font-weight: 700;
-    }
-
-    /* ================= TITLES ================= */
-
-    .section-title {
-      margin: 0 0 25px;
-      font-size: clamp(32px, 6vw, 48px);
-      text-transform: uppercase;
-      font-weight: 900;
-      letter-spacing: .5px;
-    }
-
-    /* ================= GAMES ================= */
-
-    .games-grid {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 26px;
-    }
-
-    .game-card {
-      min-width: 0;
-      overflow: hidden;
-      padding: 28px;
-      border-radius: 38px;
-      border: 1px solid var(--border);
-      background:
-        radial-gradient(circle at 100% 0%, rgba(158, 70, 255, .20), transparent 35%),
-        linear-gradient(145deg, #29133f, #140a21 75%);
-      box-shadow: var(--shadow);
-    }
-
-    .game-card h3 {
-      margin: 0 0 22px;
-      font-size: clamp(25px, 4vw, 37px);
-      line-height: 1.18;
-      text-transform: uppercase;
-    }
-
-    /* ВАЖНО: СКРУГЛЕНИЕ 4 КАРТИНОК */
-    .game-image-wrap {
-      width: 100%;
-      overflow: hidden;
-      border-radius: 26px;
-      background: #0d0717;
-      margin-bottom: 22px;
-      box-shadow:
-        0 10px 28px rgba(0,0,0,.35),
-        0 0 0 1px rgba(255,255,255,.025);
-    }
-
-    .game-image-wrap img {
-      width: 100%;
-      aspect-ratio: 1 / .84;
-      object-fit: cover;
-      object-position: center;
-      display: block;
-      border-radius: 26px;
-      transform: scale(1.001);
-    }
-
-    .game-card p {
-      min-height: 42px;
-      margin: 0 0 22px;
-      color: #cbc3d1;
-      font-size: 18px;
-      line-height: 1.35;
-    }
-
-    .primary-btn {
-      width: 100%;
-      min-height: 72px;
-      border: 0;
-      border-radius: 25px;
-      color: white;
-      background:
-        linear-gradient(135deg, #6927bd, #ad54ed);
-      box-shadow:
-        inset 0 1px 0 rgba(255,255,255,.15),
-        0 12px 28px rgba(102, 36, 191, .25);
-      font-size: 21px;
-      font-weight: 900;
-      cursor: pointer;
-      text-transform: uppercase;
-    }
-
-    .primary-btn:active,
-    .small-action:active,
-    .plus-balance:active,
-    .bonus-card:active,
-    .nav-item:active {
-      transform: scale(.97);
-    }
-
-    /* ================= BONUS ================= */
-
-    .bonus-section {
-      margin-top: 52px;
-    }
-
-    .bonus-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 20px;
-    }
-
-    .bonus-card {
-      position: relative;
-      min-height: 245px;
-      padding: 22px 15px;
-      overflow: hidden;
-      border-radius: 30px;
-      border: 1px solid var(--border);
-      background:
-        linear-gradient(145deg, rgba(47, 24, 71, .96), rgba(22, 11, 36, .98));
-      color: white;
-      cursor: pointer;
-      box-shadow: var(--shadow);
-      text-align: center;
-    }
-
-    .bonus-card::after {
-      content: "✦";
-      position: absolute;
-      top: 16px;
-      right: 19px;
-      color: #c77cff;
-      font-size: 24px;
-      opacity: .75;
-    }
-
-    .bonus-icon {
-      width: 118px;
-      height: 118px;
-      margin: 4px auto 16px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border-radius: 28px;
-      background:
-        radial-gradient(circle, rgba(158, 69, 255, .45), rgba(42, 17, 65, .1) 68%);
-      font-size: 67px;
-      filter: drop-shadow(0 0 14px rgba(164, 65, 255, .5));
-    }
-
-    .bonus-card strong {
-      display: block;
-      font-size: 18px;
-      line-height: 1.4;
-    }
-
-    /* ================= BOTTOM NAV ================= */
-
-    .bottom-nav {
-      position: fixed;
-      left: 50%;
-      bottom: 0;
-      transform: translateX(-50%);
-      z-index: 100;
-      width: min(900px, 100%);
-      display: grid;
-      grid-template-columns: repeat(5, 1fr);
-      gap: 0;
-      padding:
-        11px 10px
-        calc(12px + env(safe-area-inset-bottom));
-      background:
-        linear-gradient(to bottom,
-          rgba(13, 5, 23, .95),
-          rgba(8, 4, 15, .99));
-      border-top: 1px solid rgba(151, 69, 239, .35);
-      box-shadow: 0 -12px 35px rgba(0,0,0,.25);
-      backdrop-filter: blur(18px);
-    }
-
-    .nav-item {
-      border: 0;
-      background: transparent;
-      color: #aaa1b5;
-      cursor: pointer;
-      padding: 5px 2px;
-      text-align: center;
-      font-size: 12px;
-      font-weight: 800;
-      white-space: nowrap;
-    }
-
-    .nav-icon {
-      width: 58px;
-      height: 54px;
-      margin: 0 auto 4px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border-radius: 18px;
-      font-size: 31px;
-      background:
-        radial-gradient(circle, rgba(139, 48, 235, .34), transparent 68%);
-      filter: drop-shadow(0 0 8px rgba(154, 57, 255, .25));
-    }
-
-    .nav-item.active {
-      color: #f1d9ff;
-    }
-
-    .nav-item.active .nav-icon {
-      color: white;
-      background:
-        linear-gradient(145deg, rgba(112, 35, 198, .9), rgba(42, 14, 69, .9));
-      box-shadow: 0 0 22px rgba(151, 55, 255, .38);
-    }
-
-    /* ================= MODAL ================= */
-
-    .modal {
-      position: fixed;
-      inset: 0;
-      z-index: 300;
-      display: none;
-      align-items: center;
-      justify-content: center;
-      padding: 20px;
-      background: rgba(2, 1, 6, .76);
-      backdrop-filter: blur(10px);
-    }
-
-    .modal.open {
-      display: flex;
-    }
-
-    .modal-box {
-      position: relative;
-      width: min(100%, 430px);
-      max-height: 88vh;
-      overflow-y: auto;
-      padding: 25px;
-      border-radius: 30px;
-      border: 1px solid var(--border);
-      background:
-        radial-gradient(circle at 50% 0%, rgba(143, 48, 244, .22), transparent 34%),
-        #1b0c2b;
-      box-shadow: 0 25px 80px rgba(0,0,0,.65);
-    }
-
-    .modal-close {
-      position: absolute;
-      top: 10px;
-      right: 14px;
-      width: 38px;
-      height: 38px;
-      border: 0;
-      background: transparent;
-      color: white;
-      font-size: 30px;
-      cursor: pointer;
-    }
-
-    .modal-title {
-      margin: 0 40px 7px 0;
-      font-size: 30px;
-      font-weight: 900;
-      text-transform: uppercase;
-    }
-
-    .modal-subtitle {
-      margin: 0 0 18px;
-      color: var(--muted);
-    }
-
-    .coin-pack {
-      width: 100%;
-      display: grid;
-      grid-template-columns: 54px 1fr auto;
-      align-items: center;
-      gap: 14px;
-      min-height: 78px;
-      margin-bottom: 11px;
-      padding: 12px 14px;
-      border: 1px solid rgba(163, 81, 247, .62);
-      border-radius: 21px;
-      color: white;
-      text-align: left;
-      cursor: pointer;
-      background: rgba(35, 16, 53, .82);
-    }
-
-    .coin-pack:hover {
-      border-color: #c06cff;
-      background: rgba(60, 25, 91, .9);
-    }
-
-    .pack-crystal {
-      width: 46px;
-      height: 46px;
-      transform: scale(.88);
-    }
-
-    .pack-info strong {
-      display: block;
-      font-size: 21px;
-    }
-
-    .pack-info span {
-      display: block;
-      margin-top: 4px;
-      color: var(--muted);
-      font-size: 13px;
-    }
-
-    .price {
-      padding: 9px 12px;
-      border-radius: 13px;
-      background: linear-gradient(135deg, #7a32d0, #b959ef);
-      font-weight: 900;
-      white-space: nowrap;
-    }
-
-    .toast {
-      position: fixed;
-      left: 50%;
-      bottom: 130px;
-      z-index: 500;
-      transform: translate(-50%, 20px);
-      opacity: 0;
-      pointer-events: none;
-      padding: 14px 20px;
-      border-radius: 18px;
-      background: rgba(37, 15, 56, .96);
-      border: 1px solid #9e55ec;
-      box-shadow: var(--shadow);
-      color: white;
-      font-weight: 800;
-      transition: .25s ease;
-      text-align: center;
-    }
-
-    .toast.show {
-      opacity: 1;
-      transform: translate(-50%, 0);
-    }
-
-    /* ================= MOBILE ================= */
-
-    @media (max-width: 650px) {
-      .topbar {
-        height: 82px;
-        padding: 0 18px;
-      }
-
-      .brand-row {
-        gap: 13px;
-      }
-
-      .title {
-        font-size: 25px;
-      }
-
-      main {
-        padding: 16px 14px 30px;
-      }
-
-      .brand-balance {
-        align-items: flex-start;
-      }
-
-      .logo {
-        font-size: 35px;
-      }
-
-      .tagline {
-        letter-spacing: 3px;
-      }
-
-      .balance {
-        min-width: 166px;
-        gap: 8px;
-        padding: 9px;
-        border-radius: 20px;
-      }
-
-      .crystal {
-        width: 39px;
-        height: 39px;
-      }
-
-      .balance-value {
-        font-size: 22px;
-      }
-
-      .plus-balance {
-        width: 39px;
-        height: 39px;
-        border-radius: 13px;
-        font-size: 27px;
-      }
-
-      .welcome {
-        min-height: 300px;
-        border-radius: 30px;
-        margin-bottom: 38px;
-      }
-
-      .welcome-img {
-        object-position: center center;
-      }
-
-      .welcome::after {
-        background:
-          linear-gradient(90deg,
-            rgba(22,8,36,.05) 0%,
-            rgba(22,8,36,.12) 30%,
-            rgba(22,8,36,.62) 58%,
-            rgba(22,8,36,.92) 100%);
-      }
-
-      .welcome-content {
-        right: 6%;
-        width: 49%;
-      }
-
-      .welcome-content h1 {
-        font-size: 31px;
-        margin-bottom: 12px;
-      }
-
-      .welcome-content p {
-        font-size: 15px;
-        margin-bottom: 16px;
-      }
-
-      .small-action {
-        min-height: 40px;
-        padding: 0 15px;
-        font-size: 11px;
-      }
-
-      .games-grid {
-        gap: 18px;
-      }
-
-      .game-card {
-        padding: 18px;
-        border-radius: 29px;
-      }
-
-      .game-card h3 {
-        font-size: 23px;
-        margin-bottom: 17px;
-      }
-
-      .game-image-wrap,
-      .game-image-wrap img {
-        border-radius: 20px;
-      }
-
-      .game-card p {
-        font-size: 14px;
-        min-height: 48px;
-        margin-bottom: 15px;
-      }
-
-      .primary-btn {
-        min-height: 57px;
-        border-radius: 20px;
-        font-size: 16px;
-      }
-
-      .section-title {
-        margin-bottom: 18px;
-        font-size: 34px;
-      }
-
-      .bonus-section {
-        margin-top: 38px;
-      }
-
-      .bonus-grid {
-        gap: 10px;
-      }
-
-      .bonus-card {
-        min-height: 205px;
-        padding: 15px 8px;
-        border-radius: 24px;
-      }
-
-      .bonus-icon {
-        width: 90px;
-        height: 90px;
-        margin-bottom: 10px;
-        font-size: 50px;
-      }
-
-      .bonus-card strong {
-        font-size: 14px;
-      }
-
-      .nav-icon {
-        width: 48px;
-        height: 45px;
-        font-size: 25px;
-        border-radius: 14px;
-      }
-
-      .nav-item {
-        font-size: 10px;
-      }
-    }
-
-    @media (max-width: 430px) {
-      .games-grid {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-        gap: 14px;
-      }
-
-      .game-card {
-        padding: 14px;
-      }
-
-      .game-card h3 {
-        font-size: 18px;
-      }
-
-      .game-card p {
-        font-size: 12px;
-      }
-
-      .primary-btn {
-        font-size: 14px;
-      }
-
-      .welcome-content {
-        width: 52%;
-      }
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover">
+<meta name="theme-color" content="#0a0613">
+<title>NEXI</title>
+
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+
+<style>
+:root{
+  --bg:#090411;
+  --panel:#140a24;
+  --panel-2:#1b0d31;
+  --purple:#8b3cff;
+  --purple-2:#c45cff;
+  --text:#ffffff;
+  --muted:#b9a9c9;
+  --line:rgba(174,84,255,.52);
+}
+
+*{
+  box-sizing:border-box;
+  -webkit-tap-highlight-color:transparent;
+}
+
+html{
+  scroll-behavior:smooth;
+}
+
+body{
+  margin:0;
+  min-height:100vh;
+  overflow-x:hidden;
+  font-family:Arial,sans-serif;
+  color:var(--text);
+  background:
+    radial-gradient(circle at 8% 0%,rgba(92,30,163,.42),transparent 28%),
+    radial-gradient(circle at 96% 18%,rgba(74,20,127,.35),transparent 26%),
+    radial-gradient(circle at 50% 70%,rgba(55,14,98,.20),transparent 34%),
+    #090411;
+}
+
+body::before,
+body::after{
+  content:"";
+  position:fixed;
+  pointer-events:none;
+  z-index:-1;
+}
+
+body::before{
+  inset:0;
+  opacity:.42;
+  background-image:
+    radial-gradient(circle,rgba(255,255,255,.8) 1px,transparent 1.8px),
+    radial-gradient(circle,rgba(192,91,255,.75) 1px,transparent 2px);
+  background-size:34px 34px,71px 71px;
+  background-position:4px 10px,22px 33px;
+  mask-image:linear-gradient(to bottom,black,transparent 72%);
+}
+
+body::after{
+  width:70vw;
+  height:70vw;
+  max-width:520px;
+  max-height:520px;
+  right:-32vw;
+  top:28vh;
+  border:1px solid rgba(167,72,255,.14);
+  border-radius:50%;
+  box-shadow:
+    0 0 0 38px rgba(118,44,196,.035),
+    0 0 0 76px rgba(118,44,196,.025),
+    0 0 90px rgba(134,47,255,.12);
+}
+
+button,
+a{
+  font:inherit;
+}
+
+button{
+  border:0;
+}
+
+.app{
+  position:relative;
+  max-width:600px;
+  margin:auto;
+  padding:18px 14px 122px;
+}
+
+.app::before,
+.app::after{
+  content:"";
+  position:absolute;
+  pointer-events:none;
+  z-index:-1;
+}
+
+.app::before{
+  width:210px;
+  height:210px;
+  top:260px;
+  left:-150px;
+  border:1px solid rgba(194,92,255,.12);
+  border-radius:50%;
+  box-shadow:
+    0 0 0 30px rgba(153,61,226,.025),
+    0 0 0 60px rgba(153,61,226,.018);
+}
+
+.app::after{
+  width:150px;
+  height:150px;
+  right:-110px;
+  top:900px;
+  border-radius:30px;
+  transform:rotate(22deg);
+  border:1px solid rgba(201,108,255,.16);
+}
+
+.header{
+  position:relative;
+  z-index:2;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:10px;
+  margin-bottom:18px;
+}
+
+.logo{
+  font-size:35px;
+  font-weight:1000;
+  line-height:.9;
+  letter-spacing:-2px;
+  background:linear-gradient(135deg,#fff 12%,#f0caff 48%,#9144ff);
+  -webkit-background-clip:text;
+  background-clip:text;
+  -webkit-text-fill-color:transparent;
+}
+
+.logo small{
+  display:block;
+  margin-top:7px;
+  font-size:8px;
+  letter-spacing:2px;
+}
+
+.balance{
+  position:relative;
+  overflow:hidden;
+  display:flex;
+  align-items:center;
+  gap:7px;
+  min-width:156px;
+  padding:8px 10px;
+  border:1px solid rgba(167,79,226,.72);
+  border-radius:18px;
+  background:
+    linear-gradient(135deg,rgba(50,23,82,.96),rgba(18,8,31,.96));
+  box-shadow:0 10px 28px rgba(0,0,0,.24);
+}
+
+.balance::after{
+  content:"";
+  position:absolute;
+  width:90px;
+  height:90px;
+  right:-46px;
+  top:-55px;
+  border-radius:50%;
+  background:radial-gradient(circle,rgba(190,93,255,.18),transparent 68%);
+}
+
+.balance img{
+  position:relative;
+  z-index:1;
+  width:36px;
+  height:36px;
+  flex:0 0 36px;
+  object-fit:contain;
+}
+
+.balance strong{
+  position:relative;
+  z-index:1;
+  display:block;
+  font-size:18px;
+  line-height:1;
+}
+
+.balance span{
+  position:relative;
+  z-index:1;
+  display:block;
+  margin-top:4px;
+  font-size:8px;
+  color:#d2bddf;
+  letter-spacing:.5px;
+}
+
+.plus{
+  position:relative;
+  z-index:1;
+  width:31px;
+  height:31px;
+  margin-left:auto;
+  border-radius:11px;
+  color:#fff;
+  font-size:22px;
+  cursor:pointer;
+  background:linear-gradient(135deg,#d179ff,#702dcc);
+  box-shadow:0 7px 18px rgba(145,56,230,.3);
+}
+
+.hero{
+  position:relative;
+  overflow:hidden;
+  width:100%;
+  aspect-ratio:1400/813;
+  min-height:0;
+  border:1px solid rgba(180,81,255,.8);
+  border-radius:30px;
+  background:linear-gradient(135deg,#180a29,#0c0615);
+  isolation:isolate;
+  box-shadow:
+    0 18px 42px rgba(0,0,0,.24),
+    0 0 42px rgba(137,49,255,.08);
+}
+
+.hero::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  z-index:1;
+  pointer-events:none;
+  background:
+    linear-gradient(90deg,rgba(7,3,13,.06),transparent 38%),
+    radial-gradient(circle at 50% 50%,transparent 58%,rgba(188,88,255,.08));
+}
+
+.hero-image{
+  position:absolute;
+  inset:0;
+  z-index:0;
+  display:block;
+  width:100%;
+  height:100%;
+  min-height:0;
+  object-fit:contain;
+  object-position:center center;
+  background:#12071f;
+  border:0;
+}
+
+.hero-play{
+  position:absolute;
+  z-index:3;
+  left:5%;
+  top:54%;
+  width:27%;
+  height:14%;
+  min-width:98px;
+  min-height:42px;
+  border-radius:24px;
+  background:transparent;
+  cursor:pointer;
+}
+
+.hero-play:active{
+  transform:scale(.97);
+}
+
+.section-title{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  margin:28px 4px 14px;
+  font-size:23px;
+  font-weight:1000;
+  letter-spacing:.3px;
+}
+
+.section-title::after{
+  content:"";
+  height:1px;
+  flex:1;
+  background:linear-gradient(90deg,rgba(167,75,245,.35),transparent);
+}
+
+.grid{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:12px;
+}
+
+.game{
+  position:relative;
+  display:flex;
+  flex-direction:column;
+  min-width:0;
+  min-height:342px;
+  padding:17px;
+  overflow:hidden;
+  text-decoration:none;
+  color:#fff;
+  border:1px solid rgba(139,48,169,.78);
+  border-radius:25px;
+  background:
+    radial-gradient(circle at 100% 0%,rgba(111,40,165,.46),transparent 36%),
+    linear-gradient(145deg,#1b0d31,#0b0614);
+  box-shadow:0 12px 30px rgba(0,0,0,.16);
+}
+
+.game::before{
+  content:"";
+  position:absolute;
+  width:120px;
+  height:120px;
+  top:-72px;
+  right:-42px;
+  border-radius:50%;
+  border:1px solid rgba(193,96,255,.13);
+  box-shadow:
+    0 0 0 20px rgba(193,96,255,.025),
+    0 0 0 40px rgba(193,96,255,.018);
+}
+
+.game::after{
+  content:"✦";
+  position:absolute;
+  right:14px;
+  top:12px;
+  color:rgba(218,141,255,.46);
+  font-size:16px;
+}
+
+.game h2{
+  position:relative;
+  z-index:2;
+  min-height:44px;
+  margin:0;
+  font-size:18px;
+  line-height:1.25;
+}
+
+.game-art{
+  position:relative;
+  z-index:2;
+  width:100%;
+  height:155px;
+  margin:7px 0 8px;
+  overflow:hidden;
+  border-radius:22px;
+  background:linear-gradient(145deg,rgba(34,14,55,.9),rgba(10,5,18,.96));
+  box-shadow:
+    inset 0 0 0 1px rgba(214,139,255,.08),
+    0 10px 22px rgba(0,0,0,.18);
+}
+
+.game-art img{
+  display:block;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  object-position:center;
+  border-radius:22px;
+  transition:transform .25s ease;
+}
+
+.game:hover .game-art img{
+  transform:scale(1.025);
+}
+
+.game p{
+  position:relative;
+  z-index:2;
+  min-height:32px;
+  margin:0 0 12px;
+  font-size:11px;
+  line-height:1.35;
+  color:#c5b4d2;
+}
+
+.action{
+  position:relative;
+  z-index:2;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  width:100%;
+  min-height:44px;
+  margin-top:auto;
+  border-radius:14px;
+  background:linear-gradient(90deg,#6d2bc3,#b55cff);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.18),
+    0 10px 20px rgba(90,31,167,.22);
+  font-size:11px;
+  font-weight:1000;
+}
+
+.bonuses{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:9px;
+}
+
+.bonus{
+  position:relative;
+  min-width:0;
+  min-height:146px;
+  overflow:hidden;
+  padding:12px 8px;
+  cursor:pointer;
+  color:#fff;
+  border:1px solid rgba(101,48,148,.9);
+  border-radius:21px;
+  background:
+    radial-gradient(circle at 50% 0%,rgba(117,44,183,.22),transparent 45%),
+    #160b27;
+}
+
+.bonus::after{
+  content:"✦";
+  position:absolute;
+  right:9px;
+  top:6px;
+  color:rgba(205,120,255,.42);
+  font-size:13px;
+}
+
+.bonus img{
+  display:block;
+  width:68px;
+  height:68px;
+  margin:0 auto 6px;
+  object-fit:contain;
+}
+
+.bonus span{
+  display:block;
+  font-size:9px;
+  line-height:1.35;
+  color:#e1d5e9;
+  font-weight:bold;
+}
+
+.bottom{
+  position:fixed;
+  left:0;
+  right:0;
+  bottom:0;
+  z-index:20;
+  padding-bottom:env(safe-area-inset-bottom);
+  border-top:1px solid rgba(109,48,151,.8);
+  background:
+    linear-gradient(180deg,rgba(16,7,28,.94),rgba(7,3,13,.98));
+  backdrop-filter:blur(14px);
+}
+
+.nav{
+  max-width:600px;
+  margin:auto;
+  display:flex;
+  justify-content:space-around;
+  padding:8px 2px 14px;
+}
+
+.nav a{
+  position:relative;
+  width:20%;
+  min-width:0;
+  padding:4px 0;
+  text-align:center;
+  text-decoration:none;
+  color:#a392b0;
+  font-size:8px;
+  line-height:1.15;
+  font-weight:1000;
+}
+
+.nav img{
+  display:block;
+  width:44px;
+  height:44px;
+  margin:0 auto 4px;
+  object-fit:contain;
+}
+
+.nav .active{
+  color:#f0caff;
+}
+
+.nav .active::after{
+  content:"";
+  position:absolute;
+  width:5px;
+  height:5px;
+  left:50%;
+  bottom:-2px;
+  transform:translateX(-50%);
+  border-radius:50%;
+  background:#f2b4ff;
+  box-shadow:0 0 10px #d35cff;
+}
+
+.nav .active img{
+  filter:drop-shadow(0 0 10px rgba(198,91,255,.9));
+}
+
+/* ВНУТРЕННИЕ СТРАНИЦЫ */
+.page-view{display:none;max-width:600px;margin:auto;padding:18px 14px 122px;min-height:100vh;}
+.page-view.active{display:block;}
+.page-head{display:flex;align-items:center;gap:10px;margin-bottom:22px;}
+.page-back{width:42px;height:42px;border-radius:14px;background:#27103f;color:#fff;font-size:25px;cursor:pointer;}
+.page-title{font-size:28px;font-weight:1000;letter-spacing:.4px;}
+.page-card{margin:12px 0;padding:18px;border:1px solid rgba(139,48,169,.78);border-radius:24px;background:linear-gradient(145deg,#1b0d31,#0b0614);box-shadow:0 12px 30px rgba(0,0,0,.16);}
+.page-card h3{margin:0 0 8px;font-size:19px;}
+.page-card p{margin:0;color:#c5b4d2;line-height:1.45;font-size:14px;}
+.page-empty{padding:34px 18px;text-align:center;border:1px solid rgba(139,48,169,.78);border-radius:26px;background:linear-gradient(145deg,#1b0d31,#0b0614);}
+.page-empty img{width:96px;height:96px;object-fit:contain;margin:0 auto 12px;display:block;}
+.page-action{margin-top:14px;width:100%;min-height:48px;border-radius:16px;color:#fff;font-weight:1000;background:linear-gradient(90deg,#6d2bc3,#b55cff);cursor:pointer;}
+
+
+.leader-row{
+  display:grid;
+  grid-template-columns:42px 1fr auto;
+  align-items:center;
+  gap:10px;
+  padding:13px 0;
+  border-bottom:1px solid rgba(183,96,255,.16);
+}
+.leader-row:last-child{border-bottom:0}
+.leader-row > span{font-size:24px}
+.leader-row strong{display:block;font-size:13px}
+.leader-row small{display:block;margin-top:3px;color:#bba8c9;font-size:10px}
+.leader-row b{color:#e1adff;font-size:14px}
+
+.task-card{
+  display:flex;
+  align-items:center;
+  gap:13px;
+}
+.task-card > img{
+  width:70px;
+  height:70px;
+  flex:0 0 70px;
+  object-fit:contain;
+}
+.task-card h3{margin:0 0 6px}
+.task-card p{margin:0 0 10px}
+.task-card .page-action{width:100%}
+
+/* SHOP */
+
+.overlay{
+  position:fixed;
+  inset:0;
+  z-index:100;
+  display:none;
+  align-items:flex-end;
+  background:rgba(0,0,0,.72);
+  backdrop-filter:blur(8px);
+}
+
+.shop{
+  width:min(94vw,420px);
+  max-width:460px;
+  max-height:78vh;
+  margin:auto;
+  overflow:auto;
+  padding:16px 12px 18px;
+  border:1px solid #a84cff;
+  border-bottom:0;
+  border-radius:30px 30px 0 0;
+  background:
+    radial-gradient(circle at 85% 0%,rgba(139,53,214,.25),transparent 28%),
+    linear-gradient(180deg,#281043,#0d0718);
+}
+
+.shop-head{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:12px;
+}
+
+.shop h2{
+  margin:0;
+  color:#e1adff;
+  font-size:22px;
+}
+
+.close{
+  width:42px;
+  height:42px;
+  flex:0 0 42px;
+  border-radius:50%;
+  background:#301548;
+  color:#fff;
+  font-size:24px;
+  cursor:pointer;
+}
+
+.shop p{
+  color:#bba8c9;
+  font-size:13px;
+}
+
+.pack{
+  width:100%;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  margin:10px 0;
+  padding:14px;
+  border:1px solid #68309c;
+  border-radius:20px;
+  background:#180b2a;
+  color:#fff;
+  cursor:pointer;
+}
+
+.pack:active,
+.copy-btn:active,
+.paid-btn:active{
+  transform:scale(.98);
+}
+
+.pack-left{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  text-align:left;
+}
+
+.pack img{
+  width:45px;
+  height:45px;
+  object-fit:contain;
+}
+
+.pack strong{
+  display:block;
+  font-size:16px;
+}
+
+.pack small{
+  color:#bda9ca;
+}
+
+.price{
+  flex:0 0 auto;
+  padding:10px 14px;
+  border-radius:14px;
+  background:linear-gradient(90deg,#6d2bc3,#b55cff);
+  font-weight:bold;
+}
+
+/* PAYMENT */
+
+.payment-box{
+  display:none;
+  margin-top:15px;
+  padding:18px;
+  border:1px solid #8e45ca;
+  border-radius:22px;
+  background:#180b2a;
+}
+
+.payment-title{
+  margin:0 0 12px;
+  color:#e4b5ff;
+  font-size:18px;
+  font-weight:900;
+}
+
+.payment-info{
+  padding:14px;
+  margin:10px 0;
+  border:1px solid #43205f;
+  border-radius:16px;
+  background:#100719;
+}
+
+.payment-label{
+  margin-bottom:5px;
+  color:#bca7ca;
+  font-size:11px;
+}
+
+.payment-value{
+  font-size:20px;
+  font-weight:900;
+  letter-spacing:.5px;
+  word-break:break-all;
+}
+
+.payment-amount{
+  color:#fff;
+  font-size:24px;
+  font-weight:1000;
+}
+
+.copy-btn,
+.paid-btn{
+  width:100%;
+  padding:13px;
+  margin-top:5px;
+  border-radius:14px;
+  color:#fff;
+  font-weight:bold;
+  font-size:14px;
+  cursor:pointer;
+}
+
+.copy-btn{
+  background:linear-gradient(90deg,#6d2bc3,#b55cff);
+}
+
+.paid-btn{
+  margin-top:10px;
+  padding:14px;
+  background:linear-gradient(90deg,#147b58,#32b98b);
+}
+
+.warning{
+  margin-top:12px;
+  color:#bba8c9;
+  font-size:11px;
+  line-height:1.5;
+}
+
+.notice{
+  display:none;
+  margin-top:12px;
+  padding:14px;
+  text-align:center;
+  border-radius:16px;
+  background:#1b0c30;
+  color:#e2b6ff;
+  font-size:12px;
+  line-height:1.5;
+}
+
+@media(max-width:420px){
+  .app{
+    padding-left:12px;
+    padding-right:12px;
+  }
+
+  .logo{
+    font-size:32px;
+  }
+
+  .balance{
+    min-width:146px;
+  }
+
+  .hero-image{
+    min-height:220px;
+  }
+
+  .game{
+    min-height:318px;
+    padding:14px;
+  }
+
+  .game-art{
+    height:138px;
+  }
+
+  .game h2{
+    font-size:17px;
+  }
+}
+
+@media(max-width:360px){
+  .logo{
+    font-size:29px;
+  }
+
+  .logo small{
+    font-size:7px;
+  }
+
+  .balance{
+    min-width:136px;
+    padding:7px;
+  }
+
+  .balance img{
+    width:32px;
+    height:32px;
+    flex-basis:32px;
+  }
+
+  .balance strong{
+    font-size:16px;
+  }
+
+  .plus{
+    width:28px;
+    height:28px;
+  }
+
+  .game{
+    min-height:300px;
+    padding:12px;
+  }
+
+  .game h2{
+    font-size:16px;
+  }
+
+  .game-art{
+    height:125px;
+  }
+
+  .nav img{
+    width:40px;
+    height:40px;
+  }
+}
+</style>
 </head>
 
 <body>
 
-  <div class="app">
+<div class="app" id="homeView">
 
-    <!-- ================= HEADER ================= -->
-    <header class="topbar">
-      <div class="brand-row">
-        <button class="close-btn" onclick="closeApp()">×</button>
-        <div class="title">NEXI CASE</div>
+  <header class="header">
+    <div class="logo">
+      NEXI
+      <small>PLAY • WIN • FLEX</small>
+    </div>
+
+    <div class="balance">
+      <img src="assets/balance-crystal.png" alt="NEXI Coins">
+      <div>
+        <strong id="coins">250</strong>
+        <span>NEXI COINS</span>
       </div>
+      <button class="plus" type="button" onclick="openShop()">+</button>
+    </div>
+  </header>
 
-      <div class="header-actions">
-        <button class="menu-btn">⌄</button>
-        <button class="menu-btn">⋮</button>
+  <section class="hero">
+    <img class="hero-image" src="assets/nexi-welcome.png" alt="Приветствие от Нэкси">
+    <button class="hero-play" type="button" aria-label="Начать играть" onclick="document.getElementById('games').scrollIntoView({behavior:'smooth'})"></button>
+  </section>
+
+  <div class="section-title" id="games">ИГРЫ</div>
+
+  <div class="grid">
+
+    <a class="game" href="#" onclick="openPage('casesView');return false;">
+      <h2>MM2<br>CASES</h2>
+      <div class="game-art">
+        <img src="assets/mm2-cases.png" alt="MM2 Cases">
       </div>
-    </header>
+      <p>Открывай кейсы и получай предметы!</p>
+      <div class="action">ОТКРЫТЬ →</div>
+    </a>
 
+    <a class="game" href="#" onclick="openPage('casesView');return false;">
+      <h2>ADOPT ME<br>CASES</h2>
+      <div class="game-art">
+        <img src="assets/adopt.png" alt="Adopt Me Cases">
+      </div>
+      <p>Собирай питомцев и коллекцию!</p>
+      <div class="action">ОТКРЫТЬ →</div>
+    </a>
 
-    <main>
+    <a class="game" href="#" onclick="openPage('gamesView');return false;">
+      <h2>CRASH</h2>
+      <div class="game-art">
+        <img src="assets/crash.png" alt="Crash">
+      </div>
+      <p>Успей забрать выигрыш!</p>
+      <div class="action">ИГРАТЬ →</div>
+    </a>
 
-      <!-- ================= LOGO + BALANCE ================= -->
-      <section class="brand-balance">
-
-        <div class="logo-box">
-          <div class="logo">NEXI</div>
-          <div class="tagline">PLAY • WIN • FLEX</div>
-        </div>
-
-        <div class="balance">
-          <div class="crystal"></div>
-
-          <div class="balance-info">
-            <div class="balance-value" id="balanceValue">250</div>
-            <div class="balance-label">NEXI COINS</div>
-          </div>
-
-          <button class="plus-balance" onclick="openTopUp()">+</button>
-        </div>
-
-      </section>
-
-
-      <!-- ================= NEW BANNER ================= -->
-      <section class="welcome">
-
-        <!-- ТОЛЬКО НОВЫЙ БАННЕР -->
-        <img
-          class="welcome-img"
-          src="assets/nexi-welcome.png"
-          alt="NEXI приветствие"
-        >
-
-        <div class="welcome-content">
-          <h1>
-            ПРИВЕТ,
-            <span>Я НЭКСИ!</span>
-          </h1>
-
-          <p>Выбирай игру и начинай своё приключение!</p>
-
-          <button class="small-action" onclick="document.getElementById('games').scrollIntoView()">
-            LET'S PLAY
-          </button>
-        </div>
-
-      </section>
-
-
-      <!-- ================= GAMES ================= -->
-      <section id="games">
-
-        <h2 class="section-title">ИГРЫ</h2>
-
-        <div class="games-grid">
-
-          <!-- MM2 -->
-          <article class="game-card">
-            <h3>MM2<br>CASES</h3>
-
-            <div class="game-image-wrap">
-              <img
-                src="assets/mm2-cases.png"
-                alt="MM2 Cases"
-              >
-            </div>
-
-            <p>Открывай кейсы и получай крутые награды!</p>
-
-            <button class="primary-btn" onclick="playGame('MM2 Cases')">
-              ОТКРЫТЬ →
-            </button>
-          </article>
-
-
-          <!-- ADOPT -->
-          <article class="game-card">
-            <h3>ADOPT ME<br>CASES</h3>
-
-            <div class="game-image-wrap">
-              <img
-                src="assets/adopt.png"
-                alt="Adopt Me"
-              >
-            </div>
-
-            <p>Собирай питомцев и открывай новые кейсы!</p>
-
-            <button class="primary-btn" onclick="playGame('Adopt Me')">
-              ОТКРЫТЬ →
-            </button>
-          </article>
-
-
-          <!-- CRASH -->
-          <article class="game-card">
-            <h3>CRASH</h3>
-
-            <div class="game-image-wrap">
-              <img
-                src="assets/crash.png"
-                alt="Crash"
-              >
-            </div>
-
-            <p>Успей забрать выигрыш!</p>
-
-            <button class="primary-btn" onclick="playGame('Crash')">
-              ИГРАТЬ →
-            </button>
-          </article>
-
-
-          <!-- ROULETTE -->
-          <article class="game-card">
-            <h3>РУЛЕТКА</h3>
-
-            <div class="game-image-wrap">
-              <img
-                src="assets/roulette.png"
-                alt="Рулетка"
-              >
-            </div>
-
-            <p>Испытай свою удачу!</p>
-
-            <button class="primary-btn" onclick="playGame('Рулетка')">
-              КРУТИТЬ →
-            </button>
-          </article>
-
-        </div>
-
-      </section>
-
-
-      <!-- ================= BONUSES ================= -->
-      <section class="bonus-section">
-
-        <h2 class="section-title">БОНУСЫ</h2>
-
-        <div class="bonus-grid">
-
-          <button class="bonus-card" onclick="claimDailyBonus()">
-            <div class="bonus-icon">🎁</div>
-            <strong>Ежедневный<br>бонус +100</strong>
-          </button>
-
-          <button class="bonus-card" onclick="showToast('Топ игроков скоро будет доступен!')">
-            <div class="bonus-icon">💎</div>
-            <strong>Топ<br>игроков</strong>
-          </button>
-
-          <button class="bonus-card" onclick="showToast('Раздел наград открыт!')">
-            <div class="bonus-icon">🪙</div>
-            <strong>Задания<br>и награды</strong>
-          </button>
-
-        </div>
-
-      </section>
-
-    </main>
+    <a class="game" href="#" onclick="openPage('gamesView');return false;">
+      <h2>РУЛЕТКА</h2>
+      <div class="game-art">
+        <img src="assets/roulette.png" alt="Рулетка">
+      </div>
+      <p>Испытай свою удачу!</p>
+      <div class="action">КРУТИТЬ →</div>
+    </a>
 
   </div>
 
+  <div class="section-title">БОНУСЫ</div>
 
-  <!-- ================= BOTTOM MENU ================= -->
-  <nav class="bottom-nav">
+  <div class="bonuses">
 
-    <button class="nav-item active" onclick="showToast('Главная')">
-      <div class="nav-icon">⌂</div>
-      ГЛАВНАЯ
+    <button class="bonus" type="button" onclick="claimDailyBonus()">
+      <img src="assets/bonus-gift.png" alt="">
+      <span>Ежедневный<br>бонус +100</span>
     </button>
 
-    <button class="nav-item" onclick="showToast('Кейсы')">
-      <div class="nav-icon">▣</div>
-      КЕЙСЫ
+    <button class="bonus" type="button" onclick="openPage('topView')">
+      <img src="assets/crystal-cluster.png" alt="">
+      <span>Топ<br>игроков</span>
     </button>
 
-    <button class="nav-item" onclick="showToast('Игры')">
-      <div class="nav-icon">🎮</div>
-      ИГРЫ
+    <button class="bonus" type="button" onclick="openPage('tasksView')">
+      <img src="assets/nexi-coin.png" alt="">
+      <span>Задания<br>и награды</span>
     </button>
 
-    <button class="nav-item" onclick="showToast('Инвентарь')">
-      <div class="nav-icon">♜</div>
-      ИНВЕНТАРЬ
-    </button>
+  </div>
 
-    <button class="nav-item" onclick="showToast('Профиль')">
-      <div class="nav-icon">✦</div>
-      ПРОФИЛЬ
-    </button>
-
-  </nav>
+</div>
 
 
-  <!-- ================= TOP UP MODAL ================= -->
-  <div class="modal" id="topUpModal">
+<!-- ВНУТРЕННИЕ СТРАНИЦЫ -->
+<section class="page-view" id="casesView">
+  <div class="page-head"><button class="page-back" type="button" onclick="openPage('homeView')">←</button><div class="page-title">КЕЙСЫ</div></div>
+  <div class="page-card"><h3>MM2 CASES</h3><p>Открывай кейсы и собирай редкие предметы. Баланс и бонусы сохраняются.</p><button class="page-action" onclick="alert('Раздел MM2 CASES готов к подключению')">ОТКРЫТЬ MM2</button></div>
+  <div class="page-card"><h3>ADOPT ME CASES</h3><p>Собирай питомцев и пополняй коллекцию.</p><button class="page-action" onclick="alert('Раздел ADOPT ME CASES готов к подключению')">ОТКРЫТЬ ADOPT ME</button></div>
+</section>
+<section class="page-view" id="gamesView">
+  <div class="page-head"><button class="page-back" type="button" onclick="openPage('homeView')">←</button><div class="page-title">ИГРЫ</div></div>
+  <div class="page-card"><h3>CRASH</h3><p>Успей забрать выигрыш и следи за множителем.</p><button class="page-action" onclick="alert('CRASH готов к подключению')">ИГРАТЬ</button></div>
+  <div class="page-card"><h3>РУЛЕТКА</h3><p>Испытай удачу и крути колесо.</p><button class="page-action" onclick="alert('Рулетка готова к подключению')">КРУТИТЬ</button></div>
+</section>
+<section class="page-view" id="inventoryView">
+  <div class="page-head"><button class="page-back" type="button" onclick="openPage('homeView')">←</button><div class="page-title">ИНВЕНТАРЬ</div></div>
+  <div class="page-empty"><img src="assets/nav-inventory.png" alt=""><h3>Твой инвентарь</h3><p>Здесь будут храниться выигранные предметы и награды.</p></div>
+</section>
 
-    <div class="modal-box">
+<section class="page-view" id="topView">
+  <div class="page-head">
+    <button class="page-back" type="button" onclick="openPage('homeView')">←</button>
+    <div class="page-title">ТОП ИГРОКОВ</div>
+  </div>
 
-      <button class="modal-close" onclick="closeTopUp()">×</button>
+  <div class="page-card">
+    <div class="leader-row"><span>🥇</span><div><strong>NEXI LEGEND</strong><small>Легендарный игрок</small></div><b>12 500</b></div>
+    <div class="leader-row"><span>🥈</span><div><strong>PURPLE STAR</strong><small>Топ игрок</small></div><b>8 900</b></div>
+    <div class="leader-row"><span>🥉</span><div><strong>CRYSTAL FOX</strong><small>Удачливый игрок</small></div><b>6 400</b></div>
+  </div>
 
-      <h2 class="modal-title">Пополнить баланс</h2>
-      <p class="modal-subtitle">Выбери пакет NEXI Coins</p>
+  <div class="page-card">
+    <h3>ТВОЯ ПОЗИЦИЯ</h3>
+    <p>Продолжай играть, выполнять задания и собирать NEXI COINS, чтобы подниматься выше 💜</p>
+  </div>
+</section>
 
+<section class="page-view" id="tasksView">
+  <div class="page-head">
+    <button class="page-back" type="button" onclick="openPage('homeView')">←</button>
+    <div class="page-title">ЗАДАНИЯ И НАГРАДЫ</div>
+  </div>
 
-      <button class="coin-pack" onclick="buyCoins(100, 49)">
-        <div class="crystal pack-crystal"></div>
-
-        <div class="pack-info">
-          <strong>100 COINS</strong>
-          <span>Мини пакет</span>
-        </div>
-
-        <div class="price">49 ₽</div>
-      </button>
-
-
-      <button class="coin-pack" onclick="buyCoins(250, 99)">
-        <div class="crystal pack-crystal"></div>
-
-        <div class="pack-info">
-          <strong>250 COINS</strong>
-          <span>Малый пакет</span>
-        </div>
-
-        <div class="price">99 ₽</div>
-      </button>
-
-
-      <button class="coin-pack" onclick="buyCoins(600, 199)">
-        <div class="crystal pack-crystal"></div>
-
-        <div class="pack-info">
-          <strong>600 COINS</strong>
-          <span>Средний пакет</span>
-        </div>
-
-        <div class="price">199 ₽</div>
-      </button>
-
-
-      <button class="coin-pack" onclick="buyCoins(1500, 399)">
-        <div class="crystal pack-crystal"></div>
-
-        <div class="pack-info">
-          <strong>1500 COINS</strong>
-          <span>Большой пакет</span>
-        </div>
-
-        <div class="price">399 ₽</div>
-      </button>
-
-
-      <button class="coin-pack" onclick="buyCoins(3000, 699)">
-        <div class="crystal pack-crystal"></div>
-
-        <div class="pack-info">
-          <strong>3000 COINS</strong>
-          <span>VIP пакет</span>
-        </div>
-
-        <div class="price">699 ₽</div>
-      </button>
-
+  <div class="page-card task-card">
+    <img src="assets/nexi-coin.png" alt="">
+    <div>
+      <h3>ЕЖЕДНЕВНЫЙ БОНУС</h3>
+      <p>Забери свои +100 NEXI COINS один раз в день.</p>
+      <button class="page-action" onclick="claimDailyBonus()">ЗАБРАТЬ +100</button>
     </div>
   </div>
 
+  <div class="page-card task-card">
+    <img src="assets/crystal-cluster.png" alt="">
+    <div>
+      <h3>ИГРАЙ И СОБИРАЙ</h3>
+      <p>Открывай кейсы и участвуй в играх, чтобы собирать больше коинов.</p>
+      <button class="page-action" onclick="openPage('gamesView')">ПЕРЕЙТИ В ИГРЫ</button>
+    </div>
+  </div>
+</section>
 
-  <!-- ================= TOAST ================= -->
-  <div class="toast" id="toast"></div>
+<section class="page-view" id="profileView">
+  <div class="page-head"><button class="page-back" type="button" onclick="openPage('homeView')">←</button><div class="page-title">ПРОФИЛЬ</div></div>
+  <div class="page-card"><h3>Топ игроков</h3><p>Скоро здесь появится таблица лидеров.</p></div>
+  <div class="page-card"><h3>Задания и награды</h3><p>Выполняй задания и получай NEXI COINS.</p></div>
+</section>
 
+<!-- МАГАЗИН -->
+<div class="overlay" id="shopOverlay">
 
-  <script>
-    /*
-      НАСТОЯЩИЙ БАЛАНС В ДАННОЙ ВЕРСИИ
-      сохраняется в localStorage браузера.
+  <div class="shop">
+    <div class="shop-head">
+      <h2>ПОПОЛНИТЬ БАЛАНС</h2>
+      <button class="close" type="button" onclick="closeShop()">×</button>
+    </div>
 
-      У нового пользователя:
-      250 Coins.
-    */
+    <p>Выбери пакет NEXI Coins</p>
 
-    const START_BALANCE = 250;
-    const DAILY_BONUS = 100;
+    <button class="pack" type="button" onclick="buyPack(100,20)">
+      <div class="pack-left">
+        <img src="assets/nexi-coin.png" alt="">
+        <div>
+          <strong>100 COINS</strong>
+          <small>Мини пакет</small>
+        </div>
+      </div>
+      <div class="price">20 ₽</div>
+    </button>
 
-    let balance = Number(localStorage.getItem("nexi_balance"));
+    <button class="pack" type="button" onclick="buyPack(250,50)">
+      <div class="pack-left">
+        <img src="assets/nexi-coin.png" alt="">
+        <div>
+          <strong>250 COINS</strong>
+          <small>Малый пакет</small>
+        </div>
+      </div>
+      <div class="price">50 ₽</div>
+    </button>
 
-    if (!Number.isFinite(balance) || balance < 0) {
-      balance = START_BALANCE;
-      localStorage.setItem("nexi_balance", balance);
+    <button class="pack" type="button" onclick="buyPack(600,100)">
+      <div class="pack-left">
+        <img src="assets/coin-stack.png" alt="">
+        <div>
+          <strong>600 COINS</strong>
+          <small>Средний пакет</small>
+        </div>
+      </div>
+      <div class="price">100 ₽</div>
+    </button>
+
+    <button class="pack" type="button" onclick="buyPack(1500,200)">
+      <div class="pack-left">
+        <img src="assets/coin-stack.png" alt="">
+        <div>
+          <strong>1500 COINS</strong>
+          <small>Большой пакет</small>
+        </div>
+      </div>
+      <div class="price">200 ₽</div>
+    </button>
+
+    <button class="pack" type="button" onclick="buyPack(3000,350)">
+      <div class="pack-left">
+        <img src="assets/coin-stack.png" alt="">
+        <div>
+          <strong>3000 COINS</strong>
+          <small>VIP пакет</small>
+        </div>
+      </div>
+      <div class="price">350 ₽</div>
+    </button>
+
+    <div class="payment-box" id="paymentBox">
+
+      <div class="payment-title">Оплата NEXI Coins 💜</div>
+
+      <div class="payment-info">
+        <div class="payment-label">Пакет</div>
+        <div class="payment-value" id="selectedPack">—</div>
+      </div>
+
+      <div class="payment-info">
+        <div class="payment-label">Сумма к оплате</div>
+        <div class="payment-amount" id="selectedPrice">—</div>
+      </div>
+
+      <div class="payment-info">
+        <div class="payment-label">Переведи на карту Сбербанка</div>
+        <div class="payment-value" id="cardNumber">2202208259839729</div>
+      </div>
+
+      <button class="copy-btn" type="button" onclick="copyCard()">
+        📋 СКОПИРОВАТЬ НОМЕР КАРТЫ
+      </button>
+
+      <button class="paid-btn" type="button" onclick="confirmPayment()">
+        ✓ Я ОПЛАТИЛ(А)
+      </button>
+
+      <div class="warning">
+        После перевода нажми «Я оплатил(а)». Заявка на выбранный пакет будет отправлена в Telegram-бот.
+      </div>
+
+    </div>
+
+    <div class="notice" id="paymentNotice"></div>
+  </div>
+
+</div>
+
+<!-- НИЖНЕЕ МЕНЮ -->
+<nav class="bottom">
+  <div class="nav">
+
+    <a class="active" href="#" data-page="homeView" onclick="openPage('homeView');return false;">
+      <img src="assets/nav-home.png" alt="">ГЛАВНАЯ
+    </a>
+    <a href="#" data-page="casesView" onclick="openPage('casesView');return false;">
+      <img src="assets/nav-cases.png" alt="">КЕЙСЫ
+    </a>
+    <a href="#" data-page="gamesView" onclick="openPage('gamesView');return false;">
+      <img src="assets/nav-games.png" alt="">ИГРЫ
+    </a>
+    <a href="#" data-page="inventoryView" onclick="openPage('inventoryView');return false;">
+      <img src="assets/nav-inventory.png" alt="">ИНВЕНТАРЬ
+    </a>
+    <a href="#" data-page="profileView" onclick="openPage('profileView');return false;">
+      <img src="assets/nav-profile.png" alt="">ПРОФИЛЬ
+    </a>
+
+  </div>
+</nav>
+
+<script>
+const tg = window.Telegram?.WebApp;
+
+if(tg){
+  tg.ready();
+  tg.expand();
+}
+
+function openPage(pageId){
+  const home = document.getElementById('homeView');
+  const pages = document.querySelectorAll('.page-view');
+  if(pageId === 'homeView'){
+    home.style.display = 'block';
+    pages.forEach(p => p.classList.remove('active'));
+  }else{
+    home.style.display = 'none';
+    pages.forEach(p => p.classList.toggle('active', p.id === pageId));
+  }
+  document.querySelectorAll('.nav a').forEach(a => a.classList.toggle('active', a.dataset.page === pageId));
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+/* БАЛАНС */
+
+function getCoins(){
+  let coins = localStorage.getItem("nexiCoins");
+
+  if(coins === null){
+    coins = 250;
+    localStorage.setItem("nexiCoins",coins);
+  }
+
+  return Number(coins);
+}
+
+function updateCoins(){
+  document.getElementById("coins").textContent =
+    getCoins().toLocaleString("ru-RU");
+}
+
+/* ЕЖЕДНЕВНЫЙ БОНУС */
+
+function getTodayKey(){
+  const now = new Date();
+  const year = now.getFullYear();
+  const month = String(now.getMonth() + 1).padStart(2, "0");
+  const day = String(now.getDate()).padStart(2, "0");
+  return year + "-" + month + "-" + day;
+}
+
+function claimDailyBonus(){
+  const today = getTodayKey();
+  const lastClaim = localStorage.getItem("nexiDailyBonusDate");
+
+  if(lastClaim === today){
+    const message = "Ты уже забрал(а) ежедневный бонус сегодня 💜\nВозвращайся завтра!";
+    if(tg && tg.showAlert){
+      tg.showAlert(message);
+    }else{
+      alert(message);
     }
+    return;
+  }
 
-    function updateBalance() {
-      document.getElementById("balanceValue").textContent =
-        balance.toLocaleString("ru-RU");
+  const newBalance = getCoins() + 100;
 
-      localStorage.setItem("nexi_balance", balance);
-    }
+  localStorage.setItem("nexiCoins", newBalance);
+  localStorage.setItem("nexiDailyBonusDate", today);
 
-    updateBalance();
+  updateCoins();
 
-
-    /* ================= MODAL ================= */
-
-    function openTopUp() {
-      document.getElementById("topUpModal").classList.add("open");
-    }
-
-    function closeTopUp() {
-      document.getElementById("topUpModal").classList.remove("open");
-    }
-
-    document.getElementById("topUpModal").addEventListener("click", function(event) {
-      if (event.target === this) {
-        closeTopUp();
-      }
+  const message = "🎁 Ежедневный бонус получен!\n+100 NEXI COINS 💎";
+  if(tg && tg.showPopup){
+    tg.showPopup({
+      title: "БОНУС ПОЛУЧЕН!",
+      message: "+100 NEXI COINS уже начислены на баланс 💜",
+      buttons: [{type: "close"}]
     });
+  }else{
+    alert(message);
+  }
+}
 
+/* МАГАЗИН */
 
-    /* ================= BUY COINS ================= */
+function openShop(){
+  document.getElementById("shopOverlay").style.display = "flex";
+}
 
-    function buyCoins(amount, price) {
-      /*
-        Сейчас это тестовая логика.
-        Позже сюда подключается Telegram Payments.
-      */
+function closeShop(){
+  document.getElementById("shopOverlay").style.display = "none";
+  document.getElementById("paymentBox").style.display = "none";
+  document.getElementById("paymentNotice").style.display = "none";
+}
 
-      balance += amount;
-      updateBalance();
-      closeTopUp();
+/* ВЫБОР ПАКЕТА */
 
-      showToast(
-        "Добавлено +" + amount.toLocaleString("ru-RU") +
-        " NEXI Coins"
+function buyPack(coins,price){
+  localStorage.setItem("selectedCoins",coins);
+  localStorage.setItem("selectedPrice",price);
+
+  document.getElementById("selectedPack").textContent =
+    coins.toLocaleString("ru-RU") + " NEXI COINS";
+
+  document.getElementById("selectedPrice").textContent =
+    price + " ₽";
+
+  document.getElementById("paymentBox").style.display = "block";
+  document.getElementById("paymentNotice").style.display = "none";
+
+  document.getElementById("paymentBox").scrollIntoView({
+    behavior:"smooth",
+    block:"nearest"
+  });
+}
+
+/* КОПИРОВАНИЕ КАРТЫ */
+
+async function copyCard(){
+  const card = "2202208259839729";
+
+  try{
+    await navigator.clipboard.writeText(card);
+
+    if(tg && tg.showAlert){
+      tg.showAlert("Номер карты скопирован 💜");
+    }else{
+      alert("Номер карты скопирован: " + card);
+    }
+  }catch(error){
+    const textArea = document.createElement("textarea");
+
+    textArea.value = card;
+    document.body.appendChild(textArea);
+    textArea.select();
+    document.execCommand("copy");
+    textArea.remove();
+
+    alert("Номер карты скопирован 💜");
+  }
+}
+
+/* ПОДТВЕРЖДЕНИЕ ОПЛАТЫ */
+
+function confirmPayment(){
+  const coins = Number(
+    localStorage.getItem("selectedCoins") || 0
+  );
+
+  const price = Number(
+    localStorage.getItem("selectedPrice") || 0
+  );
+
+  if(!coins || !price){
+    alert("Сначала выбери пакет");
+    return;
+  }
+
+  const paymentData = {
+    type:"payment_request",
+    coins:coins,
+    price:price,
+    card:"2202208259839729",
+    date:new Date().toISOString()
+  };
+
+  localStorage.setItem(
+    "nexiPendingPayment",
+    JSON.stringify(paymentData)
+  );
+
+  const notice =
+    document.getElementById("paymentNotice");
+
+  notice.style.display = "block";
+  notice.innerHTML =
+    "💜 <b>Заявка создана!</b><br><br>" +
+    "Пакет: <b>" + coins + " NEXI COINS</b><br>" +
+    "Сумма: <b>" + price + " ₽</b><br><br>" +
+    "После проверки оплаты NEXI Coins будут начислены.";
+
+  try{
+    if(
+      tg &&
+      typeof tg.sendData === "function"
+    ){
+      tg.sendData(
+        JSON.stringify(paymentData)
       );
     }
+  }catch(error){
+    console.log(
+      "Заявка сохранена локально",
+      error
+    );
+  }
 
+  if(tg && tg.showPopup){
+    tg.showPopup({
+      title:"Заявка отправлена 💜",
+      message:
+        "Мы получили заявку на " +
+        coins +
+        " NEXI Coins за " +
+        price +
+        " ₽.",
+      buttons:[
+        {
+          type:"close"
+        }
+      ]
+    });
+  }
+}
 
-    /* ================= DAILY BONUS ================= */
+document.getElementById("shopOverlay").addEventListener("click",function(event){
+  if(event.target === this){
+    closeShop();
+  }
+});
 
-    function claimDailyBonus() {
-      const today = new Date().toISOString().slice(0, 10);
-      const lastClaim = localStorage.getItem("nexi_daily_bonus");
-
-      if (lastClaim === today) {
-        showToast("Ты уже забрала бонус сегодня!");
-        return;
-      }
-
-      balance += DAILY_BONUS;
-
-      localStorage.setItem("nexi_daily_bonus", today);
-
-      updateBalance();
-
-      showToast(
-        "🎁 Бонус получен! +" +
-        DAILY_BONUS +
-        " NEXI Coins"
-      );
-    }
-
-
-    /* ================= GAMES ================= */
-
-    function playGame(gameName) {
-      showToast(gameName + " — скоро открываем!");
-    }
-
-
-    /* ================= TOAST ================= */
-
-    let toastTimer;
-
-    function showToast(text) {
-      const toast = document.getElementById("toast");
-
-      toast.textContent = text;
-      toast.classList.add("show");
-
-      clearTimeout(toastTimer);
-
-      toastTimer = setTimeout(() => {
-        toast.classList.remove("show");
-      }, 2600);
-    }
-
-
-    /* ================= CLOSE MINI APP ================= */
-
-    function closeApp() {
-      if (
-        window.Telegram &&
-        window.Telegram.WebApp
-      ) {
-        window.Telegram.WebApp.close();
-      } else {
-        showToast("Мини-приложение можно закрыть в Telegram");
-      }
-    }
-
-
-    /* ================= TELEGRAM WEB APP ================= */
-
-    if (
-      window.Telegram &&
-      window.Telegram.WebApp
-    ) {
-      Telegram.WebApp.ready();
-      Telegram.WebApp.expand();
-
-      if (Telegram.WebApp.colorScheme === "light") {
-        document.body.style.background = "#080411";
-      }
-    }
-  </script>
+updateCoins();
+</script>
 
 </body>
   </html>
