@@ -2,174 +2,260 @@
 
 ```python
 import os
-import json
-from datetime import datetime
 
 from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup
 from telegram.ext import (
-    Application,
+    ApplicationBuilder,
     CommandHandler,
     CallbackQueryHandler,
-    MessageHandler,
     ContextTypes,
-    filters,
 )
 
-BOT_TOKEN = os.getenv("BOT_TOKEN")
+# =========================
+# НАСТРОЙКИ
+# =========================
+
+# Railway → Variables → BOT_TOKEN
+TOKEN = os.getenv("BOT_TOKEN")
+
+# ТВОЙ TELEGRAM ID — СЮДА ПРИХОДЯТ ЗАЯВКИ
 ADMIN_ID = 1282434336
 
 
+# =========================
+# ПАКЕТЫ
+# =========================
+
+PACKS = {
+    "100": {"coins": 100, "price": 20},
+    "250": {"coins": 250, "price": 50},
+    "600": {"coins": 600, "price": 100},
+    "1500": {"coins": 1500, "price": 200},
+    "3000": {"coins": 3000, "price": 350},
+}
+
+
+# =========================
+# /START
+# =========================
+
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    keyboard = [
+        [InlineKeyboardButton("💎 100 COINS — 20 ₽", callback_data="buy_100")],
+        [InlineKeyboardButton("💎 250 COINS — 50 ₽", callback_data="buy_250")],
+        [InlineKeyboardButton("💎 600 COINS — 100 ₽", callback_data="buy_600")],
+        [InlineKeyboardButton("💎 1500 COINS — 200 ₽", callback_data="buy_1500")],
+        [InlineKeyboardButton("💎 3000 COINS — 350 ₽", callback_data="buy_3000")],
+    ]
+
     await update.message.reply_text(
         "💜 Добро пожаловать в NEXI CASES!\n\n"
-        "Выберите кейс в Mini App и оформите заявку на покупку."
+        "Выбери пакет:",
+        reply_markup=InlineKeyboardMarkup(keyboard),
     )
 
 
-async def receive_webapp_data(
-    update: Update,
-    context: ContextTypes.DEFAULT_TYPE
-):
-    try:
-        raw_data = update.effective_message.web_app_data.data
-        user = update.effective_user
+# =========================
+# ВСЕ КНОПКИ
+# =========================
 
-        try:
-            data = json.loads(raw_data)
-        except json.JSONDecodeError:
-            data = {"package": raw_data}
-
-        package = data.get("package", "Не указан")
-        price = data.get("price", "Не указана")
-        payment_method = data.get("payment_method", "Карта / СБП")
-
-        username = f"@{user.username}" if user.username else "Нет username"
-        name = user.first_name or "Не указано"
-
-        now = datetime.now().strftime("%d.%m.%Y %H:%M")
-        order_id = f"{user.id}_{int(datetime.now().timestamp())}"
-
-        keyboard = InlineKeyboardMarkup([
-            [
-                InlineKeyboardButton(
-                    "✅ Подтвердить",
-                    callback_data=f"approve:{user.id}:{order_id}"
-                ),
-                InlineKeyboardButton(
-                    "❌ Отклонить",
-                    callback_data=f"reject:{user.id}:{order_id}"
-                ),
-            ]
-        ])
-
-        admin_text = (
-            "💜 НОВАЯ ЗАЯВКА НА ОПЛАТУ\n\n"
-            f"📦 Пакет: {package}\n"
-            f"💰 Сумма: {price}\n"
-            f"💳 Оплата: {payment_method}\n\n"
-            f"👤 Имя: {name}\n"
-            f"🔗 Username: {username}\n"
-            f"🆔 Telegram ID: {user.id}\n\n"
-            f"🕐 Время: {now}\n"
-            f"📋 Заявка: {order_id}\n\n"
-            "⚠️ Проверь оплату вручную перед подтверждением."
-        )
-
-        await context.bot.send_message(
-            chat_id=ADMIN_ID,
-            text=admin_text,
-            reply_markup=keyboard
-        )
-
-        await update.effective_message.reply_text(
-            "💜 Заявка отправлена!\n\n"
-            "Мы проверим оплату и подтвердим покупку."
-        )
-
-        print(f"Заявка отправлена: {order_id}")
-
-    except Exception as e:
-        print(f"ОШИБКА: {e}")
-
-        await update.effective_message.reply_text(
-            "❌ Не удалось отправить заявку. Попробуйте ещё раз."
-        )
-
-
-async def handle_admin_callback(
-    update: Update,
-    context: ContextTypes.DEFAULT_TYPE
-):
+async def button_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
     query = update.callback_query
     await query.answer()
 
-    if query.from_user.id != ADMIN_ID:
-        await query.answer(
-            "У вас нет доступа.",
-            show_alert=True
+    data = query.data
+    user = query.from_user
+
+    # -------------------------
+    # ВЫБОР ПАКЕТА
+    # -------------------------
+
+    if data.startswith("buy_"):
+        pack_id = data.replace("buy_", "")
+        pack = PACKS.get(pack_id)
+
+        if not pack:
+            await query.message.reply_text("❌ Пакет не найден.")
+            return
+
+        context.user_data["pack_id"] = pack_id
+
+        keyboard = [
+            [InlineKeyboardButton("💳 Я ОПЛАТИЛ", callback_data="paid")],
+            [InlineKeyboardButton("❌ Отмена", callback_data="cancel")],
+        ]
+
+        await query.message.reply_text(
+            f"💎 Вы выбрали: {pack['coins']} COINS\n"
+            f"💰 К оплате: {pack['price']} ₽\n\n"
+            "Переведи деньги на карту / по СБП.\n\n"
+            "После оплаты нажми «💳 Я ОПЛАТИЛ».",
+            reply_markup=InlineKeyboardMarkup(keyboard),
         )
         return
 
-    try:
-        action, user_id, order_id = query.data.split(":")
-        user_id = int(user_id)
+    # -------------------------
+    # Я ОПЛАТИЛ
+    # -------------------------
 
-        if action == "approve":
+    if data == "paid":
+        pack_id = context.user_data.get("pack_id")
+        pack = PACKS.get(pack_id)
+
+        if not pack:
+            await query.message.reply_text(
+                "⚠️ Сначала выбери пакет через /start."
+            )
+            return
+
+        username = (
+            f"@{user.username}"
+            if user.username
+            else "нет username"
+        )
+
+        admin_keyboard = [
+            [
+                InlineKeyboardButton(
+                    "✅ ПОДТВЕРДИТЬ",
+                    callback_data=f"approve_{user.id}_{pack_id}",
+                ),
+                InlineKeyboardButton(
+                    "❌ ОТКЛОНИТЬ",
+                    callback_data=f"reject_{user.id}_{pack_id}",
+                ),
+            ]
+        ]
+
+        admin_text = (
+            "💜 НОВАЯ ЗАЯВКА НА ОПЛАТУ\n\n"
+            f"👤 Пользователь: {user.full_name}\n"
+            f"🔗 Username: {username}\n"
+            f"🆔 ID: {user.id}\n\n"
+            f"💎 Пакет: {pack['coins']} COINS\n"
+            f"💰 Сумма: {pack['price']} ₽\n\n"
+            "⚠️ Проверь оплату вручную."
+        )
+
+        try:
+            # ОТПРАВЛЯЕМ ЗАЯВКУ ТЕБЕ В ЛС
+            await context.bot.send_message(
+                chat_id=ADMIN_ID,
+                text=admin_text,
+                reply_markup=InlineKeyboardMarkup(admin_keyboard),
+            )
+
+            await query.message.reply_text(
+                "💜 Заявка отправлена!\n\n"
+                "Ожидай проверки оплаты."
+            )
+
+            context.user_data.pop("pack_id", None)
+
+        except Exception as error:
+            print(f"Ошибка отправки заявки: {error}")
+
+            await query.message.reply_text(
+                "❌ Ошибка отправки заявки.\n"
+                "Попробуй ещё раз позже."
+            )
+
+        return
+
+    # -------------------------
+    # ПОДТВЕРЖДЕНИЕ ОПЛАТЫ
+    # -------------------------
+
+    if data.startswith("approve_"):
+        if user.id != ADMIN_ID:
+            await query.answer("Нет доступа.", show_alert=True)
+            return
+
+        _, user_id, pack_id = data.split("_")
+        user_id = int(user_id)
+        pack = PACKS.get(pack_id)
+
+        if not pack:
+            return
+
+        try:
             await context.bot.send_message(
                 chat_id=user_id,
                 text=(
-                    "✅ Оплата подтверждена!\n\n"
+                    "🎉 Оплата подтверждена!\n\n"
+                    f"💎 Твой пакет: {pack['coins']} COINS\n\n"
                     "Спасибо за покупку 💜"
-                )
+                ),
             )
 
             await query.edit_message_text(
-                query.message.text + "\n\n✅ ЗАЯВКА ПОДТВЕРЖДЕНА"
+                query.message.text + "\n\n✅ ОПЛАТА ПОДТВЕРЖДЕНА"
             )
 
-        elif action == "reject":
+        except Exception as error:
+            print(f"Ошибка подтверждения: {error}")
+
+        return
+
+    # -------------------------
+    # ОТКЛОНЕНИЕ
+    # -------------------------
+
+    if data.startswith("reject_"):
+        if user.id != ADMIN_ID:
+            await query.answer("Нет доступа.", show_alert=True)
+            return
+
+        _, user_id, pack_id = data.split("_")
+        user_id = int(user_id)
+
+        try:
             await context.bot.send_message(
                 chat_id=user_id,
                 text=(
-                    "❌ Заявка отклонена.\n\n"
-                    "Если вы уже оплатили, свяжитесь с поддержкой."
-                )
+                    "❌ Заявка на оплату отклонена.\n\n"
+                    "Если ты уже оплатил(а), свяжись с поддержкой."
+                ),
             )
 
             await query.edit_message_text(
                 query.message.text + "\n\n❌ ЗАЯВКА ОТКЛОНЕНА"
             )
 
-    except Exception as e:
-        print(f"ОШИБКА ОБРАБОТКИ: {e}")
+        except Exception as error:
+            print(f"Ошибка отклонения: {error}")
 
+        return
+
+    # -------------------------
+    # ОТМЕНА
+    # -------------------------
+
+    if data == "cancel":
+        context.user_data.pop("pack_id", None)
+
+        await query.message.reply_text("❌ Покупка отменена.")
+        return
+
+
+# =========================
+# ЗАПУСК
+# =========================
 
 def main():
-    if not BOT_TOKEN:
+    if not TOKEN:
         raise ValueError(
-            "BOT_TOKEN не найден. Проверь Variables в Railway."
+            "BOT_TOKEN не найден. Добавь его в Railway → Variables."
         )
 
-    app = Application.builder().token(BOT_TOKEN).build()
+    app = ApplicationBuilder().token(TOKEN).build()
 
     app.add_handler(CommandHandler("start", start))
+    app.add_handler(CallbackQueryHandler(button_handler))
 
-    app.add_handler(
-        MessageHandler(
-            filters.StatusUpdate.WEB_APP_DATA,
-            receive_webapp_data
-        )
-    )
+    print("💜 NEXI CASES BOT ЗАПУЩЕН")
 
-    app.add_handler(
-        CallbackQueryHandler(handle_admin_callback)
-    )
-
-    print("NEXI CASES BOT запущен")
-
-    app.run_polling(
-        allowed_updates=Update.ALL_TYPES
-    )
+    app.run_polling()
 
 
 if __name__ == "__main__":
